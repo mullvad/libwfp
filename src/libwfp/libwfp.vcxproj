@@ -154,12 +154,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="filterengine.h" />
+    <ClInclude Include="providerenumerator.h" />
     <ClInclude Include="sessionenumerator.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="filterengine.cpp" />
+    <ClCompile Include="providerenumerator.cpp" />
     <ClCompile Include="sessionenumerator.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

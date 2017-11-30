@@ -27,6 +27,9 @@
     <ClInclude Include="sessionenumerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="providerenumerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -36,6 +39,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sessionenumerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="providerenumerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
