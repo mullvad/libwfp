@@ -1,0 +1,5 @@
+*.suo
+*.db
+*.db-shm
+*.db-wal
+*.ipch
