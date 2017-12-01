@@ -1,6 +1,5 @@
 /bin/
-/thirdparty/
-/src/.vs/
+.vs/
 *.suo
 *.db
 *.db-shm
