@@ -24,10 +24,7 @@
     <ClInclude Include="filterengine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sessionenumerator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="providerenumerator.h">
+    <ClInclude Include="objectenumerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -38,10 +35,7 @@
     <ClCompile Include="filterengine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sessionenumerator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="providerenumerator.cpp">
+    <ClCompile Include="objectenumerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
