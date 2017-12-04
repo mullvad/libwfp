@@ -150,4 +150,77 @@ bool ObjectEnumerator::Providers(std::shared_ptr<FilterEngine> engine,
 	return true;
 }
 
+//static
+bool ObjectEnumerator::Connections(
+	std::shared_ptr<FilterEngine> engine,
+	std::function<bool(const FWPM_CONNECTION0&)> callback)
+{
+	HANDLE enumHandle = INVALID_HANDLE_VALUE;
+
+	auto status = FwpmConnectionCreateEnumHandle0(
+		(*engine).session(),
+		nullptr,
+		&enumHandle
+	);
+
+	if (ERROR_SUCCESS != status)
+	{
+		throw new std::runtime_error("Unable to create enumeration context for connections");
+	}
+
+	common::memory::ScopeDestructor scopeDestructor;
+
+	scopeDestructor += [engine, &enumHandle]()
+	{
+		FwpmConnectionDestroyEnumHandle0((*engine).session(), enumHandle);
+	};
+
+	FWPM_CONNECTION0** connections = nullptr;
+	UINT32 connectionsReturned = 0;
+
+	static const UINT32 CONNECTIONS_REQUESTED = 100;
+
+	do
+	{
+		status = FwpmConnectionEnum0(
+			(*engine).session(),
+			enumHandle,
+			CONNECTIONS_REQUESTED,
+			&connections,
+			&connectionsReturned
+		);
+
+		if (ERROR_SUCCESS != status)
+		{
+			throw std::runtime_error("Unable to enumerate connections");
+		}
+
+		if (0 == connectionsReturned)
+		{
+			break;
+		}
+
+		#pragma warning(suppress: 4456)
+		common::memory::ScopeDestructor scopeDestructor;
+
+		scopeDestructor += [&connections]()
+		{
+			FwpmFreeMemory0((void**)&connections);
+		};
+
+		for (UINT32 i = 0; i < connectionsReturned - 1; ++i)
+		{
+			auto connection = *connections[i];
+
+			if (callback(connection) == false)
+			{
+				return false;
+			}
+		}
+	} while (CONNECTIONS_REQUESTED == connectionsReturned);
+
+	return true;
+}
+
+
 } // namespace wfp
