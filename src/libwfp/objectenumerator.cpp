@@ -2,6 +2,7 @@
 #include "objectenumerator.h"
 #include <stdexcept>
 #include <fwpmu.h>
+#include "libcommon/memory.h"
 
 namespace wfp
 {
@@ -24,6 +25,13 @@ bool ObjectEnumerator::Sessions(
 		throw new std::runtime_error("Unable to create enumeration context for sessions");
 	}
 
+	common::memory::ScopeDestructor scopeDestructor;
+
+	scopeDestructor += [engine, &enumHandle]()
+	{
+		FwpmSessionDestroyEnumHandle0((*engine).session(), enumHandle);
+	};
+
 	FWPM_SESSION0** sessions = nullptr;
 	UINT32 sessionsReturned = 0;
 
@@ -37,9 +45,13 @@ bool ObjectEnumerator::Sessions(
 
 	if (ERROR_SUCCESS != status)
 	{
-		// TODO: Exception safety
 		throw std::runtime_error("Unable to enumerate sessions");
 	}
+
+	scopeDestructor += [&sessions]()
+	{
+		FwpmFreeMemory0((void**)&sessions);
+	};
 
 	for (UINT32 i = 0; i < sessionsReturned - 1; ++i)
 	{
@@ -50,9 +62,6 @@ bool ObjectEnumerator::Sessions(
 			return false;
 		}
 	}
-
-	FwpmFreeMemory0((void**)&sessions);
-	FwpmSessionDestroyEnumHandle0((*engine).session(), enumHandle);
 
 	return true;
 }
@@ -74,6 +83,13 @@ bool ObjectEnumerator::Providers(std::shared_ptr<FilterEngine> engine,
 		throw new std::runtime_error("Unable to create enumeration context for providers");
 	}
 
+	common::memory::ScopeDestructor scopeDestructor;
+
+	scopeDestructor += [engine, &enumHandle]()
+	{
+		FwpmProviderDestroyEnumHandle0((*engine).session(), enumHandle);
+	};
+
 	FWPM_PROVIDER0** providers = nullptr;
 	UINT32 providersReturned = 0;
 
@@ -87,9 +103,13 @@ bool ObjectEnumerator::Providers(std::shared_ptr<FilterEngine> engine,
 
 	if (ERROR_SUCCESS != status)
 	{
-		// TODO: Exception safety
 		throw std::runtime_error("Unable to enumerate providers");
 	}
+
+	scopeDestructor += [&providers]()
+	{
+		FwpmFreeMemory0((void**)&providers);
+	};
 
 	for (UINT32 i = 0; i < providersReturned - 1; ++i)
 	{
@@ -100,9 +120,6 @@ bool ObjectEnumerator::Providers(std::shared_ptr<FilterEngine> engine,
 			return false;
 		}
 	}
-
-	FwpmFreeMemory0((void**)&providers);
-	FwpmProviderDestroyEnumHandle0((*engine).session(), enumHandle);
 
 	return true;
 }
