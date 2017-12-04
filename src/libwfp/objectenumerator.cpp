@@ -35,33 +35,46 @@ bool ObjectEnumerator::Sessions(
 	FWPM_SESSION0** sessions = nullptr;
 	UINT32 sessionsReturned = 0;
 
-	status = FwpmSessionEnum0(
-		(*engine).session(),
-		enumHandle,
-		100,
-		&sessions,
-		&sessionsReturned
-	);
+	static const UINT32 SESSIONS_REQUESTED = 100;
 
-	if (ERROR_SUCCESS != status)
+	do
 	{
-		throw std::runtime_error("Unable to enumerate sessions");
-	}
+		status = FwpmSessionEnum0(
+			(*engine).session(),
+			enumHandle,
+			SESSIONS_REQUESTED,
+			&sessions,
+			&sessionsReturned
+		);
 
-	scopeDestructor += [&sessions]()
-	{
-		FwpmFreeMemory0((void**)&sessions);
-	};
-
-	for (UINT32 i = 0; i < sessionsReturned - 1; ++i)
-	{
-		auto session = *sessions[i];
-
-		if (callback(session) == false)
+		if (ERROR_SUCCESS != status)
 		{
-			return false;
+			throw std::runtime_error("Unable to enumerate sessions");
 		}
-	}
+
+		if (0 == sessionsReturned)
+		{
+			break;
+		}
+
+		#pragma warning(suppress: 4456)
+		common::memory::ScopeDestructor scopeDestructor;
+
+		scopeDestructor += [&sessions]()
+		{
+			FwpmFreeMemory0((void**)&sessions);
+		};
+
+		for (UINT32 i = 0; i < sessionsReturned - 1; ++i)
+		{
+			auto session = *sessions[i];
+
+			if (callback(session) == false)
+			{
+				return false;
+			}
+		}
+	} while (SESSIONS_REQUESTED == sessionsReturned);
 
 	return true;
 }
@@ -93,33 +106,46 @@ bool ObjectEnumerator::Providers(std::shared_ptr<FilterEngine> engine,
 	FWPM_PROVIDER0** providers = nullptr;
 	UINT32 providersReturned = 0;
 
-	status = FwpmProviderEnum0(
-		(*engine).session(),
-		enumHandle,
-		100,
-		&providers,
-		&providersReturned
-	);
+	static const UINT32 PROVIDERS_REQUESTED = 100;
 
-	if (ERROR_SUCCESS != status)
+	do
 	{
-		throw std::runtime_error("Unable to enumerate providers");
-	}
+		status = FwpmProviderEnum0(
+			(*engine).session(),
+			enumHandle,
+			PROVIDERS_REQUESTED,
+			&providers,
+			&providersReturned
+		);
 
-	scopeDestructor += [&providers]()
-	{
-		FwpmFreeMemory0((void**)&providers);
-	};
-
-	for (UINT32 i = 0; i < providersReturned - 1; ++i)
-	{
-		auto provider = *providers[i];
-
-		if (callback(provider) == false)
+		if (ERROR_SUCCESS != status)
 		{
-			return false;
+			throw std::runtime_error("Unable to enumerate providers");
 		}
-	}
+
+		if (0 == providersReturned)
+		{
+			break;
+		}
+
+		#pragma warning(suppress: 4456)
+		common::memory::ScopeDestructor scopeDestructor;
+
+		scopeDestructor += [&providers]()
+		{
+			FwpmFreeMemory0((void**)&providers);
+		};
+
+		for (UINT32 i = 0; i < providersReturned - 1; ++i)
+		{
+			auto provider = *providers[i];
+
+			if (callback(provider) == false)
+			{
+				return false;
+			}
+		}
+	} while (PROVIDERS_REQUESTED == providersReturned);
 
 	return true;
 }
