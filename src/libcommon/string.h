@@ -37,4 +37,7 @@ std::wstring FormatFlags(std::vector<std::pair<T, std::wstring> > &definitions, 
 	return Join(present);
 }
 
+std::wstring FormatIpV4(UINT32 ip);
+std::wstring FormatIpV6(const UINT8 ip[16]);
+
 }}

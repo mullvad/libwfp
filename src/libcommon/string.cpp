@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <stdexcept>
+#include <sstream>
 
 namespace common {
 namespace string {
@@ -78,6 +79,41 @@ std::wstring Join(const std::vector<std::wstring> &parts)
 			return joined;
 		}
 	};
+}
+
+std::wstring FormatIpV4(UINT32 ip)
+{
+	std::wstringstream ss;
+
+	ss	<< ((ip & 0xFF000000) >> 24) << L'.'
+		<< ((ip & 0x00FF0000) >> 16) << L'.'
+		<< ((ip & 0x0000FF00) >> 8) << L'.'
+		<< ((ip & 0x000000FF));
+
+	return ss.str();
+}
+
+std::wstring FormatIpV6(const UINT8 ip[16])
+{
+	//
+	// TODO: Omit longest sequence of zeros to create compact representation
+	//
+
+	std::wstringstream ss;
+
+	const UINT16 *wptr = (const UINT16 *)ip;
+
+	//
+	// Assume little endian words
+	//
+
+	ss	<< std::hex
+		<< *(wptr + 0) << L':' << *(wptr + 1) << L':'
+		<< *(wptr + 2) << L':' << *(wptr + 3) << L':'
+		<< *(wptr + 4) << L':' << *(wptr + 5) << L':'
+		<< *(wptr + 6) << L':' << *(wptr + 7);
+
+	return ss.str();
 }
 
 }}
