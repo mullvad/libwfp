@@ -3,6 +3,7 @@
 #include <sddl.h>
 #include <vector>
 #include <algorithm>
+#include <stdexcept>
 
 namespace common {
 namespace string {
@@ -11,7 +12,12 @@ std::wstring FormatGuid(const GUID &guid)
 {
 	LPOLESTR buffer;
 
-	auto STATUS = StringFromCLSID(guid, &buffer);
+	auto status = StringFromCLSID(guid, &buffer);
+
+	if (status != S_OK)
+	{
+		throw std::runtime_error("Failed to format GUID");
+	}
 
 	std::wstring formatted(buffer);
 
@@ -24,7 +30,12 @@ std::wstring FormatSid(const SID &sid)
 {
 	LPWSTR buffer;
 
-	auto STATUS = ConvertSidToStringSidW(const_cast<SID *>(&sid), &buffer);
+	auto status = ConvertSidToStringSidW(const_cast<SID *>(&sid), &buffer);
+
+	if (0 == status)
+	{
+		throw std::runtime_error("Failed to format SID");
+	}
 
 	std::wstring formatted(buffer);
 
