@@ -294,4 +294,76 @@ bool ObjectEnumerator::Events(
 	return true;
 }
 
+//static
+bool ObjectEnumerator::Filters(
+	std::shared_ptr<FilterEngine> engine,
+	std::function<bool(const FWPM_FILTER0&)> callback)
+{
+	HANDLE enumHandle = INVALID_HANDLE_VALUE;
+
+	auto status = FwpmFilterCreateEnumHandle0(
+		(*engine).session(),
+		nullptr,
+		&enumHandle
+	);
+
+	if (ERROR_SUCCESS != status)
+	{
+		throw new std::runtime_error("Unable to create enumeration context for filters");
+	}
+
+	common::memory::ScopeDestructor scopeDestructor;
+
+	scopeDestructor += [engine, &enumHandle]()
+	{
+		FwpmFilterDestroyEnumHandle0((*engine).session(), enumHandle);
+	};
+
+	FWPM_FILTER0** filters = nullptr;
+	UINT32 filtersReturned = 0;
+
+	static const UINT32 FILTERS_REQUESTED = 100;
+
+	do
+	{
+		status = FwpmFilterEnum0(
+			(*engine).session(),
+			enumHandle,
+			FILTERS_REQUESTED,
+			&filters,
+			&filtersReturned
+		);
+
+		if (ERROR_SUCCESS != status)
+		{
+			throw std::runtime_error("Unable to enumerate filters");
+		}
+
+		if (0 == filtersReturned)
+		{
+			break;
+		}
+
+		#pragma warning(suppress: 4456)
+		common::memory::ScopeDestructor scopeDestructor;
+
+		scopeDestructor += [&filters]()
+		{
+			FwpmFreeMemory0((void**)&filters);
+		};
+
+		for (UINT32 i = 0; i < filtersReturned - 1; ++i)
+		{
+			auto connection = *filters[i];
+
+			if (callback(connection) == false)
+			{
+				return false;
+			}
+		}
+	} while (FILTERS_REQUESTED == filtersReturned);
+
+	return true;
+}
+
 } // namespace wfp
