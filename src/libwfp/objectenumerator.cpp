@@ -282,9 +282,9 @@ bool ObjectEnumerator::Events(
 
 		for (UINT32 i = 0; i < eventsReturned - 1; ++i)
 		{
-			auto connection = *events[i];
+			auto event = *events[i];
 
-			if (callback(connection) == false)
+			if (callback(event) == false)
 			{
 				return false;
 			}
@@ -354,14 +354,86 @@ bool ObjectEnumerator::Filters(
 
 		for (UINT32 i = 0; i < filtersReturned - 1; ++i)
 		{
-			auto connection = *filters[i];
+			auto filter = *filters[i];
 
-			if (callback(connection) == false)
+			if (callback(filter) == false)
 			{
 				return false;
 			}
 		}
 	} while (FILTERS_REQUESTED == filtersReturned);
+
+	return true;
+}
+
+//static
+bool ObjectEnumerator::Layers(
+	std::shared_ptr<FilterEngine> engine,
+	std::function<bool(const FWPM_LAYER0&)> callback)
+{
+	HANDLE enumHandle = INVALID_HANDLE_VALUE;
+
+	auto status = FwpmLayerCreateEnumHandle0(
+		(*engine).session(),
+		nullptr,
+		&enumHandle
+	);
+
+	if (ERROR_SUCCESS != status)
+	{
+		throw new std::runtime_error("Unable to create enumeration context for layers");
+	}
+
+	common::memory::ScopeDestructor scopeDestructor;
+
+	scopeDestructor += [engine, &enumHandle]()
+	{
+		FwpmLayerDestroyEnumHandle0((*engine).session(), enumHandle);
+	};
+
+	FWPM_LAYER0** layers = nullptr;
+	UINT32 layersReturned = 0;
+
+	static const UINT32 LAYERS_REQUESTED = 100;
+
+	do
+	{
+		status = FwpmLayerEnum0(
+			(*engine).session(),
+			enumHandle,
+			LAYERS_REQUESTED,
+			&layers,
+			&layersReturned
+		);
+
+		if (ERROR_SUCCESS != status)
+		{
+			throw std::runtime_error("Unable to enumerate layers");
+		}
+
+		if (0 == layersReturned)
+		{
+			break;
+		}
+
+		#pragma warning(suppress: 4456)
+		common::memory::ScopeDestructor scopeDestructor;
+
+		scopeDestructor += [&layers]()
+		{
+			FwpmFreeMemory0((void**)&layers);
+		};
+
+		for (UINT32 i = 0; i < layersReturned - 1; ++i)
+		{
+			auto layer = *layers[i];
+
+			if (callback(layer) == false)
+			{
+				return false;
+			}
+		}
+	} while (LAYERS_REQUESTED == layersReturned);
 
 	return true;
 }
