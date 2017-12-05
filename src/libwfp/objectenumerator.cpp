@@ -222,5 +222,76 @@ bool ObjectEnumerator::Connections(
 	return true;
 }
 
+//static
+bool ObjectEnumerator::Events(
+	std::shared_ptr<FilterEngine> engine,
+	std::function<bool(const FWPM_NET_EVENT0&)> callback)
+{
+	HANDLE enumHandle = INVALID_HANDLE_VALUE;
+
+	auto status = FwpmNetEventCreateEnumHandle0(
+		(*engine).session(),
+		nullptr,
+		&enumHandle
+	);
+
+	if (ERROR_SUCCESS != status)
+	{
+		throw new std::runtime_error("Unable to create enumeration context for events");
+	}
+
+	common::memory::ScopeDestructor scopeDestructor;
+
+	scopeDestructor += [engine, &enumHandle]()
+	{
+		FwpmNetEventDestroyEnumHandle0((*engine).session(), enumHandle);
+	};
+
+	FWPM_NET_EVENT0** events = nullptr;
+	UINT32 eventsReturned = 0;
+
+	static const UINT32 EVENTS_REQUESTED = 100;
+
+	do
+	{
+		status = FwpmNetEventEnum0(
+			(*engine).session(),
+			enumHandle,
+			EVENTS_REQUESTED,
+			&events,
+			&eventsReturned
+		);
+
+		if (ERROR_SUCCESS != status)
+		{
+			throw std::runtime_error("Unable to enumerate events");
+		}
+
+		if (0 == eventsReturned)
+		{
+			break;
+		}
+
+		#pragma warning(suppress: 4456)
+		common::memory::ScopeDestructor scopeDestructor;
+
+		scopeDestructor += [&events]()
+		{
+			FwpmFreeMemory0((void**)&events);
+		};
+
+		for (UINT32 i = 0; i < eventsReturned - 1; ++i)
+		{
+			auto connection = *events[i];
+
+			if (callback(connection) == false)
+			{
+				return false;
+			}
+		}
+	} while (EVENTS_REQUESTED == eventsReturned);
+
+	return true;
+}
 
 } // namespace wfp
