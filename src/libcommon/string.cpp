@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <stdexcept>
 #include <sstream>
+#include <iomanip>
 
 namespace common {
 namespace string {
@@ -112,6 +113,39 @@ std::wstring FormatIpV6(const UINT8 ip[16])
 		<< *(wptr + 2) << L':' << *(wptr + 3) << L':'
 		<< *(wptr + 4) << L':' << *(wptr + 5) << L':'
 		<< *(wptr + 6) << L':' << *(wptr + 7);
+
+	return ss.str();
+}
+
+std::wstring FormatTime(const FILETIME &filetime)
+{
+	FILETIME ft2;
+
+	if (FALSE == FileTimeToLocalFileTime(&filetime, &ft2))
+	{
+		throw std::runtime_error("Failed to convert time");
+	}
+
+	return FormatLocalTime(ft2);
+}
+
+std::wstring FormatLocalTime(const FILETIME &filetime)
+{
+	SYSTEMTIME st;
+
+	if (FALSE == FileTimeToSystemTime(&filetime, &st))
+	{
+		throw std::runtime_error("Failed to convert time");
+	}
+
+	std::wstringstream ss;
+
+	ss << st.wYear << L'-'
+		<< std::setw(2) << std::setfill(L'0') << st.wMonth << L'-'
+		<< std::setw(2) << std::setfill(L'0') << st.wDay << L' '
+		<< std::setw(2) << std::setfill(L'0') << st.wHour << L':'
+		<< std::setw(2) << std::setfill(L'0') << st.wMinute << L':'
+		<< std::setw(2) << std::setfill(L'0') << st.wSecond;
 
 	return ss.str();
 }

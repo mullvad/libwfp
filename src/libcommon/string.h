@@ -40,4 +40,7 @@ std::wstring FormatFlags(std::vector<std::pair<T, std::wstring> > &definitions, 
 std::wstring FormatIpV4(UINT32 ip);
 std::wstring FormatIpV6(const UINT8 ip[16]);
 
+std::wstring FormatTime(const FILETIME &filetime);
+std::wstring FormatLocalTime(const FILETIME &filetime);
+
 }}
