@@ -65,7 +65,7 @@ bool ObjectEnumerator::Sessions(
 			FwpmFreeMemory0((void**)&sessions);
 		};
 
-		for (UINT32 i = 0; i < sessionsReturned - 1; ++i)
+		for (UINT32 i = 0; i < sessionsReturned; ++i)
 		{
 			auto session = *sessions[i];
 
@@ -136,7 +136,7 @@ bool ObjectEnumerator::Providers(std::shared_ptr<FilterEngine> engine,
 			FwpmFreeMemory0((void**)&providers);
 		};
 
-		for (UINT32 i = 0; i < providersReturned - 1; ++i)
+		for (UINT32 i = 0; i < providersReturned; ++i)
 		{
 			auto provider = *providers[i];
 
@@ -208,7 +208,7 @@ bool ObjectEnumerator::Connections(
 			FwpmFreeMemory0((void**)&connections);
 		};
 
-		for (UINT32 i = 0; i < connectionsReturned - 1; ++i)
+		for (UINT32 i = 0; i < connectionsReturned; ++i)
 		{
 			auto connection = *connections[i];
 
@@ -280,7 +280,7 @@ bool ObjectEnumerator::Events(
 			FwpmFreeMemory0((void**)&events);
 		};
 
-		for (UINT32 i = 0; i < eventsReturned - 1; ++i)
+		for (UINT32 i = 0; i < eventsReturned; ++i)
 		{
 			auto event = *events[i];
 
@@ -352,7 +352,7 @@ bool ObjectEnumerator::Filters(
 			FwpmFreeMemory0((void**)&filters);
 		};
 
-		for (UINT32 i = 0; i < filtersReturned - 1; ++i)
+		for (UINT32 i = 0; i < filtersReturned; ++i)
 		{
 			auto filter = *filters[i];
 
@@ -424,7 +424,7 @@ bool ObjectEnumerator::Layers(
 			FwpmFreeMemory0((void**)&layers);
 		};
 
-		for (UINT32 i = 0; i < layersReturned - 1; ++i)
+		for (UINT32 i = 0; i < layersReturned; ++i)
 		{
 			auto layer = *layers[i];
 
@@ -496,7 +496,7 @@ bool ObjectEnumerator::ProviderContexts(
 			FwpmFreeMemory0((void**)&contexts);
 		};
 
-		for (UINT32 i = 0; i < contextsReturned - 1; ++i)
+		for (UINT32 i = 0; i < contextsReturned; ++i)
 		{
 			auto context = *contexts[i];
 
@@ -568,7 +568,7 @@ bool ObjectEnumerator::Sublayers(
 			FwpmFreeMemory0((void**)&sublayers);
 		};
 
-		for (UINT32 i = 0; i < sublayersReturned - 1; ++i)
+		for (UINT32 i = 0; i < sublayersReturned; ++i)
 		{
 			auto sublayer = *sublayers[i];
 
