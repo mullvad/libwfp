@@ -510,4 +510,76 @@ bool ObjectEnumerator::ProviderContexts(
 	return true;
 }
 
+//static
+bool ObjectEnumerator::Sublayers(
+	std::shared_ptr<FilterEngine> engine,
+	std::function<bool(const FWPM_SUBLAYER0&)> callback)
+{
+	HANDLE enumHandle = INVALID_HANDLE_VALUE;
+
+	auto status = FwpmSubLayerCreateEnumHandle0(
+		(*engine).session(),
+		nullptr,
+		&enumHandle
+	);
+
+	if (ERROR_SUCCESS != status)
+	{
+		throw new std::runtime_error("Unable to create enumeration context for sublayers");
+	}
+
+	common::memory::ScopeDestructor scopeDestructor;
+
+	scopeDestructor += [engine, &enumHandle]()
+	{
+		FwpmSubLayerDestroyEnumHandle0((*engine).session(), enumHandle);
+	};
+
+	FWPM_SUBLAYER0** sublayers = nullptr;
+	UINT32 sublayersReturned = 0;
+
+	static const UINT32 SUBLAYERS_REQUESTED = 100;
+
+	do
+	{
+		status = FwpmSubLayerEnum0(
+			(*engine).session(),
+			enumHandle,
+			SUBLAYERS_REQUESTED,
+			&sublayers,
+			&sublayersReturned
+		);
+
+		if (ERROR_SUCCESS != status)
+		{
+			throw std::runtime_error("Unable to enumerate sublayers");
+		}
+
+		if (0 == sublayersReturned)
+		{
+			break;
+		}
+
+		#pragma warning(suppress: 4456)
+		common::memory::ScopeDestructor scopeDestructor;
+
+		scopeDestructor += [&sublayers]()
+		{
+			FwpmFreeMemory0((void**)&sublayers);
+		};
+
+		for (UINT32 i = 0; i < sublayersReturned - 1; ++i)
+		{
+			auto sublayer = *sublayers[i];
+
+			if (callback(sublayer) == false)
+			{
+				return false;
+			}
+		}
+	} while (SUBLAYERS_REQUESTED == sublayersReturned);
+
+	return true;
+}
+
 } // namespace wfp
