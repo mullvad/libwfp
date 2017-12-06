@@ -438,4 +438,76 @@ bool ObjectEnumerator::Layers(
 	return true;
 }
 
+//static
+bool ObjectEnumerator::ProviderContexts(
+	std::shared_ptr<FilterEngine> engine,
+	std::function<bool(const FWPM_PROVIDER_CONTEXT0&)> callback)
+{
+	HANDLE enumHandle = INVALID_HANDLE_VALUE;
+
+	auto status = FwpmProviderContextCreateEnumHandle0(
+		(*engine).session(),
+		nullptr,
+		&enumHandle
+	);
+
+	if (ERROR_SUCCESS != status)
+	{
+		throw new std::runtime_error("Unable to create enumeration context for provider contexts");
+	}
+
+	common::memory::ScopeDestructor scopeDestructor;
+
+	scopeDestructor += [engine, &enumHandle]()
+	{
+		FwpmProviderContextDestroyEnumHandle0((*engine).session(), enumHandle);
+	};
+
+	FWPM_PROVIDER_CONTEXT0** contexts = nullptr;
+	UINT32 contextsReturned = 0;
+
+	static const UINT32 CONTEXTS_REQUESTED = 100;
+
+	do
+	{
+		status = FwpmProviderContextEnum0(
+			(*engine).session(),
+			enumHandle,
+			CONTEXTS_REQUESTED,
+			&contexts,
+			&contextsReturned
+		);
+
+		if (ERROR_SUCCESS != status)
+		{
+			throw std::runtime_error("Unable to enumerate provider contexts");
+		}
+
+		if (0 == contextsReturned)
+		{
+			break;
+		}
+
+		#pragma warning(suppress: 4456)
+		common::memory::ScopeDestructor scopeDestructor;
+
+		scopeDestructor += [&contexts]()
+		{
+			FwpmFreeMemory0((void**)&contexts);
+		};
+
+		for (UINT32 i = 0; i < contextsReturned - 1; ++i)
+		{
+			auto context = *contexts[i];
+
+			if (callback(context) == false)
+			{
+				return false;
+			}
+		}
+	} while (CONTEXTS_REQUESTED == contextsReturned);
+
+	return true;
+}
+
 } // namespace wfp

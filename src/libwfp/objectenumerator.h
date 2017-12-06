@@ -20,6 +20,7 @@ public:
 	static bool Events(std::shared_ptr<FilterEngine> engine, std::function<bool(const FWPM_NET_EVENT0&)> callback);
 	static bool Filters(std::shared_ptr<FilterEngine> engine, std::function<bool(const FWPM_FILTER0&)> callback);
 	static bool Layers(std::shared_ptr<FilterEngine> engine, std::function<bool(const FWPM_LAYER0&)> callback);
+	static bool ProviderContexts(std::shared_ptr<FilterEngine> engine, std::function<bool(const FWPM_PROVIDER_CONTEXT0&)> callback);
 };
 
 } // namespace wfp
