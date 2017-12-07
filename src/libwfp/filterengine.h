@@ -4,6 +4,9 @@
 #include <windows.h>
 #include <fwpmtypes.h>
 
+namespace wfp
+{
+
 class FilterEngine
 {
 	FilterEngine(const FilterEngine &);
@@ -20,3 +23,5 @@ public:
 
 	HANDLE session() const;
 };
+
+} // namespace wfp

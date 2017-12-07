@@ -4,6 +4,9 @@
 #include <fwpmu.h>
 #include <stdexcept>
 
+namespace wfp
+{
+
 FilterEngine::FilterEngine(bool dynamic)
 {
 	if (dynamic)
@@ -48,3 +51,5 @@ HANDLE FilterEngine::session() const
 {
 	return m_session;
 }
+
+} // namespace wfp

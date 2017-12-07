@@ -3,6 +3,9 @@
 #include <fwpmu.h>
 #include <stdexcept>
 
+namespace wfp
+{
+
 Transaction::Transaction(std::shared_ptr<FilterEngine> engine, bool readWrite)
 	: m_engine(engine)
 	, m_aborted(false)
@@ -79,3 +82,5 @@ bool Transaction::Run(std::shared_ptr<FilterEngine> engine, std::function<bool()
 
 	return status;
 }
+
+} // namespace wfp

@@ -4,6 +4,9 @@
 #include <memory>
 #include "FilterEngine.h"
 
+namespace wfp
+{
+
 class Transaction
 {
 public:
@@ -22,3 +25,5 @@ private:
 	std::shared_ptr<FilterEngine> m_engine;
 	bool m_aborted;
 };
+
+} // namespace wfp
