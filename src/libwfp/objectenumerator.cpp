@@ -10,13 +10,13 @@ namespace wfp
 
 //static
 bool ObjectEnumerator::Sessions(
-	std::shared_ptr<FilterEngine> engine,
+	HANDLE session,
 	std::function<bool(const FWPM_SESSION0&)> callback)
 {
 	HANDLE enumHandle = INVALID_HANDLE_VALUE;
 
 	auto status = FwpmSessionCreateEnumHandle0(
-		(*engine).session(),
+		session,
 		nullptr,
 		&enumHandle
 	);
@@ -25,9 +25,9 @@ bool ObjectEnumerator::Sessions(
 
 	common::memory::ScopeDestructor scopeDestructor;
 
-	scopeDestructor += [engine, &enumHandle]()
+	scopeDestructor += [session, &enumHandle]()
 	{
-		FwpmSessionDestroyEnumHandle0((*engine).session(), enumHandle);
+		FwpmSessionDestroyEnumHandle0(session, enumHandle);
 	};
 
 	FWPM_SESSION0** sessions = nullptr;
@@ -38,7 +38,7 @@ bool ObjectEnumerator::Sessions(
 	do
 	{
 		status = FwpmSessionEnum0(
-			(*engine).session(),
+			session,
 			enumHandle,
 			SESSIONS_REQUESTED,
 			&sessions,
@@ -62,9 +62,7 @@ bool ObjectEnumerator::Sessions(
 
 		for (UINT32 i = 0; i < sessionsReturned; ++i)
 		{
-			auto session = *sessions[i];
-
-			if (callback(session) == false)
+			if (false == callback(*sessions[i]))
 			{
 				return false;
 			}
@@ -75,13 +73,14 @@ bool ObjectEnumerator::Sessions(
 }
 
 //static
-bool ObjectEnumerator::Providers(std::shared_ptr<FilterEngine> engine,
+bool ObjectEnumerator::Providers(
+	HANDLE session,
 	std::function<bool(const FWPM_PROVIDER0&)> callback)
 {
 	HANDLE enumHandle = INVALID_HANDLE_VALUE;
 
 	auto status = FwpmProviderCreateEnumHandle0(
-		(*engine).session(),
+		session,
 		nullptr,
 		&enumHandle
 	);
@@ -90,9 +89,9 @@ bool ObjectEnumerator::Providers(std::shared_ptr<FilterEngine> engine,
 
 	common::memory::ScopeDestructor scopeDestructor;
 
-	scopeDestructor += [engine, &enumHandle]()
+	scopeDestructor += [session, &enumHandle]()
 	{
-		FwpmProviderDestroyEnumHandle0((*engine).session(), enumHandle);
+		FwpmProviderDestroyEnumHandle0(session, enumHandle);
 	};
 
 	FWPM_PROVIDER0** providers = nullptr;
@@ -103,7 +102,7 @@ bool ObjectEnumerator::Providers(std::shared_ptr<FilterEngine> engine,
 	do
 	{
 		status = FwpmProviderEnum0(
-			(*engine).session(),
+			session,
 			enumHandle,
 			PROVIDERS_REQUESTED,
 			&providers,
@@ -127,9 +126,7 @@ bool ObjectEnumerator::Providers(std::shared_ptr<FilterEngine> engine,
 
 		for (UINT32 i = 0; i < providersReturned; ++i)
 		{
-			auto provider = *providers[i];
-
-			if (callback(provider) == false)
+			if (false == callback(*providers[i]))
 			{
 				return false;
 			}
@@ -141,13 +138,13 @@ bool ObjectEnumerator::Providers(std::shared_ptr<FilterEngine> engine,
 
 //static
 bool ObjectEnumerator::Connections(
-	std::shared_ptr<FilterEngine> engine,
+	HANDLE session,
 	std::function<bool(const FWPM_CONNECTION0&)> callback)
 {
 	HANDLE enumHandle = INVALID_HANDLE_VALUE;
 
 	auto status = FwpmConnectionCreateEnumHandle0(
-		(*engine).session(),
+		session,
 		nullptr,
 		&enumHandle
 	);
@@ -156,9 +153,9 @@ bool ObjectEnumerator::Connections(
 
 	common::memory::ScopeDestructor scopeDestructor;
 
-	scopeDestructor += [engine, &enumHandle]()
+	scopeDestructor += [session, &enumHandle]()
 	{
-		FwpmConnectionDestroyEnumHandle0((*engine).session(), enumHandle);
+		FwpmConnectionDestroyEnumHandle0(session, enumHandle);
 	};
 
 	FWPM_CONNECTION0** connections = nullptr;
@@ -169,7 +166,7 @@ bool ObjectEnumerator::Connections(
 	do
 	{
 		status = FwpmConnectionEnum0(
-			(*engine).session(),
+			session,
 			enumHandle,
 			CONNECTIONS_REQUESTED,
 			&connections,
@@ -193,9 +190,7 @@ bool ObjectEnumerator::Connections(
 
 		for (UINT32 i = 0; i < connectionsReturned; ++i)
 		{
-			auto connection = *connections[i];
-
-			if (callback(connection) == false)
+			if (false == callback(*connections[i]))
 			{
 				return false;
 			}
@@ -207,13 +202,13 @@ bool ObjectEnumerator::Connections(
 
 //static
 bool ObjectEnumerator::Events(
-	std::shared_ptr<FilterEngine> engine,
+	HANDLE session,
 	std::function<bool(const FWPM_NET_EVENT0&)> callback)
 {
 	HANDLE enumHandle = INVALID_HANDLE_VALUE;
 
 	auto status = FwpmNetEventCreateEnumHandle0(
-		(*engine).session(),
+		session,
 		nullptr,
 		&enumHandle
 	);
@@ -222,9 +217,9 @@ bool ObjectEnumerator::Events(
 
 	common::memory::ScopeDestructor scopeDestructor;
 
-	scopeDestructor += [engine, &enumHandle]()
+	scopeDestructor += [session, &enumHandle]()
 	{
-		FwpmNetEventDestroyEnumHandle0((*engine).session(), enumHandle);
+		FwpmNetEventDestroyEnumHandle0(session, enumHandle);
 	};
 
 	FWPM_NET_EVENT0** events = nullptr;
@@ -235,7 +230,7 @@ bool ObjectEnumerator::Events(
 	do
 	{
 		status = FwpmNetEventEnum0(
-			(*engine).session(),
+			session,
 			enumHandle,
 			EVENTS_REQUESTED,
 			&events,
@@ -259,9 +254,7 @@ bool ObjectEnumerator::Events(
 
 		for (UINT32 i = 0; i < eventsReturned; ++i)
 		{
-			auto event = *events[i];
-
-			if (callback(event) == false)
+			if (false == callback(*events[i]))
 			{
 				return false;
 			}
@@ -273,13 +266,13 @@ bool ObjectEnumerator::Events(
 
 //static
 bool ObjectEnumerator::Filters(
-	std::shared_ptr<FilterEngine> engine,
+	HANDLE session,
 	std::function<bool(const FWPM_FILTER0&)> callback)
 {
 	HANDLE enumHandle = INVALID_HANDLE_VALUE;
 
 	auto status = FwpmFilterCreateEnumHandle0(
-		(*engine).session(),
+		session,
 		nullptr,
 		&enumHandle
 	);
@@ -288,9 +281,9 @@ bool ObjectEnumerator::Filters(
 
 	common::memory::ScopeDestructor scopeDestructor;
 
-	scopeDestructor += [engine, &enumHandle]()
+	scopeDestructor += [session, &enumHandle]()
 	{
-		FwpmFilterDestroyEnumHandle0((*engine).session(), enumHandle);
+		FwpmFilterDestroyEnumHandle0(session, enumHandle);
 	};
 
 	FWPM_FILTER0** filters = nullptr;
@@ -301,7 +294,7 @@ bool ObjectEnumerator::Filters(
 	do
 	{
 		status = FwpmFilterEnum0(
-			(*engine).session(),
+			session,
 			enumHandle,
 			FILTERS_REQUESTED,
 			&filters,
@@ -325,9 +318,7 @@ bool ObjectEnumerator::Filters(
 
 		for (UINT32 i = 0; i < filtersReturned; ++i)
 		{
-			auto filter = *filters[i];
-
-			if (callback(filter) == false)
+			if (false == callback(*filters[i]))
 			{
 				return false;
 			}
@@ -339,13 +330,13 @@ bool ObjectEnumerator::Filters(
 
 //static
 bool ObjectEnumerator::Layers(
-	std::shared_ptr<FilterEngine> engine,
+	HANDLE session,
 	std::function<bool(const FWPM_LAYER0&)> callback)
 {
 	HANDLE enumHandle = INVALID_HANDLE_VALUE;
 
 	auto status = FwpmLayerCreateEnumHandle0(
-		(*engine).session(),
+		session,
 		nullptr,
 		&enumHandle
 	);
@@ -354,9 +345,9 @@ bool ObjectEnumerator::Layers(
 
 	common::memory::ScopeDestructor scopeDestructor;
 
-	scopeDestructor += [engine, &enumHandle]()
+	scopeDestructor += [session, &enumHandle]()
 	{
-		FwpmLayerDestroyEnumHandle0((*engine).session(), enumHandle);
+		FwpmLayerDestroyEnumHandle0(session, enumHandle);
 	};
 
 	FWPM_LAYER0** layers = nullptr;
@@ -367,7 +358,7 @@ bool ObjectEnumerator::Layers(
 	do
 	{
 		status = FwpmLayerEnum0(
-			(*engine).session(),
+			session,
 			enumHandle,
 			LAYERS_REQUESTED,
 			&layers,
@@ -391,9 +382,7 @@ bool ObjectEnumerator::Layers(
 
 		for (UINT32 i = 0; i < layersReturned; ++i)
 		{
-			auto layer = *layers[i];
-
-			if (callback(layer) == false)
+			if (false == callback(*layers[i]))
 			{
 				return false;
 			}
@@ -405,13 +394,13 @@ bool ObjectEnumerator::Layers(
 
 //static
 bool ObjectEnumerator::ProviderContexts(
-	std::shared_ptr<FilterEngine> engine,
+	HANDLE session,
 	std::function<bool(const FWPM_PROVIDER_CONTEXT0&)> callback)
 {
 	HANDLE enumHandle = INVALID_HANDLE_VALUE;
 
 	auto status = FwpmProviderContextCreateEnumHandle0(
-		(*engine).session(),
+		session,
 		nullptr,
 		&enumHandle
 	);
@@ -420,9 +409,9 @@ bool ObjectEnumerator::ProviderContexts(
 
 	common::memory::ScopeDestructor scopeDestructor;
 
-	scopeDestructor += [engine, &enumHandle]()
+	scopeDestructor += [session, &enumHandle]()
 	{
-		FwpmProviderContextDestroyEnumHandle0((*engine).session(), enumHandle);
+		FwpmProviderContextDestroyEnumHandle0(session, enumHandle);
 	};
 
 	FWPM_PROVIDER_CONTEXT0** contexts = nullptr;
@@ -433,7 +422,7 @@ bool ObjectEnumerator::ProviderContexts(
 	do
 	{
 		status = FwpmProviderContextEnum0(
-			(*engine).session(),
+			session,
 			enumHandle,
 			CONTEXTS_REQUESTED,
 			&contexts,
@@ -457,9 +446,7 @@ bool ObjectEnumerator::ProviderContexts(
 
 		for (UINT32 i = 0; i < contextsReturned; ++i)
 		{
-			auto context = *contexts[i];
-
-			if (callback(context) == false)
+			if (false == callback(*contexts[i]))
 			{
 				return false;
 			}
@@ -471,13 +458,13 @@ bool ObjectEnumerator::ProviderContexts(
 
 //static
 bool ObjectEnumerator::Sublayers(
-	std::shared_ptr<FilterEngine> engine,
+	HANDLE session,
 	std::function<bool(const FWPM_SUBLAYER0&)> callback)
 {
 	HANDLE enumHandle = INVALID_HANDLE_VALUE;
 
 	auto status = FwpmSubLayerCreateEnumHandle0(
-		(*engine).session(),
+		session,
 		nullptr,
 		&enumHandle
 	);
@@ -486,9 +473,9 @@ bool ObjectEnumerator::Sublayers(
 
 	common::memory::ScopeDestructor scopeDestructor;
 
-	scopeDestructor += [engine, &enumHandle]()
+	scopeDestructor += [session, &enumHandle]()
 	{
-		FwpmSubLayerDestroyEnumHandle0((*engine).session(), enumHandle);
+		FwpmSubLayerDestroyEnumHandle0(session, enumHandle);
 	};
 
 	FWPM_SUBLAYER0** sublayers = nullptr;
@@ -499,7 +486,7 @@ bool ObjectEnumerator::Sublayers(
 	do
 	{
 		status = FwpmSubLayerEnum0(
-			(*engine).session(),
+			session,
 			enumHandle,
 			SUBLAYERS_REQUESTED,
 			&sublayers,
@@ -523,9 +510,7 @@ bool ObjectEnumerator::Sublayers(
 
 		for (UINT32 i = 0; i < sublayersReturned; ++i)
 		{
-			auto sublayer = *sublayers[i];
-
-			if (callback(sublayer) == false)
+			if (false == callback(*sublayers[i]))
 			{
 				return false;
 			}
