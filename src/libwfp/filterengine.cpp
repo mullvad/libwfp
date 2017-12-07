@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "filterengine.h"
+#include "libcommon/error.h"
 #include <windows.h>
 #include <fwpmu.h>
 #include <stdexcept>
@@ -34,10 +35,7 @@ void FilterEngine::new_internal(const FWPM_SESSION0 *sessionInfo)
 		&session
 	);
 
-	if (ERROR_SUCCESS != status)
-	{
-		throw new std::runtime_error("Unable to connect to WFP");
-	}
+	THROW_UNLESS(ERROR_SUCCESS, status, L"Connect to WFP")
 
 	m_session = session;
 }

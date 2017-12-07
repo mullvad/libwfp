@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include <fwpmu.h>
 #include "libcommon/memory.h"
+#include "libcommon/error.h"
 
 namespace wfp
 {
@@ -20,10 +21,7 @@ bool ObjectEnumerator::Sessions(
 		&enumHandle
 	);
 
-	if (ERROR_SUCCESS != status)
-	{
-		throw new std::runtime_error("Unable to create enumeration context for sessions");
-	}
+	THROW_UNLESS(ERROR_SUCCESS, status, "Create enumeration context for WFP sessions")
 
 	common::memory::ScopeDestructor scopeDestructor;
 
@@ -47,10 +45,7 @@ bool ObjectEnumerator::Sessions(
 			&sessionsReturned
 		);
 
-		if (ERROR_SUCCESS != status)
-		{
-			throw std::runtime_error("Unable to enumerate sessions");
-		}
+		THROW_UNLESS(ERROR_SUCCESS, status, "Enumerate WFP sessions")
 
 		if (0 == sessionsReturned)
 		{
@@ -91,10 +86,7 @@ bool ObjectEnumerator::Providers(std::shared_ptr<FilterEngine> engine,
 		&enumHandle
 	);
 
-	if (ERROR_SUCCESS != status)
-	{
-		throw new std::runtime_error("Unable to create enumeration context for providers");
-	}
+	THROW_UNLESS(ERROR_SUCCESS, status, "Create enumeration context for WFP providers")
 
 	common::memory::ScopeDestructor scopeDestructor;
 
@@ -118,10 +110,7 @@ bool ObjectEnumerator::Providers(std::shared_ptr<FilterEngine> engine,
 			&providersReturned
 		);
 
-		if (ERROR_SUCCESS != status)
-		{
-			throw std::runtime_error("Unable to enumerate providers");
-		}
+		THROW_UNLESS(ERROR_SUCCESS, status, "Enumerate WFP providers")
 
 		if (0 == providersReturned)
 		{
@@ -163,10 +152,7 @@ bool ObjectEnumerator::Connections(
 		&enumHandle
 	);
 
-	if (ERROR_SUCCESS != status)
-	{
-		throw new std::runtime_error("Unable to create enumeration context for connections");
-	}
+	THROW_UNLESS(ERROR_SUCCESS, status, "Create enumeration context for WFP connections")
 
 	common::memory::ScopeDestructor scopeDestructor;
 
@@ -189,11 +175,8 @@ bool ObjectEnumerator::Connections(
 			&connections,
 			&connectionsReturned
 		);
-
-		if (ERROR_SUCCESS != status)
-		{
-			throw std::runtime_error("Unable to enumerate connections");
-		}
+		
+		THROW_UNLESS(ERROR_SUCCESS, status, "Enumerate WFP connections")
 
 		if (0 == connectionsReturned)
 		{
@@ -235,10 +218,7 @@ bool ObjectEnumerator::Events(
 		&enumHandle
 	);
 
-	if (ERROR_SUCCESS != status)
-	{
-		throw new std::runtime_error("Unable to create enumeration context for events");
-	}
+	THROW_UNLESS(ERROR_SUCCESS, status, "Create enumeration context for WFP events")
 
 	common::memory::ScopeDestructor scopeDestructor;
 
@@ -262,10 +242,7 @@ bool ObjectEnumerator::Events(
 			&eventsReturned
 		);
 
-		if (ERROR_SUCCESS != status)
-		{
-			throw std::runtime_error("Unable to enumerate events");
-		}
+		THROW_UNLESS(ERROR_SUCCESS, status, "Enumerate WFP events")
 
 		if (0 == eventsReturned)
 		{
@@ -307,10 +284,7 @@ bool ObjectEnumerator::Filters(
 		&enumHandle
 	);
 
-	if (ERROR_SUCCESS != status)
-	{
-		throw new std::runtime_error("Unable to create enumeration context for filters");
-	}
+	THROW_UNLESS(ERROR_SUCCESS, status, "Create enumeration context for WFP filters")
 
 	common::memory::ScopeDestructor scopeDestructor;
 
@@ -334,10 +308,7 @@ bool ObjectEnumerator::Filters(
 			&filtersReturned
 		);
 
-		if (ERROR_SUCCESS != status)
-		{
-			throw std::runtime_error("Unable to enumerate filters");
-		}
+		THROW_UNLESS(ERROR_SUCCESS, status, "Enumerate WFP filters")
 
 		if (0 == filtersReturned)
 		{
@@ -379,10 +350,7 @@ bool ObjectEnumerator::Layers(
 		&enumHandle
 	);
 
-	if (ERROR_SUCCESS != status)
-	{
-		throw new std::runtime_error("Unable to create enumeration context for layers");
-	}
+	THROW_UNLESS(ERROR_SUCCESS, status, "Create enumeration context for WFP layers")
 
 	common::memory::ScopeDestructor scopeDestructor;
 
@@ -406,10 +374,7 @@ bool ObjectEnumerator::Layers(
 			&layersReturned
 		);
 
-		if (ERROR_SUCCESS != status)
-		{
-			throw std::runtime_error("Unable to enumerate layers");
-		}
+		THROW_UNLESS(ERROR_SUCCESS, status, "Enumerate WFP layers")
 
 		if (0 == layersReturned)
 		{
@@ -451,10 +416,7 @@ bool ObjectEnumerator::ProviderContexts(
 		&enumHandle
 	);
 
-	if (ERROR_SUCCESS != status)
-	{
-		throw new std::runtime_error("Unable to create enumeration context for provider contexts");
-	}
+	THROW_UNLESS(ERROR_SUCCESS, status, "Create enumeration context for WFP provider contexts")
 
 	common::memory::ScopeDestructor scopeDestructor;
 
@@ -478,10 +440,7 @@ bool ObjectEnumerator::ProviderContexts(
 			&contextsReturned
 		);
 
-		if (ERROR_SUCCESS != status)
-		{
-			throw std::runtime_error("Unable to enumerate provider contexts");
-		}
+		THROW_UNLESS(ERROR_SUCCESS, status, "Enumerate WFP provider contexts")
 
 		if (0 == contextsReturned)
 		{
@@ -523,10 +482,7 @@ bool ObjectEnumerator::Sublayers(
 		&enumHandle
 	);
 
-	if (ERROR_SUCCESS != status)
-	{
-		throw new std::runtime_error("Unable to create enumeration context for sublayers");
-	}
+	THROW_UNLESS(ERROR_SUCCESS, status, "Create enumeration context for WFP sublayers")
 
 	common::memory::ScopeDestructor scopeDestructor;
 
@@ -550,10 +506,7 @@ bool ObjectEnumerator::Sublayers(
 			&sublayersReturned
 		);
 
-		if (ERROR_SUCCESS != status)
-		{
-			throw std::runtime_error("Unable to enumerate sublayers");
-		}
+		THROW_UNLESS(ERROR_SUCCESS, status, "Enumerate WFP sublayers")
 
 		if (0 == sublayersReturned)
 		{

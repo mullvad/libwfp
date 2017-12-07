@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "transaction.h"
+#include "libcommon/error.h"
 #include <fwpmu.h>
 #include <stdexcept>
 
@@ -12,18 +13,7 @@ Transaction::Transaction(std::shared_ptr<FilterEngine> engine, bool readWrite)
 {
 	auto status = FwpmTransactionBegin0((*engine).session(), (readWrite ? 0 : FWPM_TXN_READ_ONLY));
 
-	if (ERROR_SUCCESS != status)
-	{
-		//
-		// TODO: Add code that throws runtime error with message derived from "status"/GetLastError()
-		//
-		if (FWP_E_TXN_IN_PROGRESS == status)
-		{
-			throw std::runtime_error("Cannot begin new transaction, one is already in progress");
-		}
-
-		throw std::runtime_error("Cannot begin new transaction");
-	}
+	THROW_UNLESS(ERROR_SUCCESS, status, "Initiate WFP transaction")
 }
 
 Transaction::~Transaction()
@@ -45,13 +35,7 @@ void Transaction::abort()
 
 	auto status = FwpmTransactionAbort0((*m_engine).session());
 
-	if (ERROR_SUCCESS != status)
-	{
-		//
-		// TODO: Specific error message as above
-		//
-		throw std::runtime_error("Could not abort transaction");
-	}
+	THROW_UNLESS(ERROR_SUCCESS, status, "Abort WFP transaction")
 
 	m_aborted = true;
 }
