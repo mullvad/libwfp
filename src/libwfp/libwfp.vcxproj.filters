@@ -30,6 +30,9 @@
     <ClInclude Include="transaction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="layerconditions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -42,6 +45,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="transaction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="layerconditions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

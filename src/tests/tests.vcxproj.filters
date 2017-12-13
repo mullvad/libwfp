@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\common">
+      <UniqueIdentifier>{2492cb26-290e-4fab-a329-1f5c0a82e915}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\wfp">
+      <UniqueIdentifier>{9e7d4625-9b27-429f-bd26-92c3432dc35b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -28,6 +34,12 @@
     </ClCompile>
     <ClCompile Include="tests.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="common\string.cpp">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
+    <ClCompile Include="wfp\layerconditions.cpp">
+      <Filter>Source Files\wfp</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
