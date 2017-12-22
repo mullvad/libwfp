@@ -171,7 +171,14 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="conditionbuilder.h" />
+    <ClInclude Include="conditions\conditionapplication.h" />
+    <ClInclude Include="conditions\conditionremoteport.h" />
+    <ClInclude Include="filterbuilder.h" />
     <ClInclude Include="filterengine.h" />
+    <ClInclude Include="filterinstaller.h" />
+    <ClInclude Include="ifiltercondition.h" />
+    <ClInclude Include="internal\conditionassembler.h" />
     <ClInclude Include="layerconditions.h" />
     <ClInclude Include="objectenumerator.h" />
     <ClInclude Include="stdafx.h" />
@@ -179,7 +186,13 @@
     <ClInclude Include="transaction.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="conditionbuilder.cpp" />
+    <ClCompile Include="conditions\conditionapplication.cpp" />
+    <ClCompile Include="conditions\conditionremoteport.cpp" />
+    <ClCompile Include="filterbuilder.cpp" />
     <ClCompile Include="filterengine.cpp" />
+    <ClCompile Include="filterinstaller.cpp" />
+    <ClCompile Include="internal\conditionassembler.cpp" />
     <ClCompile Include="layerconditions.cpp" />
     <ClCompile Include="objectenumerator.cpp" />
     <ClCompile Include="stdafx.cpp">

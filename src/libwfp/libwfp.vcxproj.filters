@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\conditions">
+      <UniqueIdentifier>{1ac78fe4-0aee-4b8b-89e9-a2aad30f4859}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\internal">
+      <UniqueIdentifier>{532ea631-7c3f-40a9-b9f3-c6aaeec79f2e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -33,6 +39,27 @@
     <ClInclude Include="layerconditions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="conditionbuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ifiltercondition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="conditions\conditionapplication.h">
+      <Filter>Source Files\conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="filterbuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="conditions\conditionremoteport.h">
+      <Filter>Source Files\conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="internal\conditionassembler.h">
+      <Filter>Source Files\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="filterinstaller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -48,6 +75,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="layerconditions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="conditionbuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="conditions\conditionapplication.cpp">
+      <Filter>Source Files\conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="filterbuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="conditions\conditionremoteport.cpp">
+      <Filter>Source Files\conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="internal\conditionassembler.cpp">
+      <Filter>Source Files\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="filterinstaller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

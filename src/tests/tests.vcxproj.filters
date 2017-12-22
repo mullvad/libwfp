@@ -19,12 +19,18 @@
     <Filter Include="Source Files\wfp">
       <UniqueIdentifier>{9e7d4625-9b27-429f-bd26-92c3432dc35b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\integration">
+      <UniqueIdentifier>{9ec75e9b-f39b-4b05-9d3b-7b62246da7e6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ncat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -40,6 +46,15 @@
     </ClCompile>
     <ClCompile Include="wfp\layerconditions.cpp">
       <Filter>Source Files\wfp</Filter>
+    </ClCompile>
+    <ClCompile Include="math.cpp">
+      <Filter>Source Files\common</Filter>
+    </ClCompile>
+    <ClCompile Include="integration\integration.cpp">
+      <Filter>Source Files\integration</Filter>
+    </ClCompile>
+    <ClCompile Include="ncat.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
