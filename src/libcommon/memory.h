@@ -2,41 +2,20 @@
 #include <functional>
 #include <algorithm>
 #include <vector>
+#include <memory>
 
 namespace common {
 namespace memory {
 
-template<typename T>
-class AutoResource
+struct HandleDeleter
 {
-public:
-
-	AutoResource(T resource, std::function<void(T)> deleter)
-		: m_auto(true)
-		, m_resource(resource)
-		, m_deleter(deleter)
+	void operator()(HANDLE *h)
 	{
-	}
-
-	~AutoResource()
-	{
-		if (m_auto)
+		if (h != nullptr && *h != 0 && *h != INVALID_HANDLE_VALUE)
 		{
-			deleter(m_resource);
+			CloseHandle(*h);
 		}
 	}
-
-	void detach()
-	{
-		m_auto = false;
-	}
-
-private:
-
-	bool m_auto;
-
-	T m_resource;
-	std::function<void(T)> m_deleter;
 };
 
 class ScopeDestructor
