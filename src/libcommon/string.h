@@ -43,4 +43,15 @@ std::wstring FormatIpV6(const UINT8 ip[16]);
 std::wstring FormatTime(const FILETIME &filetime);
 std::wstring FormatLocalTime(const FILETIME &filetime);
 
+template<typename T>
+bool BeginsWith(const std::basic_string<T> &hay, const std::basic_string<T> &needle)
+{
+	if (hay.size() < needle.size())
+	{
+		return false;
+	}
+
+	return 0 == hay.compare(0, needle.size(), needle);
+}
+
 }}
