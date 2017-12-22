@@ -5,6 +5,10 @@
 #include <stdexcept>
 #include <sstream>
 
+//
+// TODO: Unify macros to prevent code bloat
+//
+
 #define THROW_UNLESS(expected, actual, operation)\
 if(actual != expected)\
 {\
@@ -21,6 +25,24 @@ if(actual != expected)\
 	ss << operation << ": " << common::error::FormatWindowsErrorPlain(errorCode);\
 	throw std::runtime_error(ss.str());\
 }\
+
+#define THROW_GLE_IF(unwanted, actual, operation)\
+if(actual == unwanted)\
+{\
+	DWORD errorCode = GetLastError();\
+	std::stringstream ss;\
+	ss << operation << ": " << common::error::FormatWindowsErrorPlain(errorCode);\
+	throw std::runtime_error(ss.str());\
+}\
+
+#define THROW_GLE(operation)\
+{\
+	DWORD errorCode = GetLastError();\
+	std::stringstream ss;\
+	ss << operation << ": " << common::error::FormatWindowsErrorPlain(errorCode);\
+	throw std::runtime_error(ss.str());\
+}\
+
 
 namespace common {
 namespace error {
