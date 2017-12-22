@@ -7,7 +7,7 @@ namespace wfp
 
 struct LayerConditions
 {
-	static bool IsCompatible(const GUID *layer, const GUID *condition);
+	static bool IsCompatible(const GUID &layer, const GUID &condition);
 };
 
 }

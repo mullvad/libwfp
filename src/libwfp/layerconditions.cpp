@@ -769,13 +769,13 @@ bool ExecuteConditionMap(std::function<bool(const ConditionMap &)> callback)
 	return callback(g_lookup);
 }
 
-ConditionsCollection GetLayerConditions(const GUID *layer)
+ConditionsCollection GetLayerConditions(const GUID &layer)
 {
 	ConditionsCollection result;
 
 	ExecuteConditionMap([&result, layer](const ConditionMap &lookup)
 	{
-		auto match = lookup.find(*layer);
+		auto match = lookup.find(layer);
 
 		if (lookup.end() == match)
 		{
@@ -792,13 +792,13 @@ ConditionsCollection GetLayerConditions(const GUID *layer)
 } // anon namespace
 
 //static
-bool LayerConditions::IsCompatible(const GUID *layer, const GUID *condition)
+bool LayerConditions::IsCompatible(const GUID &layer, const GUID &condition)
 {
 	auto layerConditions = GetLayerConditions(layer);
 
 	for (size_t i = 0; i < layerConditions.numConditions; ++i)
 	{
-		if (0 == memcmp(condition, &layerConditions.conditions[i], sizeof(GUID)))
+		if (0 == memcmp(&condition, &layerConditions.conditions[i], sizeof(GUID)))
 		{
 			return true;
 		}
