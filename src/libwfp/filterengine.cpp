@@ -8,7 +8,19 @@
 namespace wfp
 {
 
-FilterEngine::FilterEngine(bool dynamic)
+//static
+std::unique_ptr<FilterEngine> FilterEngine::DynamicSession()
+{
+	return std::make_unique<FilterEngine>(true, ctor_tag{});
+}
+
+//static
+std::unique_ptr<FilterEngine> FilterEngine::StandardSession()
+{
+	return std::make_unique<FilterEngine>(false, ctor_tag{});
+}
+
+FilterEngine::FilterEngine(bool dynamic, ctor_tag)
 {
 	if (dynamic)
 	{

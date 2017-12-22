@@ -484,7 +484,7 @@ int real_main(int argc, wchar_t **argv)
 	UNREFERENCED_PARAMETER(argc);
 	UNREFERENCED_PARAMETER(argv);
 
-	std::shared_ptr<wfp::FilterEngine> engine(new wfp::FilterEngine(false));
+	auto engine = wfp::FilterEngine::StandardSession();
 
 	//wfp::ObjectEnumerator::Sessions(engine, SessionCallback);
 	//wfp::ObjectEnumerator::Providers(engine, ProviderCallback);
