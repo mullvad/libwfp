@@ -136,69 +136,69 @@ bool ObjectEnumerator::Providers(
 	return true;
 }
 
-//static
-bool ObjectEnumerator::Connections(
-	HANDLE session,
-	std::function<bool(const FWPM_CONNECTION0&)> callback)
-{
-	HANDLE enumHandle = INVALID_HANDLE_VALUE;
-
-	auto status = FwpmConnectionCreateEnumHandle0(
-		session,
-		nullptr,
-		&enumHandle
-	);
-
-	THROW_UNLESS(ERROR_SUCCESS, status, "Create enumeration context for WFP connections")
-
-	common::memory::ScopeDestructor scopeDestructor;
-
-	scopeDestructor += [session, &enumHandle]()
-	{
-		FwpmConnectionDestroyEnumHandle0(session, enumHandle);
-	};
-
-	FWPM_CONNECTION0** connections = nullptr;
-	UINT32 connectionsReturned = 0;
-
-	static const UINT32 CONNECTIONS_REQUESTED = 100;
-
-	do
-	{
-		status = FwpmConnectionEnum0(
-			session,
-			enumHandle,
-			CONNECTIONS_REQUESTED,
-			&connections,
-			&connectionsReturned
-		);
-		
-		THROW_UNLESS(ERROR_SUCCESS, status, "Enumerate WFP connections")
-
-		if (0 == connectionsReturned)
-		{
-			break;
-		}
-
-		#pragma warning(suppress: 4456)
-		common::memory::ScopeDestructor scopeDestructor;
-
-		scopeDestructor += [&connections]()
-		{
-			FwpmFreeMemory0((void**)&connections);
-		};
-
-		for (UINT32 i = 0; i < connectionsReturned; ++i)
-		{
-			if (false == callback(*connections[i]))
-			{
-				return false;
-			}
-		}
-	} while (CONNECTIONS_REQUESTED == connectionsReturned);
-
-	return true;
-}
+////static
+//bool ObjectEnumerator::Connections(
+//	HANDLE session,
+//	std::function<bool(const FWPM_CONNECTION0&)> callback)
+//{
+//	HANDLE enumHandle = INVALID_HANDLE_VALUE;
+//
+//	auto status = FwpmConnectionCreateEnumHandle0(
+//		session,
+//		nullptr,
+//		&enumHandle
+//	);
+//
+//	THROW_UNLESS(ERROR_SUCCESS, status, "Create enumeration context for WFP connections")
+//
+//	common::memory::ScopeDestructor scopeDestructor;
+//
+//	scopeDestructor += [session, &enumHandle]()
+//	{
+//		FwpmConnectionDestroyEnumHandle0(session, enumHandle);
+//	};
+//
+//	FWPM_CONNECTION0** connections = nullptr;
+//	UINT32 connectionsReturned = 0;
+//
+//	static const UINT32 CONNECTIONS_REQUESTED = 100;
+//
+//	do
+//	{
+//		status = FwpmConnectionEnum0(
+//			session,
+//			enumHandle,
+//			CONNECTIONS_REQUESTED,
+//			&connections,
+//			&connectionsReturned
+//		);
+//		
+//		THROW_UNLESS(ERROR_SUCCESS, status, "Enumerate WFP connections")
+//
+//		if (0 == connectionsReturned)
+//		{
+//			break;
+//		}
+//
+//		#pragma warning(suppress: 4456)
+//		common::memory::ScopeDestructor scopeDestructor;
+//
+//		scopeDestructor += [&connections]()
+//		{
+//			FwpmFreeMemory0((void**)&connections);
+//		};
+//
+//		for (UINT32 i = 0; i < connectionsReturned; ++i)
+//		{
+//			if (false == callback(*connections[i]))
+//			{
+//				return false;
+//			}
+//		}
+//	} while (CONNECTIONS_REQUESTED == connectionsReturned);
+//
+//	return true;
+//}
 
 //static
 bool ObjectEnumerator::Events(

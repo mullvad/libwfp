@@ -67,31 +67,31 @@ bool ProviderCallback(const FWPM_PROVIDER0 &provider)
 	return true;
 }
 
-bool ConnectionCallback(const FWPM_CONNECTION0 &connection)
-{
-	std::wcout << L"Connection" << std::endl;
-
-	std::wcout << L"  connection id:\t" << connection.connectionId << std::endl;
-
-	if (connection.ipVersion == FWP_IP_VERSION_V4)
-	{
-		std::wcout << L"  local addr:\t" << common::string::FormatIpV4(connection.localV4Address) << std::endl;
-		std::wcout << L"  remote addr:\t" << common::string::FormatIpV4(connection.remoteV4Address) << std::endl;
-	}
-	else
-	{
-		std::wcout << L"  local addr:\t" << common::string::FormatIpV6(connection.localV6Address) << std::endl;
-		std::wcout << L"  remote addr:\t" << common::string::FormatIpV6(connection.remoteV6Address) << std::endl;
-	}
-
-	std::wcout << L"  provider:\t" << common::string::FormatGuid(*connection.providerKey) << std::endl;
-	std::wcout << L"  bytes in:\t" << connection.bytesTransferredIn << std::endl;
-	std::wcout << L"  bytes out:\t" << connection.bytesTransferredOut << std::endl;
-
-	// TODO: format and include creation time
-
-	return true;
-}
+//bool ConnectionCallback(const FWPM_CONNECTION0 &connection)
+//{
+//	std::wcout << L"Connection" << std::endl;
+//
+//	std::wcout << L"  connection id:\t" << connection.connectionId << std::endl;
+//
+//	if (connection.ipVersion == FWP_IP_VERSION_V4)
+//	{
+//		std::wcout << L"  local addr:\t" << common::string::FormatIpV4(connection.localV4Address) << std::endl;
+//		std::wcout << L"  remote addr:\t" << common::string::FormatIpV4(connection.remoteV4Address) << std::endl;
+//	}
+//	else
+//	{
+//		std::wcout << L"  local addr:\t" << common::string::FormatIpV6(connection.localV6Address) << std::endl;
+//		std::wcout << L"  remote addr:\t" << common::string::FormatIpV6(connection.remoteV6Address) << std::endl;
+//	}
+//
+//	std::wcout << L"  provider:\t" << common::string::FormatGuid(*connection.providerKey) << std::endl;
+//	std::wcout << L"  bytes in:\t" << connection.bytesTransferredIn << std::endl;
+//	std::wcout << L"  bytes out:\t" << connection.bytesTransferredOut << std::endl;
+//
+//	// TODO: format and include creation time
+//
+//	return true;
+//}
 
 std::wstring FormatIpProtocol(UINT8 protocol)
 {
