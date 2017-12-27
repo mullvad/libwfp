@@ -9,6 +9,14 @@
 
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 
-
-
-// TODO: reference additional headers your program requires here
+#include "libcommon/error.h"
+#include "libcommon/memory.h"
+#include <guiddef.h>
+#include <fwpmu.h>
+#include <fwpmtypes.h>
+#include <windows.h>
+#include <algorithm>
+#include <functional>
+#include <memory>
+#include <vector>
+#include <string>
