@@ -1,8 +1,9 @@
 #include "stdafx.h"
 #include "filterengine.h"
 #include "libcommon/error.h"
-#include <windows.h>
+#include <guiddef.h>
 #include <fwpmu.h>
+#include <windows.h>
 #include <stdexcept>
 
 namespace wfp

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "filterengine.h"
-#include "filterbuilder.h"
 #include "conditionbuilder.h"
+#include "filterbuilder.h"
+#include "filterengine.h"
 
 namespace wfp
 {

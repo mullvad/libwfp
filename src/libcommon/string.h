@@ -1,11 +1,10 @@
 #pragma once
 
-#include "stdafx.h"
 #include <objbase.h>
-#include <Windows.h>
+#include <windows.h>
+#include <algorithm>
 #include <string>
 #include <vector>
-#include <algorithm>
 
 namespace common {
 namespace string {

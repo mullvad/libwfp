@@ -1,9 +1,10 @@
 #pragma once
 
-#include <string>
-#include <windows.h>
+#include <guiddef.h>
 #include <fwpmu.h>
+#include <windows.h>
 #include <functional>
+#include <string>
 
 namespace wfp
 {

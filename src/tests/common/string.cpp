@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "gtest/gtest.h"
 #include "libcommon/string.h"
+#include "gtest/gtest.h"
 #include <algorithm>
 
 TEST(LibCommonString, JoinNothing)

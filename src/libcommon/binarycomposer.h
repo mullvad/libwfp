@@ -1,9 +1,9 @@
 #pragma once
 
+#include "buffer.h"
 #include <initializer_list>
 #include <memory>
 #include <vector>
-#include "buffer.h"
 
 namespace common
 {

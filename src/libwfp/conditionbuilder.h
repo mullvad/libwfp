@@ -1,11 +1,11 @@
 #pragma once
 
-#include <vector>
-#include <algorithm>
-#include <memory>
 #include "ifiltercondition.h"
-#include <functional>
 #include <fwpmu.h>
+#include <algorithm>
+#include <functional>
+#include <memory>
+#include <vector>
 
 namespace wfp
 {

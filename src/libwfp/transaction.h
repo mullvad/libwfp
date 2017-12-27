@@ -1,8 +1,8 @@
 #pragma once
 
+#include "filterengine.h"
 #include <functional>
 #include <memory>
-#include "FilterEngine.h"
 
 namespace wfp
 {

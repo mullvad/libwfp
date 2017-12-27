@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "filterbuilder.h"
-#include "memory.h"
+#include <memory.h>
 
 namespace wfp
 {

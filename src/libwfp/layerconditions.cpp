@@ -1,10 +1,11 @@
 #include "stdafx.h"
 #include "layerconditions.h"
+#include <guiddef.h>
 #include <fwpmu.h>
-#include <map>
-#include <cstring>
-#include <mutex>
 #include <functional>
+#include <map>
+#include <mutex>
+#include <cstring>
 
 namespace wfp
 {

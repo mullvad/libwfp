@@ -1,9 +1,9 @@
 #pragma once
 
-#include <string>
-#include <windows.h>
 #include "memory.h"
+#include <windows.h>
 #include <memory>
+#include <string>
 
 namespace common
 {

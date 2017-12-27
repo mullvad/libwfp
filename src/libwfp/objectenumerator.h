@@ -1,9 +1,9 @@
 #pragma once
 
-#include <fwpmtypes.h>
+#include "filterengine.h"
 #include <functional>
 #include <memory>
-#include "filterengine.h"
+#include <fwpmtypes.h>
 #include <windows.h>
 
 namespace wfp

@@ -1,13 +1,13 @@
 #include "stdafx.h"
-#include "gtest/gtest.h"
-#include "libwfp/filterbuilder.h"
 #include "libwfp/conditionbuilder.h"
 #include "libwfp/conditions/conditionapplication.h"
 #include "libwfp/conditions/conditionremoteport.h"
+#include "libwfp/filterbuilder.h"
 #include "libwfp/filterengine.h"
 #include "libwfp/filterinstaller.h"
 #include "libcommon/string.h"
-#include "../ncat.h"
+#include "tests/ncat.h"
+#include "gtest/gtest.h"
 
 using namespace ::wfp::conditions;
 

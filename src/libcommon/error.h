@@ -1,9 +1,9 @@
 #pragma once
 
-#include <string>
-#include <Windows.h>
-#include <stdexcept>
+#include <windows.h>
 #include <sstream>
+#include <stdexcept>
+#include <string>
 
 //
 // TODO: Unify macros to prevent code bloat

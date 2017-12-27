@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "binarycomposer.h"
 #include "math.h"
-//#include <algorithm>
 
 namespace common
 {

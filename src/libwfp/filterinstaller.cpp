@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "filterinstaller.h"
-#include <fwpmu.h>
 #include "libcommon/error.h"
+#include <guiddef.h>
+#include <fwpmu.h>
 
 namespace wfp
 {

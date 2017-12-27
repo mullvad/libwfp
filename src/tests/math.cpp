@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "gtest/gtest.h"
 #include "libcommon/math.h"
+#include "gtest/gtest.h"
 
 TEST(LibCommonMath, RoundNativeAlreadyEvenMultiple)
 {

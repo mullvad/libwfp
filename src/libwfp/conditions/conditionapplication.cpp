@@ -1,8 +1,9 @@
 #include "stdafx.h"
 #include "conditionapplication.h"
-#include <fwpmu.h>
+#include "libwfp/internal/conditionassembler.h"
 #include "libcommon/error.h"
-#include "../internal/conditionassembler.h"
+#include <guiddef.h>
+#include <fwpmu.h>
 
 using ConditionAssembler = ::wfp::internal::ConditionAssembler;
 

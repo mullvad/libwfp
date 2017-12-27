@@ -1,11 +1,9 @@
 #include "stdafx.h"
 #include "string.h"
 #include <sddl.h>
-#include <vector>
-#include <algorithm>
-#include <stdexcept>
-#include <sstream>
 #include <iomanip>
+#include <sstream>
+#include <stdexcept>
 
 namespace common {
 namespace string {

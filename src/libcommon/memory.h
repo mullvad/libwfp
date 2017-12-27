@@ -1,8 +1,10 @@
 #pragma once
-#include <functional>
+
+#include <windows.h>
 #include <algorithm>
-#include <vector>
+#include <functional>
 #include <memory>
+#include <vector>
 
 namespace common {
 namespace memory {

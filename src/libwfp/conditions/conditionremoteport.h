@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../ifiltercondition.h"
-#include <memory>
 #include "libcommon/buffer.h"
+#include "libwfp/ifiltercondition.h"
+#include <memory>
 
 namespace wfp {
 namespace conditions {

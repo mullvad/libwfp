@@ -1,8 +1,8 @@
 #pragma once
 
 #include "stdafx.h"
-#include <windows.h>
 #include <fwpmtypes.h>
+#include <windows.h>
 #include <memory>
 
 namespace wfp

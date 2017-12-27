@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "applicationrunner.h"
-#include <memory>
-#include "memory.h"
 #include "error.h"
+#include "memory.h"
+#include <memory>
 #include <vector>
-#include <sstream>
+#include <windows.h>
 #include <process.h>
 
 namespace common

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "error.h"
-#include <sstream>
 #include <iomanip>
+#include <sstream>
 
 namespace common {
 namespace error {
