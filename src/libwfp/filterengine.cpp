@@ -4,7 +4,6 @@
 #include <guiddef.h>
 #include <fwpmu.h>
 #include <windows.h>
-#include <stdexcept>
 
 namespace wfp
 {
