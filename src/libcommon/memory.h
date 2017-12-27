@@ -13,7 +13,7 @@ struct HandleDeleter
 {
 	void operator()(HANDLE *h)
 	{
-		if (h != nullptr && *h != 0 && *h != INVALID_HANDLE_VALUE)
+		if (*h != 0 && *h != INVALID_HANDLE_VALUE)
 		{
 			CloseHandle(*h);
 		}
