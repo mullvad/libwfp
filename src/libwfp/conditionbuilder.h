@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ifiltercondition.h"
+#include <guiddef.h>
 #include <fwpmu.h>
 #include <algorithm>
 #include <functional>

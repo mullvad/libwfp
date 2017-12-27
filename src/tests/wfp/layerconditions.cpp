@@ -2,8 +2,8 @@
 #include <initguid.h>
 #include "gtest/gtest.h"
 #include "libwfp/layerconditions.h"
-#include <fwpmu.h>
 #include <guiddef.h>
+#include <fwpmu.h>
 
 TEST(LibWfpLayerConditions, IsCompatibleWithCompatibleCondition)
 {
