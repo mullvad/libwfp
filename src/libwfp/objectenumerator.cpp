@@ -21,9 +21,9 @@ bool ObjectEnumerator::Sessions(
 		&enumHandle
 	);
 
-	THROW_UNLESS(ERROR_SUCCESS, status, "Create enumeration context for WFP sessions")
+	THROW_UNLESS(ERROR_SUCCESS, status, "Create enumeration context for WFP sessions");
 
-	common::memory::ScopeDestructor scopeDestructor;
+	::common::memory::ScopeDestructor scopeDestructor;
 
 	scopeDestructor += [session, &enumHandle]()
 	{
@@ -45,7 +45,7 @@ bool ObjectEnumerator::Sessions(
 			&sessionsReturned
 		);
 
-		THROW_UNLESS(ERROR_SUCCESS, status, "Enumerate WFP sessions")
+		THROW_UNLESS(ERROR_SUCCESS, status, "Enumerate WFP sessions");
 
 		if (0 == sessionsReturned)
 		{
@@ -85,7 +85,7 @@ bool ObjectEnumerator::Providers(
 		&enumHandle
 	);
 
-	THROW_UNLESS(ERROR_SUCCESS, status, "Create enumeration context for WFP providers")
+	THROW_UNLESS(ERROR_SUCCESS, status, "Create enumeration context for WFP providers");
 
 	common::memory::ScopeDestructor scopeDestructor;
 
@@ -109,7 +109,7 @@ bool ObjectEnumerator::Providers(
 			&providersReturned
 		);
 
-		THROW_UNLESS(ERROR_SUCCESS, status, "Enumerate WFP providers")
+		THROW_UNLESS(ERROR_SUCCESS, status, "Enumerate WFP providers");
 
 		if (0 == providersReturned)
 		{
@@ -149,7 +149,7 @@ bool ObjectEnumerator::Providers(
 //		&enumHandle
 //	);
 //
-//	THROW_UNLESS(ERROR_SUCCESS, status, "Create enumeration context for WFP connections")
+//	THROW_UNLESS(ERROR_SUCCESS, status, "Create enumeration context for WFP connections");
 //
 //	common::memory::ScopeDestructor scopeDestructor;
 //
@@ -173,7 +173,7 @@ bool ObjectEnumerator::Providers(
 //			&connectionsReturned
 //		);
 //		
-//		THROW_UNLESS(ERROR_SUCCESS, status, "Enumerate WFP connections")
+//		THROW_UNLESS(ERROR_SUCCESS, status, "Enumerate WFP connections");
 //
 //		if (0 == connectionsReturned)
 //		{
@@ -213,7 +213,7 @@ bool ObjectEnumerator::Events(
 		&enumHandle
 	);
 
-	THROW_UNLESS(ERROR_SUCCESS, status, "Create enumeration context for WFP events")
+	THROW_UNLESS(ERROR_SUCCESS, status, "Create enumeration context for WFP events");
 
 	common::memory::ScopeDestructor scopeDestructor;
 
@@ -237,7 +237,7 @@ bool ObjectEnumerator::Events(
 			&eventsReturned
 		);
 
-		THROW_UNLESS(ERROR_SUCCESS, status, "Enumerate WFP events")
+		THROW_UNLESS(ERROR_SUCCESS, status, "Enumerate WFP events");
 
 		if (0 == eventsReturned)
 		{
@@ -277,7 +277,7 @@ bool ObjectEnumerator::Filters(
 		&enumHandle
 	);
 
-	THROW_UNLESS(ERROR_SUCCESS, status, "Create enumeration context for WFP filters")
+	THROW_UNLESS(ERROR_SUCCESS, status, "Create enumeration context for WFP filters");
 
 	common::memory::ScopeDestructor scopeDestructor;
 
@@ -301,7 +301,7 @@ bool ObjectEnumerator::Filters(
 			&filtersReturned
 		);
 
-		THROW_UNLESS(ERROR_SUCCESS, status, "Enumerate WFP filters")
+		THROW_UNLESS(ERROR_SUCCESS, status, "Enumerate WFP filters");
 
 		if (0 == filtersReturned)
 		{
@@ -341,7 +341,7 @@ bool ObjectEnumerator::Layers(
 		&enumHandle
 	);
 
-	THROW_UNLESS(ERROR_SUCCESS, status, "Create enumeration context for WFP layers")
+	THROW_UNLESS(ERROR_SUCCESS, status, "Create enumeration context for WFP layers");
 
 	common::memory::ScopeDestructor scopeDestructor;
 
@@ -365,7 +365,7 @@ bool ObjectEnumerator::Layers(
 			&layersReturned
 		);
 
-		THROW_UNLESS(ERROR_SUCCESS, status, "Enumerate WFP layers")
+		THROW_UNLESS(ERROR_SUCCESS, status, "Enumerate WFP layers");
 
 		if (0 == layersReturned)
 		{
@@ -405,7 +405,7 @@ bool ObjectEnumerator::ProviderContexts(
 		&enumHandle
 	);
 
-	THROW_UNLESS(ERROR_SUCCESS, status, "Create enumeration context for WFP provider contexts")
+	THROW_UNLESS(ERROR_SUCCESS, status, "Create enumeration context for WFP provider contexts");
 
 	common::memory::ScopeDestructor scopeDestructor;
 
@@ -429,7 +429,7 @@ bool ObjectEnumerator::ProviderContexts(
 			&contextsReturned
 		);
 
-		THROW_UNLESS(ERROR_SUCCESS, status, "Enumerate WFP provider contexts")
+		THROW_UNLESS(ERROR_SUCCESS, status, "Enumerate WFP provider contexts");
 
 		if (0 == contextsReturned)
 		{
@@ -469,7 +469,7 @@ bool ObjectEnumerator::Sublayers(
 		&enumHandle
 	);
 
-	THROW_UNLESS(ERROR_SUCCESS, status, "Create enumeration context for WFP sublayers")
+	THROW_UNLESS(ERROR_SUCCESS, status, "Create enumeration context for WFP sublayers");
 
 	common::memory::ScopeDestructor scopeDestructor;
 
@@ -493,7 +493,7 @@ bool ObjectEnumerator::Sublayers(
 			&sublayersReturned
 		);
 
-		THROW_UNLESS(ERROR_SUCCESS, status, "Enumerate WFP sublayers")
+		THROW_UNLESS(ERROR_SUCCESS, status, "Enumerate WFP sublayers");
 
 		if (0 == sublayersReturned)
 		{

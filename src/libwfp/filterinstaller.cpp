@@ -24,7 +24,7 @@ bool FilterInstaller::Install(FilterEngine &engine, FilterBuilder &filterBuilder
 				nullptr
 			);
 
-			THROW_UNLESS(ERROR_SUCCESS, status, "Register filter with BFE")
+			THROW_UNLESS(ERROR_SUCCESS, status, "Register filter with BFE");
 
 			return true;
 		});

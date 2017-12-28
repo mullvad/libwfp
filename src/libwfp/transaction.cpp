@@ -13,7 +13,7 @@ Transaction::Transaction(std::shared_ptr<FilterEngine> engine, bool readWrite)
 {
 	auto status = FwpmTransactionBegin0((*engine).session(), (readWrite ? 0 : FWPM_TXN_READ_ONLY));
 
-	THROW_UNLESS(ERROR_SUCCESS, status, "Initiate WFP transaction")
+	THROW_UNLESS(ERROR_SUCCESS, status, "Initiate WFP transaction");
 }
 
 Transaction::~Transaction()
@@ -35,7 +35,7 @@ void Transaction::abort()
 
 	auto status = FwpmTransactionAbort0((*m_engine).session());
 
-	THROW_UNLESS(ERROR_SUCCESS, status, "Abort WFP transaction")
+	THROW_UNLESS(ERROR_SUCCESS, status, "Abort WFP transaction");
 
 	m_aborted = true;
 }

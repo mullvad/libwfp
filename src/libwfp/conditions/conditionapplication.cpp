@@ -16,7 +16,7 @@ ConditionApplication::ConditionApplication(const std::wstring &application)
 
 	auto status = FwpmGetAppIdFromFileName(application.c_str(), &blob);
 
-	THROW_UNLESS(ERROR_SUCCESS, status, L"Retrieve application identifier from filename")
+	THROW_UNLESS(ERROR_SUCCESS, status, "Retrieve application identifier from filename");
 
 	m_assembled = ConditionAssembler::ByteBlob(identifier(), FWP_MATCH_EQUAL, *blob);
 

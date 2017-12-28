@@ -47,7 +47,7 @@ void FilterEngine::new_internal(const FWPM_SESSION0 *sessionInfo)
 		&session
 	);
 
-	THROW_UNLESS(ERROR_SUCCESS, status, L"Connect to WFP")
+	THROW_UNLESS(ERROR_SUCCESS, status, "Connect to WFP");
 
 	m_session = session;
 }

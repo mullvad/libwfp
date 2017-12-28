@@ -4,6 +4,7 @@
 #include "libcommon/error.h"
 #include <guiddef.h>
 #include <fwpmu.h>
+#include <sstream>
 
 using ConditionAssembler = ::wfp::internal::ConditionAssembler;
 

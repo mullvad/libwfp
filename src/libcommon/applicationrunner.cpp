@@ -43,9 +43,9 @@ ApplicationRunner::ApplicationRunner(const std::wstring &path, const std::wstrin
 	auto status = CreateProcessW(nullptr, const_cast<wchar_t *>(cmdline.c_str()),
 		nullptr, nullptr, TRUE, creationFlags, nullptr, nullptr, &si, &pi);
 
-	THROW_GLE_IF(FALSE, status, "Create process")
+	THROW_GLE_IF(FALSE, status, "Create process");
 
-		CloseHandle(pi.hThread);
+	CloseHandle(pi.hThread);
 
 	m_processId = pi.dwProcessId;
 	m_process.reset(new HANDLE(pi.hProcess));
@@ -143,7 +143,7 @@ bool ApplicationRunner::join(DWORD &status, size_t timeout)
 
 	auto s = GetExitCodeProcess(*m_process, &status);
 
-	THROW_GLE_IF(FALSE, s, "Read process exit code")
+	THROW_GLE_IF(FALSE, s, "Read process exit code");
 
 	return true;
 }
@@ -182,13 +182,13 @@ void ApplicationRunner::createPipes()
 	if (FALSE == CreatePipe(m_stdInRead.get(), m_stdInWrite.get(), &sa, 0)
 		|| FALSE == CreatePipe(m_stdOutRead.get(), m_stdOutWrite.get(), &sa, 0))
 	{
-		THROW_GLE("Create anonymous pipe")
+		THROW_GLE("Create anonymous pipe");
 	}
 
 	if (FALSE == SetHandleInformation(*m_stdInWrite, HANDLE_FLAG_INHERIT, 0)
 		|| FALSE == SetHandleInformation(*m_stdOutRead, HANDLE_FLAG_INHERIT, 0))
 	{
-		THROW_GLE("Disallow inheritance of pipe handle")
+		THROW_GLE("Disallow inheritance of pipe handle");
 	}
 }
 
