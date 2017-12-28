@@ -1,6 +1,7 @@
 #pragma once
 
 #include <windows.h>
+#include <stdexcept>
 #include <string>
 
 #define THROW_UNLESS(expected, actual, operation)\
@@ -32,6 +33,5 @@ std::wstring FormatWindowsError(DWORD errorCode);
 std::string FormatWindowsErrorPlain(DWORD errorCode);
 
 void Throw(const char *operation, DWORD errorCode);
-void Throw(const std::string &operation, DWORD errorCode);
 
 }

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "error.h"
+#include <exception>
 #include <iomanip>
 #include <sstream>
 #include <stdexcept>
@@ -61,12 +62,7 @@ void Throw(const char *operation, DWORD errorCode)
 
 	ss << operation << ": " << common::error::FormatWindowsErrorPlain(errorCode);
 
-	throw std::runtime_error(ss.str());
-}
-
-void Throw(const std::string &operation, DWORD errorCode)
-{
-	Throw(operation.c_str(), errorCode);
+	std::throw_with_nested(std::runtime_error(ss.str()));
 }
 
 }
