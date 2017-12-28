@@ -6,8 +6,7 @@
 #include <string>
 #include <vector>
 
-namespace common {
-namespace string {
+namespace common::string {
 
 std::wstring FormatGuid(const GUID &guid);
 std::wstring FormatSid(const SID &sid);
@@ -53,4 +52,4 @@ bool BeginsWith(const std::basic_string<T> &hay, const std::basic_string<T> &nee
 	return 0 == hay.compare(0, needle.size(), needle);
 }
 
-}}
+}

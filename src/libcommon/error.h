@@ -44,10 +44,9 @@ if(actual == unwanted)\
 }\
 
 
-namespace common {
-namespace error {
+namespace common::error {
 
 std::wstring FormatWindowsError(DWORD errorCode);
 std::string FormatWindowsErrorPlain(DWORD errorCode);
 
-}}
+}

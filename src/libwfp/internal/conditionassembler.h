@@ -5,8 +5,7 @@
 #include <fwpmu.h>
 #include <memory>
 
-namespace wfp {
-namespace internal {
+namespace wfp::internal {
 
 class ConditionAssembler
 {
@@ -16,4 +15,4 @@ public:
 	static std::unique_ptr<common::Buffer> Uint16(const GUID &identifier, FWP_MATCH_TYPE matchType, UINT16 value);
 };
 
-}}
+}

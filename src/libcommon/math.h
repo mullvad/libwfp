@@ -1,7 +1,6 @@
 #pragma once
 
-namespace common {
-namespace math {
+namespace common::math {
 
 inline size_t RoundNative(size_t s)
 {
@@ -9,4 +8,4 @@ inline size_t RoundNative(size_t s)
 	return ((s + sizeof(size_t) - 1) & ~(sizeof(size_t) - 1));
 }
 
-}}
+}

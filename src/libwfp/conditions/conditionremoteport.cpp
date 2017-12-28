@@ -7,8 +7,7 @@
 
 using ConditionAssembler = ::wfp::internal::ConditionAssembler;
 
-namespace wfp {
-namespace conditions {
+namespace wfp::conditions {
 
 ConditionRemotePort::ConditionRemotePort(UINT16 port)
 	: m_port(port)
@@ -35,4 +34,4 @@ const FWPM_FILTER_CONDITION0 &ConditionRemotePort::condition() const
 	return *reinterpret_cast<FWPM_FILTER_CONDITION0 *>(m_assembled->data);
 }
 
-}}
+}

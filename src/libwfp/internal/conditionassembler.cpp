@@ -7,8 +7,7 @@ using Element = ::common::BinaryComposer::Element;
 
 #define MAKE_PTR(ptrbase, ptroffset, datatype) reinterpret_cast<datatype *>(ptrbase + ptroffset)
 
-namespace wfp {
-namespace internal {
+namespace wfp::internal {
 
 //static
 std::unique_ptr<Buffer> ConditionAssembler::ByteBlob(
@@ -70,4 +69,4 @@ std::unique_ptr<common::Buffer> ConditionAssembler::Uint16(
 	return std::make_unique<Buffer>(definition.release(), sizeof(FWPM_FILTER_CONDITION0));
 }
 
-}}
+}

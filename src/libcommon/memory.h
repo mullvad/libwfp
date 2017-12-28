@@ -6,8 +6,7 @@
 #include <memory>
 #include <vector>
 
-namespace common {
-namespace memory {
+namespace common::memory {
 
 struct HandleDeleter
 {
@@ -50,4 +49,4 @@ private:
 	std::vector<std::function<void()> > m_operations;
 };
 
-}}
+}

@@ -7,8 +7,7 @@
 
 using ConditionAssembler = ::wfp::internal::ConditionAssembler;
 
-namespace wfp {
-namespace conditions {
+namespace wfp::conditions {
 
 ConditionApplication::ConditionApplication(const std::wstring &application)
 	: m_application(application)
@@ -39,4 +38,4 @@ const FWPM_FILTER_CONDITION0 &ConditionApplication::condition() const
 	return *reinterpret_cast<FWPM_FILTER_CONDITION0 *>(m_assembled->data);
 }
 
-}}
+}

@@ -4,8 +4,7 @@
 #include "libwfp/ifiltercondition.h"
 #include <memory>
 
-namespace wfp {
-namespace conditions {
+namespace wfp::conditions {
 
 class ConditionApplication : public IFilterCondition
 {
@@ -23,5 +22,4 @@ private:
 	std::unique_ptr<common::Buffer> m_assembled;
 };
 
-}
 }

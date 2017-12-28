@@ -5,8 +5,7 @@
 #include <sstream>
 #include <stdexcept>
 
-namespace common {
-namespace string {
+namespace common::string {
 
 std::wstring FormatGuid(const GUID &guid)
 {
@@ -148,4 +147,4 @@ std::wstring FormatLocalTime(const FILETIME &filetime)
 	return ss.str();
 }
 
-}}
+}
