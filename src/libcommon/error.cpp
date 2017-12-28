@@ -2,6 +2,7 @@
 #include "error.h"
 #include <iomanip>
 #include <sstream>
+#include <stdexcept>
 
 namespace common::error {
 
@@ -52,6 +53,20 @@ std::string FormatWindowsErrorPlain(DWORD errorCode)
 	LocalFree(buffer);
 
 	return result;
+}
+
+void Throw(const char *operation, DWORD errorCode)
+{
+	std::stringstream ss;
+
+	ss << operation << ": " << common::error::FormatWindowsErrorPlain(errorCode);
+
+	throw std::runtime_error(ss.str());
+}
+
+void Throw(const std::string &operation, DWORD errorCode)
+{
+	Throw(operation.c_str(), errorCode);
 }
 
 }
