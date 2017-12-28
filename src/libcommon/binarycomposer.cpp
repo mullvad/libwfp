@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "binarycomposer.h"
-#include "math.h"
+#include "memory.h"
 
 namespace common
 {
@@ -13,7 +13,7 @@ BinaryComposer::BinaryComposer(std::initializer_list<Element> elements)
 	for (const Element &element: elements)
 	{
 		m_offsets.push_back(m_bufferSize);
-		m_bufferSize += common::math::RoundNative(element.length);
+		m_bufferSize += ::common::memory::AlignNative(element.length);
 	}
 
 	// Intentionally clear buffer after allocating it

@@ -2,17 +2,17 @@
 #include "libcommon/math.h"
 #include "gtest/gtest.h"
 
-TEST(LibCommonMath, RoundNativeAlreadyEvenMultiple)
+TEST(LibCommonMath, RoundPowerTwoAlreadyEvenMultiple)
 {
-	ASSERT_EQ(common::math::RoundNative(sizeof(size_t)), sizeof(size_t));
+	ASSERT_EQ(::common::math::RoundPowerTwo(sizeof(size_t), sizeof(size_t)), sizeof(size_t));
 }
 
-TEST(LibCommonMath, RoundNativeToNextMultiple)
+TEST(LibCommonMath, RoundPowerTwoToNextMultiple)
 {
-	ASSERT_EQ(common::math::RoundNative(sizeof(size_t) + 1), sizeof(size_t) * 2);
+	ASSERT_EQ(::common::math::RoundPowerTwo(sizeof(size_t) + 1, sizeof(size_t)), sizeof(size_t) * 2);
 }
 
-TEST(LibCommonMath, RoundNativeToNextMultipleAgain)
+TEST(LibCommonMath, RoundPowerTwoToNextMultipleAgain)
 {
-	ASSERT_EQ(common::math::RoundNative((sizeof(size_t) * 2) - 1), sizeof(size_t) * 2);
+	ASSERT_EQ(::common::math::RoundPowerTwo((sizeof(size_t) * 2) - 1, sizeof(size_t)), sizeof(size_t) * 2);
 }

@@ -1,11 +1,15 @@
 #pragma once
 
+#include <cassert>
+
 namespace common::math {
 
-inline size_t RoundNative(size_t s)
+inline size_t RoundPowerTwo(size_t value, size_t r)
 {
-	// sizeof(size_t) is a multiple of 2
-	return ((s + sizeof(size_t) - 1) & ~(sizeof(size_t) - 1));
+	// power of two
+	assert(r > 1 && (r & (r - 1)) == 0);
+
+	return ((value + r - 1) & ~(r - 1));
 }
 
 }

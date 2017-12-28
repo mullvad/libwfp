@@ -1,5 +1,6 @@
 #pragma once
 
+#include "math.h"
 #include <windows.h>
 #include <algorithm>
 #include <functional>
@@ -48,5 +49,10 @@ private:
 
 	std::vector<std::function<void()> > m_operations;
 };
+
+inline size_t AlignNative(size_t value)
+{
+	return ::common::math::RoundPowerTwo(value, sizeof(size_t));
+}
 
 }
