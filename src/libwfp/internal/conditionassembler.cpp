@@ -5,7 +5,7 @@
 using Buffer = ::common::Buffer;
 using Element = ::common::BinaryComposer::Element;
 
-#define MAKE_PTR(ptrbase, ptroffset, datatype) reinterpret_cast<datatype *>(ptrbase + ptroffset)
+#define MAKE_PTR(ptrbase, ptroffset, datatype) reinterpret_cast<datatype *>(reinterpret_cast<uint8_t *>(ptrbase) + ptroffset)
 
 namespace wfp::internal {
 
