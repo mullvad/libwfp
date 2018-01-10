@@ -11,6 +11,12 @@ FilterBuilder::FilterBuilder()
 	block();
 }
 
+FilterBuilder &FilterBuilder::key(const GUID &key)
+{
+	memcpy(&m_filter.filterKey, &key, sizeof(m_filter.filterKey));
+	return *this;
+}
+
 FilterBuilder &FilterBuilder::name(const std::wstring &name)
 {
 	m_name = name;

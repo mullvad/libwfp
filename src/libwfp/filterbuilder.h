@@ -26,6 +26,7 @@ public:
 
 	FilterBuilder();
 
+	FilterBuilder &key(const GUID &key);
 	FilterBuilder &name(const std::wstring &name);
 	FilterBuilder &description(const std::wstring &description);
 
