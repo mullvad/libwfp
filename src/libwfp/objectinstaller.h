@@ -7,11 +7,11 @@
 namespace wfp
 {
 
-class FilterInstaller
+class ObjectInstaller
 {
 public:
 
-	static bool Install(FilterEngine &engine, FilterBuilder &filterBuilder, ConditionBuilder &conditionBuilder);
+	static bool AddFilter(FilterEngine &engine, FilterBuilder &filterBuilder, ConditionBuilder &conditionBuilder);
 };
 
 }

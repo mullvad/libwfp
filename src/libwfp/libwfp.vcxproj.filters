@@ -57,7 +57,7 @@
     <ClInclude Include="internal\conditionassembler.h">
       <Filter>Source Files\internal</Filter>
     </ClInclude>
-    <ClInclude Include="filterinstaller.h">
+    <ClInclude Include="objectinstaller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -92,7 +92,7 @@
     <ClCompile Include="internal\conditionassembler.cpp">
       <Filter>Source Files\internal</Filter>
     </ClCompile>
-    <ClCompile Include="filterinstaller.cpp">
+    <ClCompile Include="objectinstaller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

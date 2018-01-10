@@ -4,7 +4,7 @@
 #include "libwfp/conditions/conditionremoteport.h"
 #include "libwfp/filterbuilder.h"
 #include "libwfp/filterengine.h"
-#include "libwfp/filterinstaller.h"
+#include "libwfp/objectinstaller.h"
 #include "libcommon/string.h"
 #include "tests/ncat.h"
 #include "gtest/gtest.h"
@@ -32,7 +32,7 @@ TEST(IntegrationTest, BlockNcatOutgoingPort80)
 
 	auto engine = wfp::FilterEngine::DynamicSession();
 
-	ASSERT_TRUE(wfp::FilterInstaller::Install(*engine.get(), filterBuilder, conditionBuilder));
+	ASSERT_TRUE(wfp::ObjectInstaller::AddFilter(*engine.get(), filterBuilder, conditionBuilder));
 
 	Ncat ncat(L"-4 www.mullvad.net 80");
 

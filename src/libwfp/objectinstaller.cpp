@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "filterinstaller.h"
+#include "objectinstaller.h"
 #include "libcommon/error.h"
 #include <guiddef.h>
 #include <fwpmu.h>
@@ -8,7 +8,7 @@ namespace wfp
 {
 
 //static
-bool FilterInstaller::Install(FilterEngine &engine, FilterBuilder &filterBuilder, ConditionBuilder &conditionBuilder)
+bool ObjectInstaller::AddFilter(FilterEngine &engine, FilterBuilder &filterBuilder, ConditionBuilder &conditionBuilder)
 {
 	return conditionBuilder.build([&](FWPM_FILTER_CONDITION0 *conditions, size_t numConditions)
 	{

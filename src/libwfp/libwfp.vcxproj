@@ -180,11 +180,11 @@
     <ClInclude Include="conditions\conditionremoteport.h" />
     <ClInclude Include="filterbuilder.h" />
     <ClInclude Include="filterengine.h" />
-    <ClInclude Include="filterinstaller.h" />
     <ClInclude Include="ifiltercondition.h" />
     <ClInclude Include="internal\conditionassembler.h" />
     <ClInclude Include="layerconditions.h" />
     <ClInclude Include="objectenumerator.h" />
+    <ClInclude Include="objectinstaller.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="transaction.h" />
@@ -195,10 +195,10 @@
     <ClCompile Include="conditions\conditionremoteport.cpp" />
     <ClCompile Include="filterbuilder.cpp" />
     <ClCompile Include="filterengine.cpp" />
-    <ClCompile Include="filterinstaller.cpp" />
     <ClCompile Include="internal\conditionassembler.cpp" />
     <ClCompile Include="layerconditions.cpp" />
     <ClCompile Include="objectenumerator.cpp" />
+    <ClCompile Include="objectinstaller.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
