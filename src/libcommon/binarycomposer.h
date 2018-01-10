@@ -12,19 +12,13 @@ class BinaryComposer
 {
 public:
 
-	struct Element
-	{
-		const void *data;
-		size_t length;
-	};
-
-	BinaryComposer(std::initializer_list<Element> elements);
+	BinaryComposer(std::initializer_list<ConstBufferView> parts);
 
 	const std::vector<size_t> &offsets() const;
 
 	uint8_t *buffer();
 
-	std::unique_ptr<Buffer> acquire();
+	Buffer acquire();
 
 	size_t size() const;
 

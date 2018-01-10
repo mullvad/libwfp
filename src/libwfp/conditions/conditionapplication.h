@@ -2,7 +2,6 @@
 
 #include "libcommon/buffer.h"
 #include "libwfp/ifiltercondition.h"
-#include <memory>
 
 namespace wfp::conditions {
 
@@ -19,7 +18,7 @@ public:
 private:
 
 	std::wstring m_application;
-	std::unique_ptr<common::Buffer> m_assembled;
+	common::Buffer m_assembled;
 };
 
 }

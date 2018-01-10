@@ -5,15 +5,15 @@
 namespace common
 {
 
-BinaryComposer::BinaryComposer(std::initializer_list<Element> elements)
+BinaryComposer::BinaryComposer(std::initializer_list<ConstBufferView> parts)
 {
-	m_offsets.reserve(elements.size());
+	m_offsets.reserve(parts.size());
 	m_bufferSize = 0;
 
-	for (const Element &element: elements)
+	for (const ConstBufferView &part: parts)
 	{
 		m_offsets.push_back(m_bufferSize);
-		m_bufferSize += ::common::memory::AlignNative(element.length);
+		m_bufferSize += ::common::memory::AlignNative(part.size());
 	}
 
 	// Intentionally clear buffer after allocating it
@@ -22,12 +22,12 @@ BinaryComposer::BinaryComposer(std::initializer_list<Element> elements)
 	auto raw = m_buffer.get();
 	auto index = 0;
 
-	for (const Element &element : elements)
+	for (const ConstBufferView &part : parts)
 	{
 		auto offset = m_offsets[index];
 		++index;
 
-		memcpy(raw + offset, element.data, element.length);
+		memcpy(raw + offset, part.data(), part.size());
 	}
 }
 
@@ -41,9 +41,9 @@ uint8_t *BinaryComposer::buffer()
 	return m_buffer.get();
 }
 
-std::unique_ptr<Buffer> BinaryComposer::acquire()
+Buffer BinaryComposer::acquire()
 {
-	return std::unique_ptr<Buffer>(new Buffer(m_buffer.release(), m_bufferSize));
+	return Buffer(m_buffer.release(), m_bufferSize);
 }
 
 size_t BinaryComposer::size() const

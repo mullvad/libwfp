@@ -1,47 +1,113 @@
 #pragma once
 
+#include <memory>
 #include <cstdint>
 
 namespace common
 {
 
-class Buffer
+struct IBuffer
 {
-public:
-
-	uint8_t *data;
-	size_t size;
-
-	Buffer(void *d, size_t s)
-		: data(reinterpret_cast<uint8_t *>(d)), size(s)
+	virtual ~IBuffer() = 0
 	{
 	}
 
-	Buffer()
-		: data(nullptr), size(0)
+	virtual uint8_t *data() const = 0;
+	virtual size_t size() const = 0;
+};
+
+class Buffer : public IBuffer
+{
+public:
+
+	Buffer() : m_size(0)
 	{
 	}
 
 	Buffer(size_t s)
-		: data(new uint8_t[s]), size(s)
+		: m_data(std::make_unique<uint8_t[]>(s))
+		, m_size(s)
 	{
 	}
 
-	~Buffer()
+	Buffer(void *d, size_t s)
+		: m_data(reinterpret_cast<uint8_t *>(d))
+		, m_size(s)
 	{
-		delete[] data;
+	}
+
+	Buffer(Buffer &&rhs) = default;
+	Buffer &operator=(Buffer &&rhs) = default;
+
+	uint8_t *data() const override
+	{
+		return m_data.get();
+	}
+
+	size_t size() const override
+	{
+		return m_size;
 	}
 
 private:
 
-	Buffer(const Buffer &);
-	Buffer &operator=(const Buffer &);
+	Buffer(const Buffer &rhs);
+	Buffer &operator=(const Buffer &rhs);
+
+	std::unique_ptr<uint8_t[]> m_data;
+	size_t m_size;
 };
 
-struct BorrowedBuffer
+class BufferView : public IBuffer
 {
-	uint8_t *data;
-	size_t size;
+public:
+
+	BufferView(void *d, size_t s)
+		: m_data(reinterpret_cast<uint8_t *>(d))
+		, m_size(s)
+	{
+	}
+
+	uint8_t *data() const override
+	{
+		return m_data;
+	}
+
+	size_t size() const override
+	{
+		return m_size;
+	}
+
+private:
+
+	uint8_t *m_data;
+	size_t m_size;
+};
+
+class ConstBufferView
+{
+public:
+
+	ConstBufferView(const void *d, size_t s)
+		: m_data(reinterpret_cast<const uint8_t *>(d))
+		, m_size(s)
+	{
+	}
+
+	const uint8_t *data() const
+	{
+		return m_data;
+	}
+
+	size_t size() const
+	{
+		return m_size;
+	}
+
+private:
+
+	const uint8_t *m_data;
+	size_t m_size;
 };
 
 }

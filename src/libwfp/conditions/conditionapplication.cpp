@@ -35,7 +35,7 @@ const GUID &ConditionApplication::identifier() const
 
 const FWPM_FILTER_CONDITION0 &ConditionApplication::condition() const
 {
-	return *reinterpret_cast<FWPM_FILTER_CONDITION0 *>(m_assembled->data);
+	return *reinterpret_cast<FWPM_FILTER_CONDITION0 *>(m_assembled.data());
 }
 
 }

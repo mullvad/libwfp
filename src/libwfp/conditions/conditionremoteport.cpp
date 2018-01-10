@@ -32,7 +32,7 @@ const GUID &ConditionRemotePort::identifier() const
 
 const FWPM_FILTER_CONDITION0 &ConditionRemotePort::condition() const
 {
-	return *reinterpret_cast<FWPM_FILTER_CONDITION0 *>(m_assembled->data);
+	return *reinterpret_cast<FWPM_FILTER_CONDITION0 *>(m_assembled.data());
 }
 
 }

@@ -3,14 +3,14 @@
 #include "libcommon/binarycomposer.h"
 
 using Buffer = ::common::Buffer;
-using Element = ::common::BinaryComposer::Element;
+using ConstBufferView = ::common::ConstBufferView;
 
 #define MAKE_PTR(ptrbase, ptroffset, datatype) reinterpret_cast<datatype *>(reinterpret_cast<uint8_t *>(ptrbase) + ptroffset)
 
 namespace wfp::internal {
 
 //static
-std::unique_ptr<Buffer> ConditionAssembler::ByteBlob(
+Buffer ConditionAssembler::ByteBlob(
 	const GUID &identifier,
 	FWP_MATCH_TYPE matchType,
 	const FWP_BYTE_BLOB &blob)
@@ -31,9 +31,9 @@ std::unique_ptr<Buffer> ConditionAssembler::ByteBlob(
 
 	auto composer = ::common::BinaryComposer
 	{
-		Element { &definition, sizeof(definition) },
-		Element { &blob, sizeof(blob) },
-		Element { blob.data, blob.size }
+		ConstBufferView(&definition, sizeof(definition)),
+		ConstBufferView(&blob, sizeof(blob)),
+		ConstBufferView(blob.data, blob.size)
 	};
 
 	auto buffer = composer.buffer();
@@ -54,7 +54,7 @@ std::unique_ptr<Buffer> ConditionAssembler::ByteBlob(
 }
 
 //static
-std::unique_ptr<common::Buffer> ConditionAssembler::Uint16(
+Buffer ConditionAssembler::Uint16(
 	const GUID &identifier,
 	FWP_MATCH_TYPE matchType,
 	UINT16 value)
@@ -66,7 +66,7 @@ std::unique_ptr<common::Buffer> ConditionAssembler::Uint16(
 	definition->conditionValue.type = FWP_UINT16;
 	definition->conditionValue.uint16 = value;
 
-	return std::make_unique<Buffer>(definition.release(), sizeof(FWPM_FILTER_CONDITION0));
+	return Buffer(definition.release(), sizeof(FWPM_FILTER_CONDITION0));
 }
 
 }
