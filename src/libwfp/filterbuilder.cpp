@@ -35,20 +35,20 @@ FilterBuilder &FilterBuilder::description(const std::wstring &description)
 
 FilterBuilder &FilterBuilder::persistent()
 {
-	m_filter.flags &= FWPM_FILTER_FLAG_PERSISTENT;
+	m_filter.flags |= FWPM_FILTER_FLAG_PERSISTENT;
 	return *this;
 }
 
 FilterBuilder &FilterBuilder::boottime()
 {
-	m_filter.flags &= FWPM_FILTER_FLAG_BOOTTIME;
+	m_filter.flags |= FWPM_FILTER_FLAG_BOOTTIME;
 	return *this;
 }
 
 
 FilterBuilder &FilterBuilder::disabled()
 {
-	m_filter.flags &= FWPM_FILTER_FLAG_DISABLED;
+	m_filter.flags |= FWPM_FILTER_FLAG_DISABLED;
 	return *this;
 }
 
