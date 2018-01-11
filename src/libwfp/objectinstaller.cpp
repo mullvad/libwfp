@@ -31,4 +31,21 @@ bool ObjectInstaller::AddFilter(FilterEngine &engine, FilterBuilder &filterBuild
 	});
 }
 
+//static
+bool ObjectInstaller::AddProvider(FilterEngine &engine, ProviderBuilder &providerBuilder)
+{
+	return providerBuilder.build([&](FWPM_PROVIDER0 &provider)
+	{
+		auto status = FwpmProviderAdd0(
+			engine.session(),
+			&provider,
+			nullptr
+		);
+
+		THROW_UNLESS(ERROR_SUCCESS, status, "Register provider with BFE");
+
+		return true;
+	});
+}
+
 }
