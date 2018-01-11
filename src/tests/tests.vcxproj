@@ -177,6 +177,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="common\string.cpp" />
+    <ClCompile Include="integration\addsublayer.cpp" />
     <ClCompile Include="integration\integration.cpp" />
     <ClCompile Include="math.cpp" />
     <ClCompile Include="ncat.cpp" />
