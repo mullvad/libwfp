@@ -31,4 +31,21 @@ bool ObjectInstaller::AddFilter(FilterEngine &engine, FilterBuilder &filterBuild
 	});
 }
 
+//static
+bool ObjectInstaller::AddSublayer(FilterEngine &engine, SublayerBuilder &sublayerBuilder)
+{
+	return sublayerBuilder.build([&](FWPM_SUBLAYER0 &sublayer)
+	{
+		auto status = FwpmSubLayerAdd0(
+			engine.session(),
+			&sublayer,
+			nullptr
+		);
+
+		THROW_UNLESS(ERROR_SUCCESS, status, "Register sublayer with BFE");
+
+		return true;
+	});
+}
+
 }
