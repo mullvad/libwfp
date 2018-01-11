@@ -29,7 +29,7 @@ private:
 	FilterEngine(const FilterEngine &);
 	FilterEngine &operator=(const FilterEngine &);
 
-	void new_internal(const FWPM_SESSION0 *sessionInfo);
+	void new_internal(const FWPM_SESSION0 &sessionInfo);
 
 	HANDLE m_session;
 };

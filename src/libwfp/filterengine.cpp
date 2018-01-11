@@ -22,20 +22,20 @@ std::unique_ptr<FilterEngine> FilterEngine::StandardSession()
 
 FilterEngine::FilterEngine(bool dynamic, ctor_tag)
 {
+	FWPM_SESSION0 sessionInfo = { 0 };
+
+	// Wait indefinitely for transaction lock to become available.
+	sessionInfo.txnWaitTimeoutInMSec = INFINITE;
+
 	if (dynamic)
 	{
-		FWPM_SESSION0 sessionInfo = { 0 };
 		sessionInfo.flags = FWPM_SESSION_FLAG_DYNAMIC;
+	}
 
-		new_internal(&sessionInfo);
-	}
-	else
-	{
-		new_internal(nullptr);
-	}
+	new_internal(sessionInfo);
 }
 
-void FilterEngine::new_internal(const FWPM_SESSION0 *sessionInfo)
+void FilterEngine::new_internal(const FWPM_SESSION0 &sessionInfo)
 {
 	HANDLE session = INVALID_HANDLE_VALUE;
 
@@ -43,7 +43,7 @@ void FilterEngine::new_internal(const FWPM_SESSION0 *sessionInfo)
 		nullptr,
 		RPC_C_AUTHN_DEFAULT,
 		nullptr,
-		sessionInfo,
+		&sessionInfo,
 		&session
 	);
 
