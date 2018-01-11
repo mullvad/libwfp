@@ -20,6 +20,27 @@ std::wstring SessionFlags(UINT32 flags)
 	return common::string::FormatFlags(definitions, flags);
 }
 
+std::wstring ProcessName(DWORD processId)
+{
+	auto process = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, FALSE, processId);
+
+	if (NULL != process)
+	{
+		wchar_t processName[MAX_PATH];
+		DWORD chars = _countof(processName);
+
+		auto status = QueryFullProcessImageNameW(process, 0, processName, &chars);
+		CloseHandle(process);
+
+		if (0 != status)
+		{
+			return processName;
+		}
+	}
+
+	return L"n/a";
+}
+
 bool SessionCallback(const FWPM_SESSION0 &session)
 {
 	std::wcout << L"Session" << std::endl;
@@ -31,6 +52,11 @@ bool SessionCallback(const FWPM_SESSION0 &session)
 		(session.displayData.description == nullptr ? L"n/a" : session.displayData.description) << std::endl;
 	std::wcout << L"  flags:\t\t" << session.flags << L" = " << SessionFlags(session.flags) << std::endl;
 	std::wcout << L"  wait timeout:\t\t" << session.txnWaitTimeoutInMSec << std::endl;
+
+	std::wcout << L"  process id:\t\t" << session.processId
+		<< L" (0x" << std::hex << session.processId << std::dec << ")" << std::endl;
+	std::wcout << L"  process name:\t\t" << ProcessName(session.processId) << std::endl;
+
 	std::wcout << L"  sid:\t\t\t" << common::string::FormatSid(*session.sid) << std::endl;
 	std::wcout << L"  username:\t\t" << session.username << std::endl;
 	std::wcout << L"  kernel:\t\t" <<
@@ -486,7 +512,7 @@ int real_main(int argc, wchar_t **argv)
 
 	auto engine = wfp::FilterEngine::StandardSession();
 
-	//wfp::ObjectEnumerator::Sessions(engine, SessionCallback);
+	wfp::ObjectEnumerator::Sessions(engine->session(), SessionCallback);
 	//wfp::ObjectEnumerator::Providers(engine, ProviderCallback);
 
 	// Turns out this kind of connection tracking is not enabled by default
@@ -503,7 +529,7 @@ int real_main(int argc, wchar_t **argv)
 
 	//wfp::ObjectEnumerator::ProviderContexts(engine, ProviderContextCallback);
 
-	wfp::ObjectEnumerator::Sublayers(engine->session(), SublayerCallback);
+	//wfp::ObjectEnumerator::Sublayers(engine->session(), SublayerCallback);
 
 	return 0;
 }
