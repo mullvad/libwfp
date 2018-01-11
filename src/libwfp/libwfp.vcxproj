@@ -186,6 +186,7 @@
     <ClInclude Include="objectenumerator.h" />
     <ClInclude Include="objectinstaller.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="sublayerbuilder.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="transaction.h" />
   </ItemGroup>
@@ -205,6 +206,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="sublayerbuilder.cpp" />
     <ClCompile Include="transaction.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
