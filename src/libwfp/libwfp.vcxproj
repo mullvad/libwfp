@@ -183,7 +183,9 @@
     <ClInclude Include="ifiltercondition.h" />
     <ClInclude Include="internal\conditionassembler.h" />
     <ClInclude Include="layerconditions.h" />
+    <ClInclude Include="objectdeleter.h" />
     <ClInclude Include="objectenumerator.h" />
+    <ClInclude Include="objectexplorer.h" />
     <ClInclude Include="objectinstaller.h" />
     <ClInclude Include="providerbuilder.h" />
     <ClInclude Include="stdafx.h" />
@@ -199,7 +201,9 @@
     <ClCompile Include="filterengine.cpp" />
     <ClCompile Include="internal\conditionassembler.cpp" />
     <ClCompile Include="layerconditions.cpp" />
+    <ClCompile Include="objectdeleter.cpp" />
     <ClCompile Include="objectenumerator.cpp" />
+    <ClCompile Include="objectexplorer.cpp" />
     <ClCompile Include="objectinstaller.cpp" />
     <ClCompile Include="providerbuilder.cpp" />
     <ClCompile Include="stdafx.cpp">
