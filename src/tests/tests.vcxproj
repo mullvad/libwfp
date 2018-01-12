@@ -176,8 +176,8 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="addprovider.cpp" />
     <ClCompile Include="common\string.cpp" />
+    <ClCompile Include="integration\addprovider.cpp" />
     <ClCompile Include="integration\integration.cpp" />
     <ClCompile Include="math.cpp" />
     <ClCompile Include="ncat.cpp" />
