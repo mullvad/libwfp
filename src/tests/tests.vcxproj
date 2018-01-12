@@ -179,6 +179,7 @@
     <ClCompile Include="common\string.cpp" />
     <ClCompile Include="integration\addprovider.cpp" />
     <ClCompile Include="integration\addsublayer.cpp" />
+    <ClCompile Include="integration\basicfilterops.cpp" />
     <ClCompile Include="integration\integration.cpp" />
     <ClCompile Include="math.cpp" />
     <ClCompile Include="ncat.cpp" />

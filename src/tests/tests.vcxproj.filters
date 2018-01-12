@@ -62,5 +62,8 @@
     <ClCompile Include="integration\addsublayer.cpp">
       <Filter>Source Files\integration</Filter>
     </ClCompile>
+    <ClCompile Include="integration\basicfilterops.cpp">
+      <Filter>Source Files\integration</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
