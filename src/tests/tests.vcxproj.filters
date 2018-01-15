@@ -56,5 +56,8 @@
     <ClCompile Include="ncat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="integration\addprovider.cpp">
+      <Filter>Source Files\integration</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
