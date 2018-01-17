@@ -54,7 +54,7 @@ SublayerBuilder &SublayerBuilder::data(const uint8_t *data, size_t size)
 	memcpy(m_data.get(), data, size);
 
 	m_sublayer.providerData.data = m_data.get();
-	m_sublayer.providerData.size = m_dataSize;
+	m_sublayer.providerData.size = static_cast<UINT32>(m_dataSize);
 
 	return *this;
 }

@@ -46,7 +46,7 @@ ProviderBuilder &ProviderBuilder::data(const uint8_t *data, size_t size)
 	memcpy(m_data.get(), data, size);
 
 	m_provider.providerData.data = m_data.get();
-	m_provider.providerData.size = m_dataSize;
+	m_provider.providerData.size = static_cast<UINT32>(m_dataSize);
 
 	return *this;
 }

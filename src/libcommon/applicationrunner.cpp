@@ -78,7 +78,7 @@ bool ApplicationRunner::read(std::string &data, size_t maxChars, size_t timeout)
 		(HANDLE)_beginthreadex(nullptr, 0, &ApplicationRunner::ReadThread, &parameters, 0, nullptr)
 	));
 
-	if (WAIT_OBJECT_0 == WaitForSingleObject(*thread, timeout))
+	if (WAIT_OBJECT_0 == WaitForSingleObject(*thread, static_cast<DWORD>(timeout)))
 	{
 		return true;
 	}
@@ -111,7 +111,8 @@ unsigned __stdcall ApplicationRunner::ReadThread(void *p)
 
 	DWORD bytesRead;
 
-	auto status = ReadFile(parameters->stdOutRead, &parameters->data[0], parameters->maxChars, &bytesRead, nullptr);
+	auto status = ReadFile(parameters->stdOutRead, &parameters->data[0],
+		static_cast<DWORD>(parameters->maxChars), &bytesRead, nullptr);
 
 	SetEvent(parameters->readCompletedEvent);
 
@@ -129,14 +130,14 @@ bool ApplicationRunner::write(const std::string &data)
 {
 	DWORD bytesWritten;
 
-	auto status = WriteFile(*m_stdInWrite, data.c_str(), data.size(), &bytesWritten, nullptr);
+	auto status = WriteFile(*m_stdInWrite, data.c_str(), static_cast<DWORD>(data.size()), &bytesWritten, nullptr);
 
 	return (FALSE != status && bytesWritten == data.size());
 }
 
 bool ApplicationRunner::join(DWORD &status, size_t timeout)
 {
-	if (WAIT_OBJECT_0 != WaitForSingleObject(*m_process, timeout))
+	if (WAIT_OBJECT_0 != WaitForSingleObject(*m_process, static_cast<DWORD>(timeout)))
 	{
 		return false;
 	}
