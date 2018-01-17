@@ -56,13 +56,13 @@
     <ClCompile Include="ncat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="integration\addprovider.cpp">
-      <Filter>Source Files\integration</Filter>
-    </ClCompile>
-    <ClCompile Include="integration\addsublayer.cpp">
-      <Filter>Source Files\integration</Filter>
-    </ClCompile>
     <ClCompile Include="integration\basicfilterops.cpp">
+      <Filter>Source Files\integration</Filter>
+    </ClCompile>
+    <ClCompile Include="integration\basicproviderops.cpp">
+      <Filter>Source Files\integration</Filter>
+    </ClCompile>
+    <ClCompile Include="integration\basicsublayerops.cpp">
       <Filter>Source Files\integration</Filter>
     </ClCompile>
   </ItemGroup>
