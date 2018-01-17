@@ -65,5 +65,8 @@
     <ClCompile Include="integration\blockoutgoingbyport.cpp">
       <Filter>Source Files\integration</Filter>
     </ClCompile>
+    <ClCompile Include="integration\transaction.cpp">
+      <Filter>Source Files\integration</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
