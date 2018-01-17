@@ -180,7 +180,7 @@
     <ClCompile Include="integration\basicfilterops.cpp" />
     <ClCompile Include="integration\basicproviderops.cpp" />
     <ClCompile Include="integration\basicsublayerops.cpp" />
-    <ClCompile Include="integration\integration.cpp" />
+    <ClCompile Include="integration\blockoutgoingbyport.cpp" />
     <ClCompile Include="math.cpp" />
     <ClCompile Include="ncat.cpp" />
     <ClCompile Include="stdafx.cpp">
