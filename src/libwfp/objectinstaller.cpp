@@ -15,7 +15,7 @@ bool ObjectInstaller::AddFilter(FilterEngine &engine, FilterBuilder &filterBuild
 		return filterBuilder.build([&](FWPM_FILTER0 &filter)
 		{
 			filter.filterCondition = conditions;
-			filter.numFilterConditions = numConditions;
+			filter.numFilterConditions = static_cast<UINT32>(numConditions);
 
 			auto status = FwpmFilterAdd0(
 				engine.session(),

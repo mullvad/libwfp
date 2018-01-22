@@ -50,16 +50,22 @@
     <ClCompile Include="math.cpp">
       <Filter>Source Files\common</Filter>
     </ClCompile>
-    <ClCompile Include="integration\integration.cpp">
-      <Filter>Source Files\integration</Filter>
-    </ClCompile>
     <ClCompile Include="ncat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="integration\addprovider.cpp">
+    <ClCompile Include="integration\basicfilterops.cpp">
       <Filter>Source Files\integration</Filter>
     </ClCompile>
-    <ClCompile Include="integration\addsublayer.cpp">
+    <ClCompile Include="integration\basicproviderops.cpp">
+      <Filter>Source Files\integration</Filter>
+    </ClCompile>
+    <ClCompile Include="integration\basicsublayerops.cpp">
+      <Filter>Source Files\integration</Filter>
+    </ClCompile>
+    <ClCompile Include="integration\blockoutgoingbyport.cpp">
+      <Filter>Source Files\integration</Filter>
+    </ClCompile>
+    <ClCompile Include="integration\transaction.cpp">
       <Filter>Source Files\integration</Filter>
     </ClCompile>
   </ItemGroup>

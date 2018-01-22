@@ -93,32 +93,6 @@ bool ProviderCallback(const FWPM_PROVIDER0 &provider)
 	return true;
 }
 
-//bool ConnectionCallback(const FWPM_CONNECTION0 &connection)
-//{
-//	std::wcout << L"Connection" << std::endl;
-//
-//	std::wcout << L"  connection id:\t" << connection.connectionId << std::endl;
-//
-//	if (connection.ipVersion == FWP_IP_VERSION_V4)
-//	{
-//		std::wcout << L"  local addr:\t" << common::string::FormatIpV4(connection.localV4Address) << std::endl;
-//		std::wcout << L"  remote addr:\t" << common::string::FormatIpV4(connection.remoteV4Address) << std::endl;
-//	}
-//	else
-//	{
-//		std::wcout << L"  local addr:\t" << common::string::FormatIpV6(connection.localV6Address) << std::endl;
-//		std::wcout << L"  remote addr:\t" << common::string::FormatIpV6(connection.remoteV6Address) << std::endl;
-//	}
-//
-//	std::wcout << L"  provider:\t" << common::string::FormatGuid(*connection.providerKey) << std::endl;
-//	std::wcout << L"  bytes in:\t" << connection.bytesTransferredIn << std::endl;
-//	std::wcout << L"  bytes out:\t" << connection.bytesTransferredOut << std::endl;
-//
-//	// TODO: format and include creation time
-//
-//	return true;
-//}
-
 std::wstring FormatIpProtocol(UINT8 protocol)
 {
 	switch (protocol)
@@ -512,24 +486,21 @@ int real_main(int argc, wchar_t **argv)
 
 	auto engine = wfp::FilterEngine::StandardSession();
 
-	wfp::ObjectEnumerator::Sessions(engine->session(), SessionCallback);
-	//wfp::ObjectEnumerator::Providers(engine, ProviderCallback);
-
-	// Turns out this kind of connection tracking is not enabled by default
-	//wfp::ObjectEnumerator::Connections(engine, ConnectionCallback);
+	wfp::ObjectEnumerator::Sessions(*engine, SessionCallback);
+	//wfp::ObjectEnumerator::Providers(*engine, ProviderCallback);
 
 	// Only four events are recorded for this system after 6 days (?) of uptime
-	//wfp::ObjectEnumerator::Events(engine, EventCallback);
+	//wfp::ObjectEnumerator::Events(*engine, EventCallback);
 
 	// ~635 filters present on a fresh win10 install
 	// painful to parse the actual filter rules
-	//wfp::ObjectEnumerator::Filters(engine, FilterCallback);
+	//wfp::ObjectEnumerator::Filters(*engine, FilterCallback);
 
-	//wfp::ObjectEnumerator::Layers(engine, LayerCallback);
+	//wfp::ObjectEnumerator::Layers(*engine, LayerCallback);
 
-	//wfp::ObjectEnumerator::ProviderContexts(engine, ProviderContextCallback);
+	//wfp::ObjectEnumerator::ProviderContexts(*engine, ProviderContextCallback);
 
-	//wfp::ObjectEnumerator::Sublayers(engine->session(), SublayerCallback);
+	//wfp::ObjectEnumerator::Sublayers(*engine, SublayerCallback);
 
 	return 0;
 }

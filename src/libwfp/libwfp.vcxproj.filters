@@ -66,6 +66,12 @@
     <ClInclude Include="sublayerbuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="objectexplorer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="objectdeleter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -105,6 +111,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="sublayerbuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="objectexplorer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="objectdeleter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
