@@ -11,21 +11,34 @@ namespace wfp
 //static
 std::unique_ptr<FilterEngine> FilterEngine::DynamicSession()
 {
-	return std::make_unique<FilterEngine>(true, ctor_tag{});
+	// A timeout of 0 ms is interpreted by WFP to mean "system default timeout".
+	return std::make_unique<FilterEngine>(true, 0, ctor_tag{});
 }
 
 //static
 std::unique_ptr<FilterEngine> FilterEngine::StandardSession()
 {
-	return std::make_unique<FilterEngine>(false, ctor_tag{});
+	// A timeout of 0 ms is interpreted by WFP to mean "system default timeout".
+	return std::make_unique<FilterEngine>(false, 0, ctor_tag{});
 }
 
-FilterEngine::FilterEngine(bool dynamic, ctor_tag)
+//static
+std::unique_ptr<FilterEngine> FilterEngine::DynamicSession(uint32_t timeout)
+{
+	return std::make_unique<FilterEngine>(true, timeout, ctor_tag{});
+}
+
+//static
+std::unique_ptr<FilterEngine> FilterEngine::StandardSession(uint32_t timeout)
+{
+	return std::make_unique<FilterEngine>(false, timeout, ctor_tag{});
+}
+
+FilterEngine::FilterEngine(bool dynamic, uint32_t timeout, ctor_tag)
 {
 	FWPM_SESSION0 sessionInfo = { 0 };
 
-	// Wait indefinitely for transaction lock to become available.
-	sessionInfo.txnWaitTimeoutInMSec = INFINITE;
+	sessionInfo.txnWaitTimeoutInMSec = timeout;
 
 	if (dynamic)
 	{
