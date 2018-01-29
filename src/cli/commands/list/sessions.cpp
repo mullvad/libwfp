@@ -35,9 +35,7 @@ void Sessions::handleRequest(const std::vector<std::wstring> &arguments)
 	options.indent = 2;
 	options.useSeparator = true;
 
-	// TODO: wtf which branch is this?
-	// Fix first parameter
-	wfp::ObjectEnumerator::Sessions(FilterEngineProvider::Instance().get()->session(), [&](const FWPM_SESSION0 &session)
+	wfp::ObjectEnumerator::Sessions(*FilterEngineProvider::Instance().get(), [&](const FWPM_SESSION0 &session)
 	{
 		m_messageSink(L"Session");
 
