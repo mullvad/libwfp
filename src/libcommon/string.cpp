@@ -1,9 +1,12 @@
 #include "stdafx.h"
 #include "string.h"
-#include <sddl.h>
+#include <algorithm>
 #include <iomanip>
+#include <memory>
+#include <sddl.h>
 #include <sstream>
 #include <stdexcept>
+#include <wchar.h>
 
 namespace common::string {
 
@@ -145,6 +148,54 @@ std::wstring FormatLocalTime(const FILETIME &filetime)
 		<< std::setw(2) << std::setfill(L'0') << st.wSecond;
 
 	return ss.str();
+}
+
+std::wstring Lower(const std::wstring &str)
+{
+	auto bufferSize = str.size() + 1;
+
+	auto buffer = std::make_unique<wchar_t[]>(bufferSize);
+	wcscpy_s(buffer.get(), bufferSize, str.c_str());
+
+	_wcslwr_s(buffer.get(), bufferSize);
+
+	return buffer.get();
+}
+
+std::vector<std::wstring> Tokenize(const std::wstring &str, const std::wstring &delimiters)
+{
+	auto bufferSize = str.size() + 1;
+
+	auto buffer = std::make_unique<wchar_t[]>(bufferSize);
+	wcscpy_s(buffer.get(), bufferSize, str.c_str());
+
+	wchar_t *context = nullptr;
+
+	auto token = wcstok_s(buffer.get(), delimiters.c_str(), &context);
+
+	std::vector<std::wstring> tokens;
+
+	while (token != nullptr)
+	{
+		tokens.push_back(token);
+		token = wcstok_s(nullptr, delimiters.c_str(), &context);
+	}
+
+	return tokens;
+}
+
+std::string ToAnsi(const std::wstring &str)
+{
+	std::string ansi;
+
+	ansi.reserve(str.size());
+
+	std::transform(str.begin(), str.end(), std::back_inserter(ansi), [](wchar_t c)
+	{
+		return (c > 255 ? '?' : static_cast<char>(c));
+	});
+
+	return ansi;
 }
 
 }

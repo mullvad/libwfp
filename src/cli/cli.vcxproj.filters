@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Modules">
+      <UniqueIdentifier>{e88bc8bf-763d-4c21-b558-18c18c3d01aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commands">
+      <UniqueIdentifier>{da097053-def0-4a93-a7a3-b62cc761ac4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commands\List">
+      <UniqueIdentifier>{25335122-c3ac-492b-bec2-827f73a5269f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -21,12 +30,54 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="modules\imodule.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="modules\list.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="commands\icommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="commands\list\sessions.h">
+      <Filter>Commands\List</Filter>
+    </ClInclude>
+    <ClInclude Include="modules\module.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="propertylist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inlineformatter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="objectformatters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="filterengineprovider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cli.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="commands\list\sessions.cpp">
+      <Filter>Commands\List</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\module.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="objectformatters.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

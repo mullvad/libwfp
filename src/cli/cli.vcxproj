@@ -171,17 +171,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="commands\icommand.h" />
+    <ClInclude Include="commands\list\sessions.h" />
+    <ClInclude Include="filterengineprovider.h" />
+    <ClInclude Include="inlineformatter.h" />
+    <ClInclude Include="modules\imodule.h" />
+    <ClInclude Include="modules\list.h" />
+    <ClInclude Include="modules\module.h" />
+    <ClInclude Include="objectformatters.h" />
+    <ClInclude Include="propertylist.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="util.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cli.cpp" />
+    <ClCompile Include="commands\list\sessions.cpp" />
+    <ClCompile Include="objectformatters.cpp" />
+    <ClCompile Include="modules\module.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="util.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
