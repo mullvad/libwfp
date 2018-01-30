@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "sessions.h"
-#include "cli/objectformatters.h"
+#include "cli/objectproperties.h"
 #include "cli/filterengineprovider.h"
 #include "libwfp/objectenumerator.h"
 

@@ -6,7 +6,6 @@
 #include "filterengineprovider.h"
 #include "modules/imodule.h"
 #include "modules/list.h"
-#include "commands/list/sessions.h"
 #include "libcommon/string.h"
 #include <iostream>
 

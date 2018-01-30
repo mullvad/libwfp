@@ -172,13 +172,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="commands\icommand.h" />
+    <ClInclude Include="commands\list\events.h" />
+    <ClInclude Include="commands\list\filters.h" />
+    <ClInclude Include="commands\list\layers.h" />
+    <ClInclude Include="commands\list\providercontexts.h" />
+    <ClInclude Include="commands\list\providers.h" />
     <ClInclude Include="commands\list\sessions.h" />
+    <ClInclude Include="commands\list\sublayers.h" />
     <ClInclude Include="filterengineprovider.h" />
     <ClInclude Include="inlineformatter.h" />
     <ClInclude Include="modules\imodule.h" />
     <ClInclude Include="modules\list.h" />
     <ClInclude Include="modules\module.h" />
-    <ClInclude Include="objectformatters.h" />
+    <ClInclude Include="objectproperties.h" />
     <ClInclude Include="propertylist.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -186,9 +192,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cli.cpp" />
+    <ClCompile Include="commands\list\events.cpp" />
+    <ClCompile Include="commands\list\filters.cpp" />
+    <ClCompile Include="commands\list\layers.cpp" />
+    <ClCompile Include="commands\list\providercontexts.cpp" />
+    <ClCompile Include="commands\list\providers.cpp" />
     <ClCompile Include="commands\list\sessions.cpp" />
-    <ClCompile Include="objectformatters.cpp" />
+    <ClCompile Include="commands\list\sublayers.cpp" />
     <ClCompile Include="modules\module.cpp" />
+    <ClCompile Include="objectproperties.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
