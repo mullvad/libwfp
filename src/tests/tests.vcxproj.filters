@@ -1,72 +1,48 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="common">
+      <UniqueIdentifier>{47f95656-b673-4e1c-b3f9-7ec8d8bb6c8d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    <Filter Include="integration">
+      <UniqueIdentifier>{2bb539b3-69f0-48d7-9b0d-f99bf08f3970}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Source Files\common">
-      <UniqueIdentifier>{2492cb26-290e-4fab-a329-1f5c0a82e915}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\wfp">
-      <UniqueIdentifier>{9e7d4625-9b27-429f-bd26-92c3432dc35b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\integration">
-      <UniqueIdentifier>{9ec75e9b-f39b-4b05-9d3b-7b62246da7e6}</UniqueIdentifier>
+    <Filter Include="wfp">
+      <UniqueIdentifier>{22e5eafa-5221-4399-a3ed-bfd1e7b0a110}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ncat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="tests.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="common\string.cpp">
-      <Filter>Source Files\common</Filter>
-    </ClCompile>
     <ClCompile Include="wfp\layerconditions.cpp">
-      <Filter>Source Files\wfp</Filter>
-    </ClCompile>
-    <ClCompile Include="math.cpp">
-      <Filter>Source Files\common</Filter>
-    </ClCompile>
-    <ClCompile Include="ncat.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>wfp</Filter>
     </ClCompile>
     <ClCompile Include="integration\basicfilterops.cpp">
-      <Filter>Source Files\integration</Filter>
+      <Filter>integration</Filter>
     </ClCompile>
     <ClCompile Include="integration\basicproviderops.cpp">
-      <Filter>Source Files\integration</Filter>
+      <Filter>integration</Filter>
     </ClCompile>
     <ClCompile Include="integration\basicsublayerops.cpp">
-      <Filter>Source Files\integration</Filter>
+      <Filter>integration</Filter>
     </ClCompile>
     <ClCompile Include="integration\blockoutgoingbyport.cpp">
-      <Filter>Source Files\integration</Filter>
+      <Filter>integration</Filter>
     </ClCompile>
     <ClCompile Include="integration\transaction.cpp">
-      <Filter>Source Files\integration</Filter>
+      <Filter>integration</Filter>
     </ClCompile>
+    <ClCompile Include="common\string.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="ncat.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="tests.cpp" />
+    <ClCompile Include="common\math.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ncat.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
   </ItemGroup>
 </Project>

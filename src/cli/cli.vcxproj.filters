@@ -1,120 +1,86 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Modules">
-      <UniqueIdentifier>{e88bc8bf-763d-4c21-b558-18c18c3d01aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Commands">
+    <Filter Include="commands">
       <UniqueIdentifier>{da097053-def0-4a93-a7a3-b62cc761ac4c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Commands\List">
+    <Filter Include="commands\list">
       <UniqueIdentifier>{25335122-c3ac-492b-bec2-827f73a5269f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="modules">
+      <UniqueIdentifier>{e88bc8bf-763d-4c21-b558-18c18c3d01aa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="modules\imodule.h">
-      <Filter>Modules</Filter>
+      <Filter>modules</Filter>
     </ClInclude>
     <ClInclude Include="modules\list.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="util.h">
-      <Filter>Header Files</Filter>
+      <Filter>modules</Filter>
     </ClInclude>
     <ClInclude Include="commands\icommand.h">
-      <Filter>Commands</Filter>
+      <Filter>commands</Filter>
     </ClInclude>
     <ClInclude Include="commands\list\sessions.h">
-      <Filter>Commands\List</Filter>
+      <Filter>commands\list</Filter>
     </ClInclude>
     <ClInclude Include="modules\module.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="propertylist.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inlineformatter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="filterengineprovider.h">
-      <Filter>Header Files</Filter>
+      <Filter>modules</Filter>
     </ClInclude>
     <ClInclude Include="commands\list\providers.h">
-      <Filter>Commands\List</Filter>
-    </ClInclude>
-    <ClInclude Include="objectproperties.h">
-      <Filter>Header Files</Filter>
+      <Filter>commands\list</Filter>
     </ClInclude>
     <ClInclude Include="commands\list\events.h">
-      <Filter>Commands\List</Filter>
+      <Filter>commands\list</Filter>
     </ClInclude>
     <ClInclude Include="commands\list\filters.h">
-      <Filter>Commands\List</Filter>
+      <Filter>commands\list</Filter>
     </ClInclude>
     <ClInclude Include="commands\list\layers.h">
-      <Filter>Commands\List</Filter>
+      <Filter>commands\list</Filter>
     </ClInclude>
     <ClInclude Include="commands\list\providercontexts.h">
-      <Filter>Commands\List</Filter>
+      <Filter>commands\list</Filter>
     </ClInclude>
     <ClInclude Include="commands\list\sublayers.h">
-      <Filter>Commands\List</Filter>
+      <Filter>commands\list</Filter>
     </ClInclude>
+    <ClInclude Include="filterengineprovider.h" />
+    <ClInclude Include="inlineformatter.h" />
+    <ClInclude Include="objectproperties.h" />
+    <ClInclude Include="propertylist.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="util.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="cli.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="util.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="commands\list\sessions.cpp">
-      <Filter>Commands\List</Filter>
+      <Filter>commands\list</Filter>
     </ClCompile>
     <ClCompile Include="modules\module.cpp">
-      <Filter>Modules</Filter>
+      <Filter>modules</Filter>
     </ClCompile>
     <ClCompile Include="commands\list\providers.cpp">
-      <Filter>Commands\List</Filter>
-    </ClCompile>
-    <ClCompile Include="objectproperties.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>commands\list</Filter>
     </ClCompile>
     <ClCompile Include="commands\list\events.cpp">
-      <Filter>Commands\List</Filter>
+      <Filter>commands\list</Filter>
     </ClCompile>
     <ClCompile Include="commands\list\filters.cpp">
-      <Filter>Commands\List</Filter>
+      <Filter>commands\list</Filter>
     </ClCompile>
     <ClCompile Include="commands\list\layers.cpp">
-      <Filter>Commands\List</Filter>
+      <Filter>commands\list</Filter>
     </ClCompile>
     <ClCompile Include="commands\list\providercontexts.cpp">
-      <Filter>Commands\List</Filter>
+      <Filter>commands\list</Filter>
     </ClCompile>
     <ClCompile Include="commands\list\sublayers.cpp">
-      <Filter>Commands\List</Filter>
+      <Filter>commands\list</Filter>
     </ClCompile>
+    <ClCompile Include="cli.cpp" />
+    <ClCompile Include="objectproperties.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="util.cpp" />
   </ItemGroup>
 </Project>
