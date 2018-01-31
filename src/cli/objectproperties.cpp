@@ -118,6 +118,17 @@ std::wstring ProviderContextType(FWPM_PROVIDER_CONTEXT_TYPE type)
 	}
 }
 
+std::wstring Direction(UINT32 direction)
+{
+	switch (direction)
+	{
+	case 0x3900: return L"In";
+	case 0x3901: return L"Out";
+	case 0x3902: return L"Forward";
+	default: return L"[Unknown]";
+	}
+}
+
 } // namespace detail
 
 PropertyList SessionProperties(const FWPM_SESSION0 &session)
@@ -247,6 +258,149 @@ PropertyList EventProperties(const FWPM_NET_EVENT0 &event)
 	case FWPM_NET_EVENT_TYPE_CLASSIFY_DROP:
 	{
 		props.add(L"type", L"CLASSIFY_DROP");
+		break;
+	}
+	case FWPM_NET_EVENT_TYPE_IPSEC_KERNEL_DROP:
+	{
+		props.add(L"type", L"IPSEC_KERNEL_DROP");
+		break;
+	}
+	case FWPM_NET_EVENT_TYPE_IPSEC_DOSP_DROP:
+	{
+		props.add(L"type", L"IPSEC_DOSP_DROP");
+		break;
+	}
+	case FWPM_NET_EVENT_TYPE_CLASSIFY_ALLOW:
+	{
+		props.add(L"type", L"CLASSIFY_ALLOW");
+		break;
+	}
+	case FWPM_NET_EVENT_TYPE_CAPABILITY_DROP:
+	{
+		props.add(L"type", L"CAPABILITY_DROP");
+		break;
+	}
+	case FWPM_NET_EVENT_TYPE_CAPABILITY_ALLOW:
+	{
+		props.add(L"type", L"CAPABILITY_ALLOW");
+		break;
+	}
+	case FWPM_NET_EVENT_TYPE_CLASSIFY_DROP_MAC:
+	{
+		props.add(L"type", L"CLASSIFY_DROP_MAC");
+		break;
+	}
+	default:
+	{
+		props.add(L"type", L"Unknown");
+	}
+	};
+
+	return props;
+}
+
+PropertyList EventProperties(const FWPM_NET_EVENT1 &event)
+{
+	//
+	// TODO-MAYBE: Restructure code to operate on individual elements of the structure
+	// then use upcasting and a single implementation for extracting the basic information.
+	//
+
+	PropertyList props;
+	InlineFormatter f;
+
+	props.add(L"timestamp", common::string::FormatTime(event.header.timeStamp));
+
+	if (0 != (event.header.flags & FWPM_NET_EVENT_FLAG_IP_PROTOCOL_SET))
+	{
+		props.add(L"protocol", detail::FormatIpProtocol(event.header.ipProtocol));
+	}
+
+	if (0 != (event.header.flags & FWPM_NET_EVENT_FLAG_IP_VERSION_SET)
+		&& 0 != (event.header.flags & FWPM_NET_EVENT_FLAG_LOCAL_ADDR_SET))
+	{
+		if (event.header.ipVersion == FWP_IP_VERSION_V4)
+		{
+			props.add(L"local addr", common::string::FormatIpV4(event.header.localAddrV4));
+		}
+		else
+		{
+			props.add(L"local addr", common::string::FormatIpV6(event.header.localAddrV6.byteArray16));
+		}
+	}
+
+	if (0 != (event.header.flags & FWPM_NET_EVENT_FLAG_IP_VERSION_SET)
+		&& 0 != (event.header.flags & FWPM_NET_EVENT_FLAG_REMOTE_ADDR_SET))
+	{
+		if (event.header.ipVersion == FWP_IP_VERSION_V4)
+		{
+			props.add(L"remote addr", common::string::FormatIpV4(event.header.remoteAddrV4));
+		}
+		else
+		{
+			props.add(L"remote addr", common::string::FormatIpV6(event.header.remoteAddrV6.byteArray16));
+		}
+	}
+
+	if (0 != (event.header.flags & FWPM_NET_EVENT_FLAG_LOCAL_PORT_SET))
+	{
+		props.add(L"local port", (f << event.header.localPort).str());
+	}
+
+	if (0 != (event.header.flags & FWPM_NET_EVENT_FLAG_REMOTE_PORT_SET))
+	{
+		props.add(L"remote port", (f << event.header.remotePort).str());
+	}
+
+	if (0 != (event.header.flags & FWPM_NET_EVENT_FLAG_APP_ID_SET))
+	{
+		auto begin = reinterpret_cast<wchar_t *>(event.header.appId.data);
+		auto end = begin + (event.header.appId.size / sizeof(wchar_t));
+
+		props.add(L"app id", std::wstring(begin, end));
+	}
+
+	if (0 != (event.header.flags & FWPM_NET_EVENT_FLAG_USER_ID_SET))
+	{
+		props.add(L"user id", common::string::FormatSid(*event.header.userId));
+	}
+
+	if (0 != (event.header.flags & FWPM_NET_EVENT_FLAG_SCOPE_ID_SET))
+	{
+		props.add(L"IPv6 scope id", (f << event.header.scopeId).str());
+	}
+
+	switch (event.type)
+	{
+	case FWPM_NET_EVENT_TYPE_IKEEXT_MM_FAILURE:
+	{
+		props.add(L"type", L"IKEEXT_MM_FAILURE");
+		break;
+	}
+	case FWPM_NET_EVENT_TYPE_IKEEXT_QM_FAILURE:
+	{
+		props.add(L"type", L"IKEEXT_QM_FAILURE");
+		break;
+	}
+	case FWPM_NET_EVENT_TYPE_IKEEXT_EM_FAILURE:
+	{
+		props.add(L"type", L"IKEEXT_EM_FAILURE");
+		break;
+	}
+	case FWPM_NET_EVENT_TYPE_CLASSIFY_DROP:
+	{
+		props.add(L"type", L"CLASSIFY_DROP");
+
+		props.add(L"filter id", (f << event.classifyDrop->filterId).str());
+		props.add(L"layer id", (f << event.classifyDrop->layerId).str());
+
+		props.add(L"direction", detail::Direction(event.classifyDrop->msFwpDirection));
+
+		if (1 == event.classifyDrop->isLoopback)
+		{
+			props.add(L"loopback", L"True");
+		}
+
 		break;
 	}
 	case FWPM_NET_EVENT_TYPE_IPSEC_KERNEL_DROP:

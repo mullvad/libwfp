@@ -10,6 +10,9 @@
     <Filter Include="modules">
       <UniqueIdentifier>{e88bc8bf-763d-4c21-b558-18c18c3d01aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="commands\monitor">
+      <UniqueIdentifier>{ff50eaf3-6e11-41ad-bae9-24427a025d33}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="modules\imodule.h">
@@ -52,6 +55,12 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="util.h" />
+    <ClInclude Include="modules\monitor.h">
+      <Filter>modules</Filter>
+    </ClInclude>
+    <ClInclude Include="commands\monitor\m_events.h">
+      <Filter>commands\monitor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="commands\list\sessions.cpp">
@@ -82,5 +91,8 @@
     <ClCompile Include="objectproperties.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="util.cpp" />
+    <ClCompile Include="commands\monitor\m_events.cpp">
+      <Filter>commands\monitor</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

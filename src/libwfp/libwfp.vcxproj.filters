@@ -30,6 +30,7 @@
     <ClCompile Include="filterbuilder.cpp" />
     <ClCompile Include="filterengine.cpp" />
     <ClCompile Include="layerconditions.cpp" />
+    <ClCompile Include="objectmonitor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="objectdeleter.h" />
@@ -55,5 +56,6 @@
     <ClInclude Include="filterengine.h" />
     <ClInclude Include="ifiltercondition.h" />
     <ClInclude Include="layerconditions.h" />
+    <ClInclude Include="objectmonitor.h" />
   </ItemGroup>
 </Project>

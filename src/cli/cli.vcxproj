@@ -179,11 +179,13 @@
     <ClInclude Include="commands\list\providers.h" />
     <ClInclude Include="commands\list\sessions.h" />
     <ClInclude Include="commands\list\sublayers.h" />
+    <ClInclude Include="commands\monitor\m_events.h" />
     <ClInclude Include="filterengineprovider.h" />
     <ClInclude Include="inlineformatter.h" />
     <ClInclude Include="modules\imodule.h" />
     <ClInclude Include="modules\list.h" />
     <ClInclude Include="modules\module.h" />
+    <ClInclude Include="modules\monitor.h" />
     <ClInclude Include="objectproperties.h" />
     <ClInclude Include="propertylist.h" />
     <ClInclude Include="stdafx.h" />
@@ -199,6 +201,7 @@
     <ClCompile Include="commands\list\providers.cpp" />
     <ClCompile Include="commands\list\sessions.cpp" />
     <ClCompile Include="commands\list\sublayers.cpp" />
+    <ClCompile Include="commands\monitor\m_events.cpp" />
     <ClCompile Include="modules\module.cpp" />
     <ClCompile Include="objectproperties.cpp" />
     <ClCompile Include="stdafx.cpp">

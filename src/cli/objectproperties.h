@@ -7,6 +7,7 @@
 PropertyList SessionProperties(const FWPM_SESSION0 &session);
 PropertyList ProviderProperties(const FWPM_PROVIDER0 &provider);
 PropertyList EventProperties(const FWPM_NET_EVENT0 &event);
+PropertyList EventProperties(const FWPM_NET_EVENT1 &event);
 PropertyList FilterProperties(const FWPM_FILTER0 &filter);
 PropertyList LayerProperties(const FWPM_LAYER0 &layer);
 PropertyList ProviderContextProperties(const FWPM_PROVIDER_CONTEXT0 &context);

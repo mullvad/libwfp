@@ -6,8 +6,10 @@
 #include "filterengineprovider.h"
 #include "modules/imodule.h"
 #include "modules/list.h"
+#include "modules/monitor.h"
 #include "libcommon/string.h"
 #include <iostream>
+#include <conio.h>
 
 // Should set key comparison operator to compare lowercase strings but meh.
 std::map<std::wstring, std::unique_ptr<modules::IModule> > g_modules;
@@ -26,6 +28,10 @@ void InitializeModules()
 {
 	auto list = std::make_unique<modules::List>(OutputConsole);
 	g_modules.insert(std::make_pair(common::string::Lower(list->name()), std::move(list)));
+
+	auto monitor = std::make_unique<modules::Monitor>(OutputConsole);
+	g_modules.insert(std::make_pair(common::string::Lower(monitor->name()), std::move(monitor)));
+
 }
 
 void ProcessHelp(const std::wstring &request)
