@@ -6,6 +6,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <cwchar>
 
 namespace detail
 {
@@ -179,6 +180,20 @@ std::wstring SublayerDecoration(IPropertyDecorator *decorator, const GUID &key)
 	return (InlineFormatter() << L" " << decorator->SublayerDecoration(key)).str();
 }
 
+void AddStringProperty(PropertyList &props, const wchar_t *name, const wchar_t *value)
+{
+	if (nullptr == value || 0 == wcslen(value))
+	{
+		return;
+	}
+
+	props.add(name, value);
+}
+
+// This won't work because sometimes 0 is a valid flag value
+//template<typename T>
+//void AddFlagProperty(PropertyList &props, const std::wstring &name, T value, std::function<std::wstring(T)> formatter>
+
 } // namespace detail
 
 PropertyList SessionProperties(const FWPM_SESSION0 &session)
@@ -187,12 +202,8 @@ PropertyList SessionProperties(const FWPM_SESSION0 &session)
 	InlineFormatter f;
 
 	props.add(L"key", common::string::FormatGuid(session.sessionKey));
-
-	props.add(L"name", (session.displayData.name == nullptr
-		? L"n/a" : session.displayData.name));
-
-	props.add(L"description", (session.displayData.description == nullptr
-		? L"n/a" : session.displayData.description));
+	detail::AddStringProperty(props, L"name", session.displayData.name);
+	detail::AddStringProperty(props, L"description", session.displayData.description);
 
 	props.add(L"flags", (f << session.flags << L" = " << detail::SessionFlags(session.flags)).str());
 	props.add(L"wait timeout", (f << session.txnWaitTimeoutInMSec).str());
@@ -209,18 +220,17 @@ PropertyList ProviderProperties(const FWPM_PROVIDER0 &provider)
 	InlineFormatter f;
 
 	props.add(L"key", common::string::FormatGuid(provider.providerKey));
-
-	props.add(L"name", (provider.displayData.name == nullptr
-		? L"n/a" : provider.displayData.name));
-
-	props.add(L"description", (provider.displayData.description == nullptr
-		? L"n/a" : provider.displayData.description));
+	detail::AddStringProperty(props, L"name", provider.displayData.name);
+	detail::AddStringProperty(props, L"description", provider.displayData.description);
 
 	props.add(L"flags", (f << provider.flags << L" = " << detail::ProviderFlags(provider.flags)).str());
-	props.add(L"data length", (f << provider.providerData.size).str());
 
-	props.add(L"service name", (provider.serviceName == nullptr
-		? L"n/a" : provider.serviceName));
+	if (0 != provider.providerData.size)
+	{
+		props.add(L"provider data", (f << L"Present (" << provider.providerData.size << L" bytes)").str());
+	}
+
+	detail::AddStringProperty(props, L"service name", provider.serviceName);
 
 	return props;
 }
@@ -511,24 +521,20 @@ PropertyList FilterProperties(const FWPM_FILTER0 &filter, IPropertyDecorator *de
 	InlineFormatter f;
 
 	props.add(L"key", common::string::FormatGuid(filter.filterKey));
-
-	props.add(L"name", (filter.displayData.name == nullptr
-		? L"n/a" : filter.displayData.name));
-
-	props.add(L"description", (filter.displayData.description == nullptr
-		? L"n/a" : filter.displayData.description));
+	detail::AddStringProperty(props, L"name", filter.displayData.name);
+	detail::AddStringProperty(props, L"description", filter.displayData.description);
 
 	props.add(L"flags", (f << filter.flags << L" = " << detail::FilterFlags(filter.flags)).str());
 
-	if (filter.providerKey != nullptr)
+	if (nullptr != filter.providerKey)
 	{
 		props.add(L"provider key", (f << common::string::FormatGuid(*filter.providerKey)
 			<< detail::ProviderDecoration(decorator, *filter.providerKey)).str());
 	}
 
-	if (filter.providerData.data != nullptr)
+	if (0 != filter.providerData.size)
 	{
-		props.add(L"provider data", L"Present");
+		props.add(L"provider data", (f << L"Present (" << filter.providerData.size << L" bytes)").str());
 	}
 
 	props.add(L"layer key", (f << common::string::FormatGuid(filter.layerKey)
@@ -612,12 +618,8 @@ PropertyList LayerProperties(const FWPM_LAYER0 &layer, IPropertyDecorator *decor
 	InlineFormatter f;
 
 	props.add(L"key", common::string::FormatGuid(layer.layerKey));
-
-	props.add(L"name", (layer.displayData.name == nullptr
-		? L"n/a" : layer.displayData.name));
-
-	props.add(L"description", (layer.displayData.description == nullptr
-		? L"n/a" : layer.displayData.description));
+	detail::AddStringProperty(props, L"name", layer.displayData.name);
+	detail::AddStringProperty(props, L"description", layer.displayData.description);
 
 	props.add(L"flags", (f << layer.flags << L" = " << detail::LayerFlags(layer.flags)).str());
 	props.add(L"num fields", (f << layer.numFields).str());
@@ -637,12 +639,8 @@ PropertyList ProviderContextProperties(const FWPM_PROVIDER_CONTEXT0 &context, IP
 	InlineFormatter f;
 
 	props.add(L"key", common::string::FormatGuid(context.providerContextKey));
-
-	props.add(L"name", (context.displayData.name == nullptr
-		? L"n/a" : context.displayData.name));
-
-	props.add(L"description", (context.displayData.description == nullptr
-		? L"n/a" : context.displayData.description));
+	detail::AddStringProperty(props, L"name", context.displayData.name);
+	detail::AddStringProperty(props, L"description", context.displayData.description);
 
 	if (0 != (context.flags & FWPM_PROVIDER_CONTEXT_FLAG_PERSISTENT))
 	{
@@ -653,15 +651,15 @@ PropertyList ProviderContextProperties(const FWPM_PROVIDER_CONTEXT0 &context, IP
 		props.add(L"flags", (f << context.flags).str());
 	}
 
-	if (context.providerKey != nullptr)
+	if (nullptr != context.providerKey)
 	{
 		props.add(L"provider key", (f << common::string::FormatGuid(*context.providerKey)
 			<< detail::ProviderDecoration(decorator, *context.providerKey)).str());
 	}
 
-	if (context.providerData.data != nullptr)
+	if (0 != context.providerData.size)
 	{
-		props.add(L"provider data", L"Present");
+		props.add(L"provider data", (f << L"Present (" << context.providerData.size << L" bytes)").str());
 	}
 
 	props.add(L"context type", detail::ProviderContextType(context.type));
@@ -676,12 +674,8 @@ PropertyList SublayerProperties(const FWPM_SUBLAYER0 &sublayer, IPropertyDecorat
 	InlineFormatter f;
 
 	props.add(L"key", common::string::FormatGuid(sublayer.subLayerKey));
-
-	props.add(L"name", (sublayer.displayData.name == nullptr
-		? L"n/a" : sublayer.displayData.name));
-
-	props.add(L"description", (sublayer.displayData.description == nullptr
-		? L"n/a" : sublayer.displayData.description));
+	detail::AddStringProperty(props, L"name", sublayer.displayData.name);
+	detail::AddStringProperty(props, L"description", sublayer.displayData.description);
 
 	if (0 != (sublayer.flags & FWPM_SUBLAYER_FLAG_PERSISTENT))
 	{
@@ -692,15 +686,15 @@ PropertyList SublayerProperties(const FWPM_SUBLAYER0 &sublayer, IPropertyDecorat
 		props.add(L"flags", (f << sublayer.flags).str());
 	}
 
-	if (sublayer.providerKey != nullptr)
+	if (nullptr != sublayer.providerKey)
 	{
 		props.add(L"provider key", (f << common::string::FormatGuid(*sublayer.providerKey)
 			<< detail::ProviderDecoration(decorator, *sublayer.providerKey)).str());
 	}
 
-	if (sublayer.providerData.data != nullptr)
+	if (0 != sublayer.providerData.size)
 	{
-		props.add(L"provider data", L"Present");
+		props.add(L"provider data", (f << L"Present (" << sublayer.providerData.size << L" bytes)").str());
 	}
 
 	props.add(L"weight", (f << sublayer.weight).str());
