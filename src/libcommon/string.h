@@ -52,4 +52,8 @@ bool BeginsWith(const std::basic_string<T> &hay, const std::basic_string<T> &nee
 	return 0 == hay.compare(0, needle.size(), needle);
 }
 
+std::wstring Lower(const std::wstring &str);
+std::vector<std::wstring> Tokenize(const std::wstring &str, const std::wstring &delimiters);
+std::string ToAnsi(const std::wstring &str);
+
 }

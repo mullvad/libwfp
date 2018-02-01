@@ -1,123 +1,59 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="conditions">
+      <UniqueIdentifier>{ad7718b2-1e11-482d-b604-612f7a31f7dc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Source Files\conditions">
-      <UniqueIdentifier>{1ac78fe4-0aee-4b8b-89e9-a2aad30f4859}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\internal">
-      <UniqueIdentifier>{532ea631-7c3f-40a9-b9f3-c6aaeec79f2e}</UniqueIdentifier>
+    <Filter Include="internal">
+      <UniqueIdentifier>{11b46d71-26c0-45bf-b963-d28c86b9e6eb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="filterengine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="objectenumerator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="transaction.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="layerconditions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="conditionbuilder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ifiltercondition.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="conditions\conditionapplication.h">
-      <Filter>Source Files\conditions</Filter>
-    </ClInclude>
-    <ClInclude Include="filterbuilder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="conditions\conditionremoteport.h">
-      <Filter>Source Files\conditions</Filter>
-    </ClInclude>
-    <ClInclude Include="internal\conditionassembler.h">
-      <Filter>Source Files\internal</Filter>
-    </ClInclude>
-    <ClInclude Include="objectinstaller.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="providerbuilder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sublayerbuilder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="objectexplorer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="objectdeleter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="filterengine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="objectenumerator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="transaction.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="layerconditions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="conditionbuilder.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="objectdeleter.cpp" />
+    <ClCompile Include="objectenumerator.cpp" />
+    <ClCompile Include="objectexplorer.cpp" />
+    <ClCompile Include="objectinstaller.cpp" />
+    <ClCompile Include="providerbuilder.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="sublayerbuilder.cpp" />
+    <ClCompile Include="transaction.cpp" />
+    <ClCompile Include="internal\conditionassembler.cpp">
+      <Filter>internal</Filter>
     </ClCompile>
     <ClCompile Include="conditions\conditionapplication.cpp">
-      <Filter>Source Files\conditions</Filter>
-    </ClCompile>
-    <ClCompile Include="filterbuilder.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>conditions</Filter>
     </ClCompile>
     <ClCompile Include="conditions\conditionremoteport.cpp">
-      <Filter>Source Files\conditions</Filter>
+      <Filter>conditions</Filter>
     </ClCompile>
-    <ClCompile Include="internal\conditionassembler.cpp">
-      <Filter>Source Files\internal</Filter>
-    </ClCompile>
-    <ClCompile Include="objectinstaller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="providerbuilder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="sublayerbuilder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="objectexplorer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="objectdeleter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClCompile Include="conditionbuilder.cpp" />
+    <ClCompile Include="filterbuilder.cpp" />
+    <ClCompile Include="filterengine.cpp" />
+    <ClCompile Include="layerconditions.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="objectdeleter.h" />
+    <ClInclude Include="objectenumerator.h" />
+    <ClInclude Include="objectexplorer.h" />
+    <ClInclude Include="objectinstaller.h" />
+    <ClInclude Include="providerbuilder.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="sublayerbuilder.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="transaction.h" />
+    <ClInclude Include="internal\conditionassembler.h">
+      <Filter>internal</Filter>
+    </ClInclude>
+    <ClInclude Include="conditions\conditionapplication.h">
+      <Filter>conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="conditions\conditionremoteport.h">
+      <Filter>conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="conditionbuilder.h" />
+    <ClInclude Include="filterbuilder.h" />
+    <ClInclude Include="filterengine.h" />
+    <ClInclude Include="ifiltercondition.h" />
+    <ClInclude Include="layerconditions.h" />
   </ItemGroup>
 </Project>
