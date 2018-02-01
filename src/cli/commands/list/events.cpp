@@ -2,6 +2,7 @@
 #include "events.h"
 #include "cli/objectproperties.h"
 #include "cli/filterengineprovider.h"
+#include "cli/propertydecorator.h"
 #include "libwfp/objectenumerator.h"
 
 namespace commands::list
@@ -35,11 +36,13 @@ void Events::handleRequest(const std::vector<std::wstring> &arguments)
 	options.indent = 2;
 	options.useSeparator = true;
 
+	PropertyDecorator decorator(FilterEngineProvider::Instance().get());
+
 	wfp::ObjectEnumerator::Events(*FilterEngineProvider::Instance().get(), [&](const FWPM_NET_EVENT0 &event)
 	{
 		m_messageSink(L"Event");
 
-		PrettyPrintProperties(m_messageSink, options, EventProperties(event));
+		PrettyPrintProperties(m_messageSink, options, EventProperties(event, &decorator));
 
 		return true;
 	});
