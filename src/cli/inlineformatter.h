@@ -14,12 +14,6 @@ public:
 		return *this;
 	}
 
-	//InlineFormatter &operator<<(std::basic_ostream &(*manip)(std::basic_ostream &))
-	//{
-	//	manip(m_ss);
-	//	return *this;
-	//}
-		
 	std::wstring str()
 	{
 		auto s = m_ss.str();
