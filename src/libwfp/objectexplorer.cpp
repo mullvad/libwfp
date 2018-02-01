@@ -51,6 +51,29 @@ bool ObjectExplorer::GetFilter(FilterEngine &engine, UINT64 id, std::function<bo
 }
 
 //static
+bool ObjectExplorer::GetLayer(FilterEngine &engine, const GUID &key, std::function<bool(const FWPM_LAYER0 &)> callback)
+{
+	FWPM_LAYER0 *layer;
+
+	auto status = FwpmLayerGetByKey0(
+		engine.session(),
+		&key,
+		&layer
+	);
+
+	if (status != ERROR_SUCCESS)
+	{
+		return false;
+	}
+
+	auto result = callback(*layer);
+
+	FwpmFreeMemory0((void**)&layer);
+
+	return result;
+}
+
+//static
 bool ObjectExplorer::GetLayer(FilterEngine &engine, UINT16 id, std::function<bool(const FWPM_LAYER0 &)> callback)
 {
 	FWPM_LAYER0 *layer;

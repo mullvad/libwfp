@@ -2,6 +2,7 @@
 #include "providercontexts.h"
 #include "cli/objectproperties.h"
 #include "cli/filterengineprovider.h"
+#include "cli/propertydecorator.h"
 #include "libwfp/objectenumerator.h"
 
 namespace commands::list
@@ -35,11 +36,13 @@ void ProviderContexts::handleRequest(const std::vector<std::wstring> &arguments)
 	options.indent = 2;
 	options.useSeparator = true;
 
+	PropertyDecorator decorator(FilterEngineProvider::Instance().get());
+
 	wfp::ObjectEnumerator::ProviderContexts(*FilterEngineProvider::Instance().get(), [&](const FWPM_PROVIDER_CONTEXT0 &context)
 	{
 		m_messageSink(L"Provider context");
 
-		PrettyPrintProperties(m_messageSink, options, ProviderContextProperties(context));
+		PrettyPrintProperties(m_messageSink, options, ProviderContextProperties(context, &decorator));
 
 		return true;
 	});

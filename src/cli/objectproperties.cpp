@@ -129,24 +129,54 @@ std::wstring Direction(UINT32 direction)
 	}
 }
 
-std::wstring FilterDecoration(IPropertyDecorator *decorator, UINT64 filterId)
+std::wstring FilterDecoration(IPropertyDecorator *decorator, UINT64 id)
 {
 	if (nullptr == decorator)
 	{
 		return L"";
 	}
 
-	return (InlineFormatter() << L" " << decorator->FilterDecoration(filterId)).str();
+	return (InlineFormatter() << L" " << decorator->FilterDecoration(id)).str();
 }
 
-std::wstring LayerDecoration(IPropertyDecorator *decorator, UINT16 layerId)
+std::wstring LayerDecoration(IPropertyDecorator *decorator, UINT16 id)
 {
 	if (nullptr == decorator)
 	{
 		return L"";
 	}
 
-	return (InlineFormatter() << L" " << decorator->LayerDecoration(layerId)).str();
+	return (InlineFormatter() << L" " << decorator->LayerDecoration(id)).str();
+}
+
+std::wstring LayerDecoration(IPropertyDecorator *decorator, const GUID &key)
+{
+	if (nullptr == decorator)
+	{
+		return L"";
+	}
+
+	return (InlineFormatter() << L" " << decorator->LayerDecoration(key)).str();
+}
+
+std::wstring ProviderDecoration(IPropertyDecorator *decorator, const GUID &key)
+{
+	if (nullptr == decorator)
+	{
+		return L"";
+	}
+
+	return (InlineFormatter() << L" " << decorator->ProviderDecoration(key)).str();
+}
+
+std::wstring SublayerDecoration(IPropertyDecorator *decorator, const GUID &key)
+{
+	if (nullptr == decorator)
+	{
+		return L"";
+	}
+
+	return (InlineFormatter() << L" " << decorator->SublayerDecoration(key)).str();
 }
 
 } // namespace detail
@@ -475,7 +505,7 @@ PropertyList EventProperties(const FWPM_NET_EVENT1 &event, IPropertyDecorator *d
 	return props;
 }
 
-PropertyList FilterProperties(const FWPM_FILTER0 &filter)
+PropertyList FilterProperties(const FWPM_FILTER0 &filter, IPropertyDecorator *decorator)
 {
 	PropertyList props;
 	InlineFormatter f;
@@ -492,7 +522,8 @@ PropertyList FilterProperties(const FWPM_FILTER0 &filter)
 
 	if (filter.providerKey != nullptr)
 	{
-		props.add(L"provider key", common::string::FormatGuid(*filter.providerKey));
+		props.add(L"provider key", (f << common::string::FormatGuid(*filter.providerKey)
+			<< detail::ProviderDecoration(decorator, *filter.providerKey)).str());
 	}
 
 	if (filter.providerData.data != nullptr)
@@ -500,8 +531,11 @@ PropertyList FilterProperties(const FWPM_FILTER0 &filter)
 		props.add(L"provider data", L"Present");
 	}
 
-	props.add(L"layer key", common::string::FormatGuid(filter.layerKey));
-	props.add(L"sublayer key", common::string::FormatGuid(filter.subLayerKey));
+	props.add(L"layer key", (f << common::string::FormatGuid(filter.layerKey)
+		<< detail::LayerDecoration(decorator, filter.layerKey)).str());
+
+	props.add(L"sublayer key", (f << common::string::FormatGuid(filter.subLayerKey)
+		<< detail::SublayerDecoration(decorator, filter.subLayerKey)).str());
 
 	if (FWP_UINT64 == filter.weight.type)
 	{
@@ -572,7 +606,7 @@ PropertyList FilterProperties(const FWPM_FILTER0 &filter)
 	return props;
 }
 
-PropertyList LayerProperties(const FWPM_LAYER0 &layer)
+PropertyList LayerProperties(const FWPM_LAYER0 &layer, IPropertyDecorator *decorator)
 {
 	PropertyList props;
 	InlineFormatter f;
@@ -588,13 +622,16 @@ PropertyList LayerProperties(const FWPM_LAYER0 &layer)
 	props.add(L"flags", (f << layer.flags << L" = " << detail::LayerFlags(layer.flags)).str());
 	props.add(L"num fields", (f << layer.numFields).str());
 	props.add(L"field array", L"TODO");
-	props.add(L"default sublayer", common::string::FormatGuid(layer.defaultSubLayerKey));
+
+	props.add(L"default sublayer", (f << common::string::FormatGuid(layer.defaultSubLayerKey)
+		<< detail::SublayerDecoration(decorator, layer.defaultSubLayerKey)).str());
+
 	props.add(L"layer id", (f << layer.layerId).str());
 
 	return props;
 }
 
-PropertyList ProviderContextProperties(const FWPM_PROVIDER_CONTEXT0 &context)
+PropertyList ProviderContextProperties(const FWPM_PROVIDER_CONTEXT0 &context, IPropertyDecorator *decorator)
 {
 	PropertyList props;
 	InlineFormatter f;
@@ -616,8 +653,11 @@ PropertyList ProviderContextProperties(const FWPM_PROVIDER_CONTEXT0 &context)
 		props.add(L"flags", (f << context.flags).str());
 	}
 
-	props.add(L"provider key", (context.providerKey == nullptr
-		? L"n/a" : common::string::FormatGuid(*context.providerKey)));
+	if (context.providerKey != nullptr)
+	{
+		props.add(L"provider key", (f << common::string::FormatGuid(*context.providerKey)
+			<< detail::ProviderDecoration(decorator, *context.providerKey)).str());
+	}
 
 	if (context.providerData.data != nullptr)
 	{
@@ -630,7 +670,7 @@ PropertyList ProviderContextProperties(const FWPM_PROVIDER_CONTEXT0 &context)
 	return props;
 }
 
-PropertyList SublayerProperties(const FWPM_SUBLAYER0 &sublayer)
+PropertyList SublayerProperties(const FWPM_SUBLAYER0 &sublayer, IPropertyDecorator *decorator)
 {
 	PropertyList props;
 	InlineFormatter f;
@@ -652,8 +692,11 @@ PropertyList SublayerProperties(const FWPM_SUBLAYER0 &sublayer)
 		props.add(L"flags", (f << sublayer.flags).str());
 	}
 
-	props.add(L"provider key", (sublayer.providerKey == nullptr
-		? L"n/a" : common::string::FormatGuid(*sublayer.providerKey)));
+	if (sublayer.providerKey != nullptr)
+	{
+		props.add(L"provider key", (f << common::string::FormatGuid(*sublayer.providerKey)
+			<< detail::ProviderDecoration(decorator, *sublayer.providerKey)).str());
+	}
 
 	if (sublayer.providerData.data != nullptr)
 	{

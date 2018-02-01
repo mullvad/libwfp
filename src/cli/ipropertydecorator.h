@@ -15,11 +15,16 @@
 
 struct IPropertyDecorator
 {
-	// [name, first 50 chars of description]
-	virtual std::wstring FilterDecoration(UINT64 id) = 0;
+	//
+	// These methods should return a short string that adds
+	// value for human operators/analysts.
+	//
 
-	// [name, first 50 chars of description]
+	virtual std::wstring FilterDecoration(UINT64 id) = 0;
 	virtual std::wstring LayerDecoration(UINT16 id) = 0;
+	virtual std::wstring LayerDecoration(const GUID &key) = 0;
+	virtual std::wstring ProviderDecoration(const GUID &key) = 0;
+	virtual std::wstring SublayerDecoration(const GUID &key) = 0;
 
 	virtual ~IPropertyDecorator() = 0
 	{

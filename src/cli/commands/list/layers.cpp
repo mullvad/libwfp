@@ -2,6 +2,7 @@
 #include "layers.h"
 #include "cli/objectproperties.h"
 #include "cli/filterengineprovider.h"
+#include "cli/propertydecorator.h"
 #include "libwfp/objectenumerator.h"
 
 namespace commands::list
@@ -35,11 +36,13 @@ void Layers::handleRequest(const std::vector<std::wstring> &arguments)
 	options.indent = 2;
 	options.useSeparator = true;
 
+	PropertyDecorator decorator(FilterEngineProvider::Instance().get());
+
 	wfp::ObjectEnumerator::Layers(*FilterEngineProvider::Instance().get(), [&](const FWPM_LAYER0 &layer)
 	{
 		m_messageSink(L"Layer");
 
-		PrettyPrintProperties(m_messageSink, options, LayerProperties(layer));
+		PrettyPrintProperties(m_messageSink, options, LayerProperties(layer, &decorator));
 
 		return true;
 	});
