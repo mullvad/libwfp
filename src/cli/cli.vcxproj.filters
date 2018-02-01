@@ -61,6 +61,8 @@
     <ClInclude Include="commands\monitor\m_events.h">
       <Filter>commands\monitor</Filter>
     </ClInclude>
+    <ClInclude Include="ipropertydecorator.h" />
+    <ClInclude Include="propertydecorator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="commands\list\sessions.cpp">
@@ -94,5 +96,6 @@
     <ClCompile Include="commands\monitor\m_events.cpp">
       <Filter>commands\monitor</Filter>
     </ClCompile>
+    <ClCompile Include="propertydecorator.cpp" />
   </ItemGroup>
 </Project>

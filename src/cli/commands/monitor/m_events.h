@@ -2,7 +2,6 @@
 
 #include "cli/commands/icommand.h"
 #include "cli/util.h"
-#include "libwfp/objectmonitor.h"
 #include <memory>
 
 namespace commands::monitor
@@ -22,7 +21,6 @@ public:
 private:
 
 	MessageSink m_messageSink;
-	std::unique_ptr<wfp::ObjectMonitor> m_objectMonitor;
 
 	void eventCallback(const FWPM_NET_EVENT1 &event);
 };

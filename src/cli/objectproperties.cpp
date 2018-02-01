@@ -129,6 +129,26 @@ std::wstring Direction(UINT32 direction)
 	}
 }
 
+std::wstring FilterDecoration(IPropertyDecorator *decorator, UINT64 filterId)
+{
+	if (nullptr == decorator)
+	{
+		return L"";
+	}
+
+	return (InlineFormatter() << L" " << decorator->FilterDecoration(filterId)).str();
+}
+
+std::wstring LayerDecoration(IPropertyDecorator *decorator, UINT16 layerId)
+{
+	if (nullptr == decorator)
+	{
+		return L"";
+	}
+
+	return (InlineFormatter() << L" " << decorator->LayerDecoration(layerId)).str();
+}
+
 } // namespace detail
 
 PropertyList SessionProperties(const FWPM_SESSION0 &session)
@@ -299,7 +319,7 @@ PropertyList EventProperties(const FWPM_NET_EVENT0 &event)
 	return props;
 }
 
-PropertyList EventProperties(const FWPM_NET_EVENT1 &event)
+PropertyList EventProperties(const FWPM_NET_EVENT1 &event, IPropertyDecorator *decorator)
 {
 	//
 	// TODO-MAYBE: Restructure code to operate on individual elements of the structure
@@ -391,8 +411,11 @@ PropertyList EventProperties(const FWPM_NET_EVENT1 &event)
 	{
 		props.add(L"type", L"CLASSIFY_DROP");
 
-		props.add(L"filter id", (f << event.classifyDrop->filterId).str());
-		props.add(L"layer id", (f << event.classifyDrop->layerId).str());
+		props.add(L"filter id", (f << event.classifyDrop->filterId
+			<< detail::FilterDecoration(decorator, event.classifyDrop->filterId)).str());
+
+		props.add(L"layer id", (f << event.classifyDrop->layerId
+			<< detail::LayerDecoration(decorator, event.classifyDrop->layerId)).str());
 
 		props.add(L"direction", detail::Direction(event.classifyDrop->msFwpDirection));
 

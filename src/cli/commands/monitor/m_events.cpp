@@ -1,8 +1,9 @@
 #include "stdafx.h"
 #include "m_events.h"
 #include "cli/objectproperties.h"
+#include "cli/propertydecorator.h"
 #include "cli/filterengineprovider.h"
-#include "libwfp/objectenumerator.h"
+#include "libwfp/objectmonitor.h"
 #include <conio.h>
 
 namespace commands::monitor
@@ -31,12 +32,9 @@ void Events::handleRequest(const std::vector<std::wstring> &arguments)
 		throw std::runtime_error("Unsupported argument(s). Cannot complete request.");
 	}
 
-	if (m_objectMonitor == nullptr)
-	{
-		m_objectMonitor = std::make_unique<wfp::ObjectMonitor>(FilterEngineProvider::Instance().get());
-	}
+	wfp::ObjectMonitor objectMonitor(FilterEngineProvider::Instance().get());
 
-	m_objectMonitor->monitorEvents(std::bind(&Events::eventCallback, this, std::placeholders::_1));
+	objectMonitor.monitorEvents(std::bind(&Events::eventCallback, this, std::placeholders::_1));
 
 	m_messageSink(L"Successfully enabled monitor. Press any key to abort monitoring.");
 
@@ -50,7 +48,7 @@ void Events::handleRequest(const std::vector<std::wstring> &arguments)
 
 	_getwch();
 
-	m_objectMonitor->monitorEventsStop();
+	objectMonitor.monitorEventsStop();
 }
 
 void Events::eventCallback(const FWPM_NET_EVENT1 &event)
@@ -62,7 +60,9 @@ void Events::eventCallback(const FWPM_NET_EVENT1 &event)
 	options.indent = 2;
 	options.useSeparator = true;
 
-	PrettyPrintProperties(m_messageSink, options, EventProperties(event));
+	PropertyDecorator decorator(FilterEngineProvider::Instance().get());
+
+	PrettyPrintProperties(m_messageSink, options, EventProperties(event, &decorator));
 }
 
 }

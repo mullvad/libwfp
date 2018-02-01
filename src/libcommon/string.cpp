@@ -198,4 +198,25 @@ std::string ToAnsi(const std::wstring &str)
 	return ansi;
 }
 
+std::wstring Summary(const std::wstring &str, size_t max)
+{
+	if (str.size() <= max)
+	{
+		return str;
+	}
+
+	const wchar_t *padding = L"...";
+	const size_t paddingLength = 3;
+
+	if (max < paddingLength)
+	{
+		throw std::runtime_error("Requested summary is too short");
+	}
+
+	auto summary = str.substr(0, max - paddingLength);
+	summary.append(padding);
+
+	return summary;
+}
+
 }
