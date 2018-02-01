@@ -195,7 +195,7 @@ PropertyList ProviderProperties(const FWPM_PROVIDER0 &provider)
 	return props;
 }
 
-PropertyList EventProperties(const FWPM_NET_EVENT0 &event)
+PropertyList EventProperties(const FWPM_NET_EVENT0 &event, IPropertyDecorator *decorator)
 {
 	PropertyList props;
 	InlineFormatter f;
@@ -245,17 +245,20 @@ PropertyList EventProperties(const FWPM_NET_EVENT0 &event)
 
 	if (0 != (event.header.flags & FWPM_NET_EVENT_FLAG_APP_ID_SET))
 	{
-		props.add(L"app id", L"Present");
+		auto begin = reinterpret_cast<wchar_t *>(event.header.appId.data);
+		auto end = begin + (event.header.appId.size / sizeof(wchar_t));
+
+		props.add(L"app id", std::wstring(begin, end));
 	}
 
 	if (0 != (event.header.flags & FWPM_NET_EVENT_FLAG_USER_ID_SET))
 	{
-		props.add(L"user id", L"Present");
+		props.add(L"user id", common::string::FormatSid(*event.header.userId));
 	}
 
 	if (0 != (event.header.flags & FWPM_NET_EVENT_FLAG_SCOPE_ID_SET))
 	{
-		props.add(L"scope id", L"Present");
+		props.add(L"IPv6 scope id", (f << event.header.scopeId).str());
 	}
 
 	switch (event.type)
@@ -278,6 +281,13 @@ PropertyList EventProperties(const FWPM_NET_EVENT0 &event)
 	case FWPM_NET_EVENT_TYPE_CLASSIFY_DROP:
 	{
 		props.add(L"type", L"CLASSIFY_DROP");
+
+		props.add(L"filter id", (f << event.classifyDrop->filterId
+			<< detail::FilterDecoration(decorator, event.classifyDrop->filterId)).str());
+
+		props.add(L"layer id", (f << event.classifyDrop->layerId
+			<< detail::LayerDecoration(decorator, event.classifyDrop->layerId)).str());
+
 		break;
 	}
 	case FWPM_NET_EVENT_TYPE_IPSEC_KERNEL_DROP:
