@@ -53,6 +53,10 @@ std::string FormatWindowsErrorPlain(DWORD errorCode)
 	std::string result(buffer);
 	LocalFree(buffer);
 
+	//
+	// TODO: Trim string to get rid of newline at the end :-(
+	//
+
 	return result;
 }
 

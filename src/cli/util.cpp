@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "util.h"
 #include "inlineformatter.h"
+#include "libcommon/string.h"
 #include <string>
 
 void PrettyPrintProperties(MessageSink messageSink, PrettyPrintOptions options, const PropertyList &properties)
@@ -42,4 +43,20 @@ void PrettyPrintProperties(MessageSink messageSink, PrettyPrintOptions options, 
 		messageSink((f << indenter << property.name << separator
 			<< std::wstring(tabs, L'\t') << property.value).str());
 	}
+}
+
+std::wstring GetArgumentValue(const common::string::KeyValuePairs &arguments, const std::wstring &key)
+{
+	auto arg = arguments.find(key);
+
+	if (arguments.end() == arg)
+	{
+		std::wstringstream ss;
+
+		ss << L"Missing argument: '" << key << L"'";
+
+		throw std::runtime_error(common::string::ToAnsi(ss.str()));
+	}
+
+	return arg->second;
 }

@@ -219,4 +219,29 @@ std::wstring Summary(const std::wstring &str, size_t max)
 	return summary;
 }
 
+KeyValuePairs SplitKeyValuePairs(const std::vector<std::wstring> &serializedPairs)
+{
+	KeyValuePairs result;
+
+	for (const auto &pair : serializedPairs)
+	{
+		auto index = pair.find(L'=');
+
+		if (index == std::wstring::npos)
+		{
+			// Insert key with empty value.
+			result.insert(std::make_pair(pair, L""));
+		}
+		else
+		{
+			result.insert(std::make_pair(
+				pair.substr(0, index),
+				pair.substr(index + 1)
+			));
+		}
+	}
+
+	return result;
+}
+
 }

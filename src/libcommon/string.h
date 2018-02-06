@@ -4,6 +4,7 @@
 #include <windows.h>
 #include <algorithm>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace common::string {
@@ -57,5 +58,9 @@ std::vector<std::wstring> Tokenize(const std::wstring &str, const std::wstring &
 std::string ToAnsi(const std::wstring &str);
 
 std::wstring Summary(const std::wstring &str, size_t max);
+
+typedef std::unordered_map<std::wstring, std::wstring> KeyValuePairs;
+
+KeyValuePairs SplitKeyValuePairs(const std::vector<std::wstring> &serializedPairs);
 
 }

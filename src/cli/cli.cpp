@@ -7,6 +7,7 @@
 #include "modules/imodule.h"
 #include "modules/list.h"
 #include "modules/monitor.h"
+#include "modules/wfpctl.h"
 #include "libcommon/string.h"
 #include <iostream>
 #include <conio.h>
@@ -32,6 +33,8 @@ void InitializeModules()
 	auto monitor = std::make_unique<modules::Monitor>(OutputConsole);
 	g_modules.insert(std::make_pair(common::string::Lower(monitor->name()), std::move(monitor)));
 
+	auto wfpctl = std::make_unique<modules::Wfpctl>(OutputConsole);
+	g_modules.insert(std::make_pair(common::string::Lower(wfpctl->name()), std::move(wfpctl)));
 }
 
 void ProcessHelp(const std::wstring &request)
