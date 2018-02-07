@@ -2,6 +2,7 @@
 #include "filters.h"
 #include "cli/objectproperties.h"
 #include "cli/filterengineprovider.h"
+#include "cli/propertydecorator.h"
 #include "libwfp/objectenumerator.h"
 
 namespace commands::list
@@ -35,11 +36,13 @@ void Filters::handleRequest(const std::vector<std::wstring> &arguments)
 	options.indent = 2;
 	options.useSeparator = true;
 
+	PropertyDecorator decorator(FilterEngineProvider::Instance().get());
+
 	wfp::ObjectEnumerator::Filters(*FilterEngineProvider::Instance().get(), [&](const FWPM_FILTER0 &filter)
 	{
 		m_messageSink(L"Filter");
 
-		PrettyPrintProperties(m_messageSink, options, FilterProperties(filter));
+		PrettyPrintProperties(m_messageSink, options, FilterProperties(filter, &decorator));
 
 		return true;
 	});

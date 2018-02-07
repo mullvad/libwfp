@@ -2,6 +2,7 @@
 #include "sublayers.h"
 #include "cli/objectproperties.h"
 #include "cli/filterengineprovider.h"
+#include "cli/propertydecorator.h"
 #include "libwfp/objectenumerator.h"
 
 namespace commands::list
@@ -35,11 +36,13 @@ void Sublayers::handleRequest(const std::vector<std::wstring> &arguments)
 	options.indent = 2;
 	options.useSeparator = true;
 
+	PropertyDecorator decorator(FilterEngineProvider::Instance().get());
+
 	wfp::ObjectEnumerator::Sublayers(*FilterEngineProvider::Instance().get(), [&](const FWPM_SUBLAYER0 &sublayer)
 	{
 		m_messageSink(L"Sublayer");
 
-		PrettyPrintProperties(m_messageSink, options, SublayerProperties(sublayer));
+		PrettyPrintProperties(m_messageSink, options, SublayerProperties(sublayer, &decorator));
 
 		return true;
 	});

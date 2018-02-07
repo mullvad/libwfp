@@ -30,6 +30,7 @@
     <ClCompile Include="objectenumerator.cpp" />
     <ClCompile Include="objectexplorer.cpp" />
     <ClCompile Include="objectinstaller.cpp" />
+    <ClCompile Include="objectmonitor.cpp" />
     <ClCompile Include="providerbuilder.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -53,6 +54,7 @@
     <ClInclude Include="objectenumerator.h" />
     <ClInclude Include="objectexplorer.h" />
     <ClInclude Include="objectinstaller.h" />
+    <ClInclude Include="objectmonitor.h" />
     <ClInclude Include="providerbuilder.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="sublayerbuilder.h" />

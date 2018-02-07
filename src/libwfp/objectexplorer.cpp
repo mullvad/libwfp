@@ -28,6 +28,75 @@ bool ObjectExplorer::GetFilter(FilterEngine &engine, const GUID &key, std::funct
 }
 
 //static
+bool ObjectExplorer::GetFilter(FilterEngine &engine, UINT64 id, std::function<bool(const FWPM_FILTER0 &)> callback)
+{
+	FWPM_FILTER0 *filter;
+
+	auto status = FwpmFilterGetById0(
+		engine.session(),
+		id,
+		&filter
+	);
+
+	if (status != ERROR_SUCCESS)
+	{
+		return false;
+	}
+
+	auto result = callback(*filter);
+
+	FwpmFreeMemory0((void**)&filter);
+
+	return result;
+}
+
+//static
+bool ObjectExplorer::GetLayer(FilterEngine &engine, const GUID &key, std::function<bool(const FWPM_LAYER0 &)> callback)
+{
+	FWPM_LAYER0 *layer;
+
+	auto status = FwpmLayerGetByKey0(
+		engine.session(),
+		&key,
+		&layer
+	);
+
+	if (status != ERROR_SUCCESS)
+	{
+		return false;
+	}
+
+	auto result = callback(*layer);
+
+	FwpmFreeMemory0((void**)&layer);
+
+	return result;
+}
+
+//static
+bool ObjectExplorer::GetLayer(FilterEngine &engine, UINT16 id, std::function<bool(const FWPM_LAYER0 &)> callback)
+{
+	FWPM_LAYER0 *layer;
+
+	auto status = FwpmLayerGetById0(
+		engine.session(),
+		id,
+		&layer
+	);
+
+	if (status != ERROR_SUCCESS)
+	{
+		return false;
+	}
+
+	auto result = callback(*layer);
+
+	FwpmFreeMemory0((void**)&layer);
+
+	return result;
+}
+
+//static
 bool ObjectExplorer::GetProvider(FilterEngine &engine, const GUID &key, std::function<bool(const FWPM_PROVIDER0 &)> callback)
 {
 	FWPM_PROVIDER0 *provider;

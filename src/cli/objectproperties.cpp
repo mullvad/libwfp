@@ -6,6 +6,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <cwchar>
 
 namespace detail
 {
@@ -118,6 +119,81 @@ std::wstring ProviderContextType(FWPM_PROVIDER_CONTEXT_TYPE type)
 	}
 }
 
+std::wstring Direction(UINT32 direction)
+{
+	switch (direction)
+	{
+	case 0x3900: return L"In";
+	case 0x3901: return L"Out";
+	case 0x3902: return L"Forward";
+	default: return L"[Unknown]";
+	}
+}
+
+std::wstring FilterDecoration(IPropertyDecorator *decorator, UINT64 id)
+{
+	if (nullptr == decorator)
+	{
+		return L"";
+	}
+
+	return (InlineFormatter() << L" " << decorator->FilterDecoration(id)).str();
+}
+
+std::wstring LayerDecoration(IPropertyDecorator *decorator, UINT16 id)
+{
+	if (nullptr == decorator)
+	{
+		return L"";
+	}
+
+	return (InlineFormatter() << L" " << decorator->LayerDecoration(id)).str();
+}
+
+std::wstring LayerDecoration(IPropertyDecorator *decorator, const GUID &key)
+{
+	if (nullptr == decorator)
+	{
+		return L"";
+	}
+
+	return (InlineFormatter() << L" " << decorator->LayerDecoration(key)).str();
+}
+
+std::wstring ProviderDecoration(IPropertyDecorator *decorator, const GUID &key)
+{
+	if (nullptr == decorator)
+	{
+		return L"";
+	}
+
+	return (InlineFormatter() << L" " << decorator->ProviderDecoration(key)).str();
+}
+
+std::wstring SublayerDecoration(IPropertyDecorator *decorator, const GUID &key)
+{
+	if (nullptr == decorator)
+	{
+		return L"";
+	}
+
+	return (InlineFormatter() << L" " << decorator->SublayerDecoration(key)).str();
+}
+
+void AddStringProperty(PropertyList &props, const wchar_t *name, const wchar_t *value)
+{
+	if (nullptr == value || 0 == wcslen(value))
+	{
+		return;
+	}
+
+	props.add(name, value);
+}
+
+// This won't work because sometimes 0 is a valid flag value
+//template<typename T>
+//void AddFlagProperty(PropertyList &props, const std::wstring &name, T value, std::function<std::wstring(T)> formatter>
+
 } // namespace detail
 
 PropertyList SessionProperties(const FWPM_SESSION0 &session)
@@ -126,12 +202,8 @@ PropertyList SessionProperties(const FWPM_SESSION0 &session)
 	InlineFormatter f;
 
 	props.add(L"key", common::string::FormatGuid(session.sessionKey));
-
-	props.add(L"name", (session.displayData.name == nullptr
-		? L"n/a" : session.displayData.name));
-
-	props.add(L"description", (session.displayData.description == nullptr
-		? L"n/a" : session.displayData.description));
+	detail::AddStringProperty(props, L"name", session.displayData.name);
+	detail::AddStringProperty(props, L"description", session.displayData.description);
 
 	props.add(L"flags", (f << session.flags << L" = " << detail::SessionFlags(session.flags)).str());
 	props.add(L"wait timeout", (f << session.txnWaitTimeoutInMSec).str());
@@ -148,23 +220,22 @@ PropertyList ProviderProperties(const FWPM_PROVIDER0 &provider)
 	InlineFormatter f;
 
 	props.add(L"key", common::string::FormatGuid(provider.providerKey));
-
-	props.add(L"name", (provider.displayData.name == nullptr
-		? L"n/a" : provider.displayData.name));
-
-	props.add(L"description", (provider.displayData.description == nullptr
-		? L"n/a" : provider.displayData.description));
+	detail::AddStringProperty(props, L"name", provider.displayData.name);
+	detail::AddStringProperty(props, L"description", provider.displayData.description);
 
 	props.add(L"flags", (f << provider.flags << L" = " << detail::ProviderFlags(provider.flags)).str());
-	props.add(L"data length", (f << provider.providerData.size).str());
 
-	props.add(L"service name", (provider.serviceName == nullptr
-		? L"n/a" : provider.serviceName));
+	if (0 != provider.providerData.size)
+	{
+		props.add(L"provider data", (f << L"Present (" << provider.providerData.size << L" bytes)").str());
+	}
+
+	detail::AddStringProperty(props, L"service name", provider.serviceName);
 
 	return props;
 }
 
-PropertyList EventProperties(const FWPM_NET_EVENT0 &event)
+PropertyList EventProperties(const FWPM_NET_EVENT0 &event, IPropertyDecorator *decorator)
 {
 	PropertyList props;
 	InlineFormatter f;
@@ -214,17 +285,20 @@ PropertyList EventProperties(const FWPM_NET_EVENT0 &event)
 
 	if (0 != (event.header.flags & FWPM_NET_EVENT_FLAG_APP_ID_SET))
 	{
-		props.add(L"app id", L"Present");
+		auto begin = reinterpret_cast<wchar_t *>(event.header.appId.data);
+		auto end = begin + (event.header.appId.size / sizeof(wchar_t));
+
+		props.add(L"app id", std::wstring(begin, end));
 	}
 
 	if (0 != (event.header.flags & FWPM_NET_EVENT_FLAG_USER_ID_SET))
 	{
-		props.add(L"user id", L"Present");
+		props.add(L"user id", common::string::FormatSid(*event.header.userId));
 	}
 
 	if (0 != (event.header.flags & FWPM_NET_EVENT_FLAG_SCOPE_ID_SET))
 	{
-		props.add(L"scope id", L"Present");
+		props.add(L"IPv6 scope id", (f << event.header.scopeId).str());
 	}
 
 	switch (event.type)
@@ -247,6 +321,13 @@ PropertyList EventProperties(const FWPM_NET_EVENT0 &event)
 	case FWPM_NET_EVENT_TYPE_CLASSIFY_DROP:
 	{
 		props.add(L"type", L"CLASSIFY_DROP");
+
+		props.add(L"filter id", (f << event.classifyDrop->filterId
+			<< detail::FilterDecoration(decorator, event.classifyDrop->filterId)).str());
+
+		props.add(L"layer id", (f << event.classifyDrop->layerId
+			<< detail::LayerDecoration(decorator, event.classifyDrop->layerId)).str());
+
 		break;
 	}
 	case FWPM_NET_EVENT_TYPE_IPSEC_KERNEL_DROP:
@@ -288,33 +369,179 @@ PropertyList EventProperties(const FWPM_NET_EVENT0 &event)
 	return props;
 }
 
-PropertyList FilterProperties(const FWPM_FILTER0 &filter)
+PropertyList EventProperties(const FWPM_NET_EVENT1 &event, IPropertyDecorator *decorator)
+{
+	//
+	// TODO-MAYBE: Restructure code to operate on individual elements of the structure
+	// then use upcasting and a single implementation for extracting the basic information.
+	//
+
+	PropertyList props;
+	InlineFormatter f;
+
+	props.add(L"timestamp", common::string::FormatTime(event.header.timeStamp));
+
+	if (0 != (event.header.flags & FWPM_NET_EVENT_FLAG_IP_PROTOCOL_SET))
+	{
+		props.add(L"protocol", detail::FormatIpProtocol(event.header.ipProtocol));
+	}
+
+	if (0 != (event.header.flags & FWPM_NET_EVENT_FLAG_IP_VERSION_SET)
+		&& 0 != (event.header.flags & FWPM_NET_EVENT_FLAG_LOCAL_ADDR_SET))
+	{
+		if (event.header.ipVersion == FWP_IP_VERSION_V4)
+		{
+			props.add(L"local addr", common::string::FormatIpV4(event.header.localAddrV4));
+		}
+		else
+		{
+			props.add(L"local addr", common::string::FormatIpV6(event.header.localAddrV6.byteArray16));
+		}
+	}
+
+	if (0 != (event.header.flags & FWPM_NET_EVENT_FLAG_IP_VERSION_SET)
+		&& 0 != (event.header.flags & FWPM_NET_EVENT_FLAG_REMOTE_ADDR_SET))
+	{
+		if (event.header.ipVersion == FWP_IP_VERSION_V4)
+		{
+			props.add(L"remote addr", common::string::FormatIpV4(event.header.remoteAddrV4));
+		}
+		else
+		{
+			props.add(L"remote addr", common::string::FormatIpV6(event.header.remoteAddrV6.byteArray16));
+		}
+	}
+
+	if (0 != (event.header.flags & FWPM_NET_EVENT_FLAG_LOCAL_PORT_SET))
+	{
+		props.add(L"local port", (f << event.header.localPort).str());
+	}
+
+	if (0 != (event.header.flags & FWPM_NET_EVENT_FLAG_REMOTE_PORT_SET))
+	{
+		props.add(L"remote port", (f << event.header.remotePort).str());
+	}
+
+	if (0 != (event.header.flags & FWPM_NET_EVENT_FLAG_APP_ID_SET))
+	{
+		auto begin = reinterpret_cast<wchar_t *>(event.header.appId.data);
+		auto end = begin + (event.header.appId.size / sizeof(wchar_t));
+
+		props.add(L"app id", std::wstring(begin, end));
+	}
+
+	if (0 != (event.header.flags & FWPM_NET_EVENT_FLAG_USER_ID_SET))
+	{
+		props.add(L"user id", common::string::FormatSid(*event.header.userId));
+	}
+
+	if (0 != (event.header.flags & FWPM_NET_EVENT_FLAG_SCOPE_ID_SET))
+	{
+		props.add(L"IPv6 scope id", (f << event.header.scopeId).str());
+	}
+
+	switch (event.type)
+	{
+	case FWPM_NET_EVENT_TYPE_IKEEXT_MM_FAILURE:
+	{
+		props.add(L"type", L"IKEEXT_MM_FAILURE");
+		break;
+	}
+	case FWPM_NET_EVENT_TYPE_IKEEXT_QM_FAILURE:
+	{
+		props.add(L"type", L"IKEEXT_QM_FAILURE");
+		break;
+	}
+	case FWPM_NET_EVENT_TYPE_IKEEXT_EM_FAILURE:
+	{
+		props.add(L"type", L"IKEEXT_EM_FAILURE");
+		break;
+	}
+	case FWPM_NET_EVENT_TYPE_CLASSIFY_DROP:
+	{
+		props.add(L"type", L"CLASSIFY_DROP");
+
+		props.add(L"filter id", (f << event.classifyDrop->filterId
+			<< detail::FilterDecoration(decorator, event.classifyDrop->filterId)).str());
+
+		props.add(L"layer id", (f << event.classifyDrop->layerId
+			<< detail::LayerDecoration(decorator, event.classifyDrop->layerId)).str());
+
+		props.add(L"direction", detail::Direction(event.classifyDrop->msFwpDirection));
+
+		if (1 == event.classifyDrop->isLoopback)
+		{
+			props.add(L"loopback", L"True");
+		}
+
+		break;
+	}
+	case FWPM_NET_EVENT_TYPE_IPSEC_KERNEL_DROP:
+	{
+		props.add(L"type", L"IPSEC_KERNEL_DROP");
+		break;
+	}
+	case FWPM_NET_EVENT_TYPE_IPSEC_DOSP_DROP:
+	{
+		props.add(L"type", L"IPSEC_DOSP_DROP");
+		break;
+	}
+	case FWPM_NET_EVENT_TYPE_CLASSIFY_ALLOW:
+	{
+		props.add(L"type", L"CLASSIFY_ALLOW");
+		break;
+	}
+	case FWPM_NET_EVENT_TYPE_CAPABILITY_DROP:
+	{
+		props.add(L"type", L"CAPABILITY_DROP");
+		break;
+	}
+	case FWPM_NET_EVENT_TYPE_CAPABILITY_ALLOW:
+	{
+		props.add(L"type", L"CAPABILITY_ALLOW");
+		break;
+	}
+	case FWPM_NET_EVENT_TYPE_CLASSIFY_DROP_MAC:
+	{
+		props.add(L"type", L"CLASSIFY_DROP_MAC");
+		break;
+	}
+	default:
+	{
+		props.add(L"type", L"Unknown");
+	}
+	};
+
+	return props;
+}
+
+PropertyList FilterProperties(const FWPM_FILTER0 &filter, IPropertyDecorator *decorator)
 {
 	PropertyList props;
 	InlineFormatter f;
 
 	props.add(L"key", common::string::FormatGuid(filter.filterKey));
-
-	props.add(L"name", (filter.displayData.name == nullptr
-		? L"n/a" : filter.displayData.name));
-
-	props.add(L"description", (filter.displayData.description == nullptr
-		? L"n/a" : filter.displayData.description));
+	detail::AddStringProperty(props, L"name", filter.displayData.name);
+	detail::AddStringProperty(props, L"description", filter.displayData.description);
 
 	props.add(L"flags", (f << filter.flags << L" = " << detail::FilterFlags(filter.flags)).str());
 
-	if (filter.providerKey != nullptr)
+	if (nullptr != filter.providerKey)
 	{
-		props.add(L"provider key", common::string::FormatGuid(*filter.providerKey));
+		props.add(L"provider key", (f << common::string::FormatGuid(*filter.providerKey)
+			<< detail::ProviderDecoration(decorator, *filter.providerKey)).str());
 	}
 
-	if (filter.providerData.data != nullptr)
+	if (0 != filter.providerData.size)
 	{
-		props.add(L"provider data", L"Present");
+		props.add(L"provider data", (f << L"Present (" << filter.providerData.size << L" bytes)").str());
 	}
 
-	props.add(L"layer key", common::string::FormatGuid(filter.layerKey));
-	props.add(L"sublayer key", common::string::FormatGuid(filter.subLayerKey));
+	props.add(L"layer key", (f << common::string::FormatGuid(filter.layerKey)
+		<< detail::LayerDecoration(decorator, filter.layerKey)).str());
+
+	props.add(L"sublayer key", (f << common::string::FormatGuid(filter.subLayerKey)
+		<< detail::SublayerDecoration(decorator, filter.subLayerKey)).str());
 
 	if (FWP_UINT64 == filter.weight.type)
 	{
@@ -385,40 +612,35 @@ PropertyList FilterProperties(const FWPM_FILTER0 &filter)
 	return props;
 }
 
-PropertyList LayerProperties(const FWPM_LAYER0 &layer)
+PropertyList LayerProperties(const FWPM_LAYER0 &layer, IPropertyDecorator *decorator)
 {
 	PropertyList props;
 	InlineFormatter f;
 
 	props.add(L"key", common::string::FormatGuid(layer.layerKey));
-
-	props.add(L"name", (layer.displayData.name == nullptr
-		? L"n/a" : layer.displayData.name));
-
-	props.add(L"description", (layer.displayData.description == nullptr
-		? L"n/a" : layer.displayData.description));
+	detail::AddStringProperty(props, L"name", layer.displayData.name);
+	detail::AddStringProperty(props, L"description", layer.displayData.description);
 
 	props.add(L"flags", (f << layer.flags << L" = " << detail::LayerFlags(layer.flags)).str());
 	props.add(L"num fields", (f << layer.numFields).str());
 	props.add(L"field array", L"TODO");
-	props.add(L"default sublayer", common::string::FormatGuid(layer.defaultSubLayerKey));
+
+	props.add(L"default sublayer", (f << common::string::FormatGuid(layer.defaultSubLayerKey)
+		<< detail::SublayerDecoration(decorator, layer.defaultSubLayerKey)).str());
+
 	props.add(L"layer id", (f << layer.layerId).str());
 
 	return props;
 }
 
-PropertyList ProviderContextProperties(const FWPM_PROVIDER_CONTEXT0 &context)
+PropertyList ProviderContextProperties(const FWPM_PROVIDER_CONTEXT0 &context, IPropertyDecorator *decorator)
 {
 	PropertyList props;
 	InlineFormatter f;
 
 	props.add(L"key", common::string::FormatGuid(context.providerContextKey));
-
-	props.add(L"name", (context.displayData.name == nullptr
-		? L"n/a" : context.displayData.name));
-
-	props.add(L"description", (context.displayData.description == nullptr
-		? L"n/a" : context.displayData.description));
+	detail::AddStringProperty(props, L"name", context.displayData.name);
+	detail::AddStringProperty(props, L"description", context.displayData.description);
 
 	if (0 != (context.flags & FWPM_PROVIDER_CONTEXT_FLAG_PERSISTENT))
 	{
@@ -429,12 +651,15 @@ PropertyList ProviderContextProperties(const FWPM_PROVIDER_CONTEXT0 &context)
 		props.add(L"flags", (f << context.flags).str());
 	}
 
-	props.add(L"provider key", (context.providerKey == nullptr
-		? L"n/a" : common::string::FormatGuid(*context.providerKey)));
-
-	if (context.providerData.data != nullptr)
+	if (nullptr != context.providerKey)
 	{
-		props.add(L"provider data", L"Present");
+		props.add(L"provider key", (f << common::string::FormatGuid(*context.providerKey)
+			<< detail::ProviderDecoration(decorator, *context.providerKey)).str());
+	}
+
+	if (0 != context.providerData.size)
+	{
+		props.add(L"provider data", (f << L"Present (" << context.providerData.size << L" bytes)").str());
 	}
 
 	props.add(L"context type", detail::ProviderContextType(context.type));
@@ -443,18 +668,14 @@ PropertyList ProviderContextProperties(const FWPM_PROVIDER_CONTEXT0 &context)
 	return props;
 }
 
-PropertyList SublayerProperties(const FWPM_SUBLAYER0 &sublayer)
+PropertyList SublayerProperties(const FWPM_SUBLAYER0 &sublayer, IPropertyDecorator *decorator)
 {
 	PropertyList props;
 	InlineFormatter f;
 
 	props.add(L"key", common::string::FormatGuid(sublayer.subLayerKey));
-
-	props.add(L"name", (sublayer.displayData.name == nullptr
-		? L"n/a" : sublayer.displayData.name));
-
-	props.add(L"description", (sublayer.displayData.description == nullptr
-		? L"n/a" : sublayer.displayData.description));
+	detail::AddStringProperty(props, L"name", sublayer.displayData.name);
+	detail::AddStringProperty(props, L"description", sublayer.displayData.description);
 
 	if (0 != (sublayer.flags & FWPM_SUBLAYER_FLAG_PERSISTENT))
 	{
@@ -465,12 +686,15 @@ PropertyList SublayerProperties(const FWPM_SUBLAYER0 &sublayer)
 		props.add(L"flags", (f << sublayer.flags).str());
 	}
 
-	props.add(L"provider key", (sublayer.providerKey == nullptr
-		? L"n/a" : common::string::FormatGuid(*sublayer.providerKey)));
-
-	if (sublayer.providerData.data != nullptr)
+	if (nullptr != sublayer.providerKey)
 	{
-		props.add(L"provider data", L"Present");
+		props.add(L"provider key", (f << common::string::FormatGuid(*sublayer.providerKey)
+			<< detail::ProviderDecoration(decorator, *sublayer.providerKey)).str());
+	}
+
+	if (0 != sublayer.providerData.size)
+	{
+		props.add(L"provider data", (f << L"Present (" << sublayer.providerData.size << L" bytes)").str());
 	}
 
 	props.add(L"weight", (f << sublayer.weight).str());
