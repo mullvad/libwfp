@@ -28,7 +28,7 @@ void ObjectMonitor::monitorEvents(std::function<void(const FWPM_NET_EVENT1&)> ca
 }
 
 //static
-void ObjectMonitor::EventCallback(void *context, const FWPM_NET_EVENT1 *event)
+void CALLBACK ObjectMonitor::EventCallback(void *context, const FWPM_NET_EVENT1 *event)
 {
 	reinterpret_cast<ObjectMonitor *>(context)->m_eventCallback(*event);
 }
