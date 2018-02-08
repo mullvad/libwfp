@@ -63,4 +63,44 @@ typedef std::unordered_map<std::wstring, std::wstring> KeyValuePairs;
 
 KeyValuePairs SplitKeyValuePairs(const std::vector<std::wstring> &serializedPairs);
 
+extern const char *TrimChars;
+extern const wchar_t *WideTrimChars;
+
+template<typename T>
+const T *SelectTrimChars()
+{
+	return nullptr;
+}
+
+template<>
+inline const char *SelectTrimChars<char>()
+{
+	return TrimChars;
+}
+
+template<>
+inline const wchar_t *SelectTrimChars<wchar_t>()
+{
+	return WideTrimChars;
+}
+
+template<typename T>
+std::basic_string<T> TrimRight(const std::basic_string<T> &str)
+{
+	std::basic_string<T> trimmed(str);
+
+	auto index = trimmed.find_last_not_of(SelectTrimChars<T>());
+
+	if (std::wstring::npos == index)
+	{
+		trimmed.clear();
+	}
+	else
+	{
+		trimmed.resize(index + 1);
+	}
+
+	return trimmed;
+}
+
 }

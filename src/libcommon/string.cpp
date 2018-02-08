@@ -244,4 +244,7 @@ KeyValuePairs SplitKeyValuePairs(const std::vector<std::wstring> &serializedPair
 	return result;
 }
 
+const char *TrimChars = "\r\n\t ";
+const wchar_t *WideTrimChars = L"\r\n\t ";
+
 }
