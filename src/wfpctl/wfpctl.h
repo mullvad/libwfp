@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 //
 // WFPCTL public API
@@ -42,10 +43,22 @@ WfpctlSettings;
 //
 // Call this function once at startup, to register the provider etc.
 //
+// The timeout, in seconds, specifies how long to wait for the
+// transaction lock to become available. Specify 0 to use a default timeout
+// determined by Windows.
+//
+// Optionally provide a callback if you are interested in logging exceptions.
+//
+typedef void (WFPCTL_API *WfpctlErrorSink)(const char *errorMessage, void *context);
+
 WFPCTL_LINKAGE
 bool
 WFPCTL_API
-Wfpctl_Initialize();
+Wfpctl_Initialize(
+	uint32_t timeout,
+	WfpctlErrorSink errorSink,
+	void *errorContext
+);
 
 //
 // Deinitialize:
@@ -60,7 +73,7 @@ Wfpctl_Deinitialize();
 //
 // ApplyPolicyConnecting:
 //
-// Apply restrictions in the firewall that blocks most traffic, except:
+// Apply restrictions in the firewall that blocks all traffic, except:
 // - What is specified by settings
 // - Communication with the relay server
 //
@@ -75,7 +88,7 @@ Wfpctl_ApplyPolicyConnecting(
 //
 // ApplyPolicyConnected:
 //
-// Apply restrictions in the firewall that blocks most traffic, except:
+// Apply restrictions in the firewall that blocks all traffic, except:
 // - What is specified by settings
 // - Communication with the relay server
 // - Communication with the tunnel endpoint
