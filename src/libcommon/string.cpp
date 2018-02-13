@@ -198,6 +198,11 @@ std::string ToAnsi(const std::wstring &str)
 	return ansi;
 }
 
+std::wstring ToWide(const std::string &str)
+{
+	return std::wstring(str.begin(), str.end());
+}
+
 std::wstring Summary(const std::wstring &str, size_t max)
 {
 	if (str.size() <= max)
