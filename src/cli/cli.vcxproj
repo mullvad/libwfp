@@ -180,11 +180,12 @@
     <ClInclude Include="commands\list\sessions.h" />
     <ClInclude Include="commands\list\sublayers.h" />
     <ClInclude Include="commands\monitor\m_events.h" />
+    <ClInclude Include="commands\wfpctl\deinit.h" />
+    <ClInclude Include="commands\wfpctl\init.h" />
     <ClInclude Include="commands\wfpctl\policy.h" />
     <ClInclude Include="filterengineprovider.h" />
     <ClInclude Include="inlineformatter.h" />
     <ClInclude Include="ipropertydecorator.h" />
-    <ClInclude Include="iwfpctlcontext.h" />
     <ClInclude Include="modules\imodule.h" />
     <ClInclude Include="modules\list.h" />
     <ClInclude Include="modules\module.h" />
@@ -208,6 +209,8 @@
     <ClCompile Include="commands\list\sessions.cpp" />
     <ClCompile Include="commands\list\sublayers.cpp" />
     <ClCompile Include="commands\monitor\m_events.cpp" />
+    <ClCompile Include="commands\wfpctl\deinit.cpp" />
+    <ClCompile Include="commands\wfpctl\init.cpp" />
     <ClCompile Include="commands\wfpctl\policy.cpp" />
     <ClCompile Include="modules\module.cpp" />
     <ClCompile Include="objectproperties.cpp" />

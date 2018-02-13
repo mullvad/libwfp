@@ -66,13 +66,18 @@
     </ClInclude>
     <ClInclude Include="ipropertydecorator.h" />
     <ClInclude Include="propertydecorator.h" />
-    <ClInclude Include="iwfpctlcontext.h" />
     <ClInclude Include="commands\wfpctl\policy.h">
       <Filter>commands\wfpctl</Filter>
     </ClInclude>
     <ClInclude Include="subcommanddispatcher.h" />
     <ClInclude Include="modules\wfpctl.h">
       <Filter>modules</Filter>
+    </ClInclude>
+    <ClInclude Include="commands\wfpctl\init.h">
+      <Filter>commands\wfpctl</Filter>
+    </ClInclude>
+    <ClInclude Include="commands\wfpctl\deinit.h">
+      <Filter>commands\wfpctl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -112,5 +117,11 @@
       <Filter>commands\wfpctl</Filter>
     </ClCompile>
     <ClCompile Include="subcommanddispatcher.cpp" />
+    <ClCompile Include="commands\wfpctl\init.cpp">
+      <Filter>commands\wfpctl</Filter>
+    </ClCompile>
+    <ClCompile Include="commands\wfpctl\deinit.cpp">
+      <Filter>commands\wfpctl</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
