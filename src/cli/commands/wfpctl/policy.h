@@ -2,7 +2,6 @@
 
 #include "cli/commands/icommand.h"
 #include "cli/util.h"
-#include "cli/iwfpctlcontext.h"
 #include "cli/subcommanddispatcher.h"
 #include "libcommon/string.h"
 
@@ -13,7 +12,7 @@ class Policy : public ICommand
 {
 public:
 
-	Policy(MessageSink messageSink, IWfpctlContext *context);
+	Policy(MessageSink messageSink);
 
 	std::wstring name() override;
 	std::wstring description() override;
@@ -23,8 +22,6 @@ public:
 private:
 
 	MessageSink m_messageSink;
-	IWfpctlContext *m_context;
-
 	SubcommandDispatcher m_dispatcher;
 
 	using KeyValuePairs = common::string::KeyValuePairs;

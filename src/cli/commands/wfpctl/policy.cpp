@@ -23,9 +23,8 @@ WfpctlSettings CreateSettings(const std::wstring &loopback, const std::wstring &
 
 } // namespace detail
 
-Policy::Policy(MessageSink messageSink, IWfpctlContext *context)
+Policy::Policy(MessageSink messageSink)
 	: m_messageSink(messageSink)
-	, m_context(context)
 {
 	m_dispatcher.addSubcommand
 	(
@@ -49,7 +48,6 @@ Policy::Policy(MessageSink messageSink, IWfpctlContext *context)
 std::wstring Policy::name()
 {
 	return L"policy";
-
 }
 
 std::wstring Policy::description()
@@ -74,8 +72,6 @@ void Policy::handleRequest(const std::vector<std::wstring> &arguments)
 
 void Policy::processConnecting(const KeyValuePairs &arguments)
 {
-	m_context->initialize();
-
 	auto settings = detail::CreateSettings
 	(
 		GetArgumentValue(arguments, L"loopback"),
@@ -96,8 +92,6 @@ void Policy::processConnecting(const KeyValuePairs &arguments)
 
 void Policy::processConnected(const KeyValuePairs &arguments)
 {
-	m_context->initialize();
-
 	auto settings = detail::CreateSettings
 	(
 		GetArgumentValue(arguments, L"loopback"),
@@ -119,8 +113,6 @@ void Policy::processConnected(const KeyValuePairs &arguments)
 
 void Policy::processReset()
 {
-	m_context->initialize();
-
 	auto success = Wfpctl_Reset();
 
 	m_messageSink((success
