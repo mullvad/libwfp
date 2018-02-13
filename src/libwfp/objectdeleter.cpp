@@ -22,6 +22,22 @@ void ObjectDeleter::DeleteFilter(FilterEngine &engine, const GUID &key)
 }
 
 //static
+void ObjectDeleter::DeleteFilter(FilterEngine &engine, UINT64 key)
+{
+	auto status = FwpmFilterDeleteById0(
+		engine.session(),
+		key
+	);
+
+	if (ERROR_SUCCESS == status || FWP_E_FILTER_NOT_FOUND == status)
+	{
+		return;
+	}
+
+	::common::error::Throw("Delete filter", status);
+}
+
+//static
 void ObjectDeleter::DeleteProvider(FilterEngine &engine, const GUID &key)
 {
 	auto status = FwpmProviderDeleteByKey0(
