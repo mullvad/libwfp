@@ -92,7 +92,7 @@ std::basic_string<T> TrimRight(const std::basic_string<T> &str)
 
 	auto index = trimmed.find_last_not_of(SelectTrimChars<T>());
 
-	if (std::wstring::npos == index)
+	if (std::basic_string<T>::npos == index)
 	{
 		trimmed.clear();
 	}
