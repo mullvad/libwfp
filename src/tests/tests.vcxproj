@@ -172,6 +172,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="common\math.cpp" />
+    <ClCompile Include="common\network.cpp" />
     <ClCompile Include="common\string.cpp" />
     <ClCompile Include="integration\basicfilterops.cpp" />
     <ClCompile Include="integration\basicproviderops.cpp" />
@@ -186,6 +187,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="tests.cpp" />
+    <ClCompile Include="wfp\ipaddress.cpp" />
     <ClCompile Include="wfp\layerconditions.cpp" />
   </ItemGroup>
   <ItemGroup>
