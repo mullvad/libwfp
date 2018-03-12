@@ -2,135 +2,266 @@
 #include "sessioncontroller.h"
 #include "libwfp/objectinstaller.h"
 #include "libwfp/objectdeleter.h"
+#include "libwfp/transaction.h"
+#include "libcommon/memory.h"
+#include <utility>
 
 namespace
 {
 
 template<typename T>
-void RemoveElements(T &container, size_t count)
+void EraseBack(T &container, size_t elements)
 {
-	if (container.size() == count)
+	if (elements >= container.size())
 	{
 		container.clear();
-		return;
+	}
+	else
+	{
+		container.erase
+		(
+			container.begin() + (container.size() - elements),
+			container.end()
+		);
+	}
+}
+
+template<typename T>
+void ProcessReverse(T &container, size_t elements, std::function<void(typename T::value_type &)> f)
+{
+	auto it = container.rbegin();
+
+	auto end = it;
+	std::advance(end, elements);
+
+	while (it != end)
+	{
+		f(*it++);
+	}
+}
+
+bool CheckpointKeyToIndex(const std::vector<SessionRecord> &container, uint32_t key, size_t &elementIndex)
+{
+	auto index = 0;
+
+	for (auto it = container.begin(); it != container.end(); ++it, ++index)
+	{
+		if (it->key() == key)
+		{
+			elementIndex = index;
+			return true;
+		}
 	}
 
-	auto end = container.begin();
-	std::advance(end, count);
-
-	container.erase(container.begin(), end);
+	return false;
 }
 
 } // anonymous namespace
 
-bool SessionController::addProvider(wfp::FilterEngine &engine, wfp::ProviderBuilder &providerBuilder)
+SessionController::SessionController(std::unique_ptr<wfp::FilterEngine> &&engine)
+	: m_engine(std::move(engine))
+	, m_activeTransaction(false)
 {
+}
+
+SessionController::~SessionController()
+{
+	//
+	// TODO: Review destruction of this instance and its owner.
+	//
+
+	try
+	{
+		executeTransaction([this]()
+		{
+			reset();
+			return true;
+		});
+	}
+	catch (...)
+	{
+		return;
+	}
+}
+
+bool SessionController::addProvider(wfp::ProviderBuilder &providerBuilder)
+{
+	if (false == m_activeTransaction)
+	{
+		throw std::runtime_error("Cannot add provider outside transaction");
+	}
+
 	GUID key;
 
-	auto status = wfp::ObjectInstaller::AddProvider(engine, providerBuilder, &key);
+	auto status = wfp::ObjectInstaller::AddProvider(*m_engine, providerBuilder, &key);
 
 	if (status)
 	{
-		m_providers.push_back(key);
+		m_transactionRecords.emplace_back(SessionRecord(key, SessionRecord::ObjectType::Provider));
 	}
 
 	return status;
 }
 
-bool SessionController::addSublayer(wfp::FilterEngine &engine, wfp::SublayerBuilder &sublayerBuilder)
+bool SessionController::addSublayer(wfp::SublayerBuilder &sublayerBuilder)
 {
+	if (false == m_activeTransaction)
+	{
+		throw std::runtime_error("Cannot add sublayer outside transaction");
+	}
+
 	GUID key;
 
-	auto status = wfp::ObjectInstaller::AddSublayer(engine, sublayerBuilder, &key);
+	auto status = wfp::ObjectInstaller::AddSublayer(*m_engine, sublayerBuilder, &key);
 
 	if (status)
 	{
-		m_sublayers.push_back(key);
+		m_transactionRecords.emplace_back(SessionRecord(key, SessionRecord::ObjectType::Sublayer));
 	}
 
 	return status;
 }
 
-bool SessionController::addFilter(wfp::FilterEngine &engine, wfp::FilterBuilder &filterBuilder, wfp::ConditionBuilder &conditionBuilder)
+bool SessionController::addFilter(wfp::FilterBuilder &filterBuilder, const wfp::IConditionBuilder &conditionBuilder)
 {
+	if (false == m_activeTransaction)
+	{
+		throw std::runtime_error("Cannot add filter outside transaction");
+	}
+
 	UINT64 id;
 
-	auto status = wfp::ObjectInstaller::AddFilter(engine, filterBuilder, conditionBuilder, &id);
+	auto status = wfp::ObjectInstaller::AddFilter(*m_engine, filterBuilder, conditionBuilder, &id);
 
 	if (status)
 	{
-		m_filters.push_back(id);
+		m_transactionRecords.emplace_back(SessionRecord(id));
 	}
 
 	return status;
 }
 
-void SessionController::resetSession(wfp::FilterEngine &engine)
+bool SessionController::executeTransaction(std::function<bool()> operation)
 {
-	resetFilters(engine);
-	resetSublayers(engine);
-	resetProviders(engine);
+	if (m_activeTransaction.exchange(true))
+	{
+		throw std::runtime_error("Recursive/concurrent transactions are not supported");
+	}
+
+	common::memory::ScopeDestructor scopeDestructor;
+
+	scopeDestructor += [this]()
+	{
+		m_activeTransaction.store(false);
+	};
+
+	m_transactionRecords = m_records;
+
+	auto status = wfp::Transaction::Execute(*m_engine, operation);
+
+	if (status)
+	{
+		m_records.swap(m_transactionRecords);
+	}
+
+	return status;
 }
 
-void SessionController::resetFilters(wfp::FilterEngine &engine)
+bool SessionController::executeReadOnlyTransaction(std::function<bool()> operation)
 {
-	auto deleted = 0;
+	if (m_activeTransaction.exchange(true))
+	{
+		throw std::runtime_error("Recursive/concurrent transactions are not supported");
+	}
+
+	common::memory::ScopeDestructor scopeDestructor;
+
+	scopeDestructor += [this]()
+	{
+		m_activeTransaction.store(false);
+	};
+
+	return wfp::Transaction::ExecuteReadOnly(*m_engine, operation);
+}
+
+uint32_t SessionController::checkpoint()
+{
+	if (m_activeTransaction)
+	{
+		throw std::runtime_error("Cannot read checkpoint key while in transaction");
+	}
+
+	if (m_records.empty())
+	{
+		return 0;
+	}
+
+	return m_records.back().key();
+}
+
+void SessionController::revert(uint32_t key)
+{
+	if (false == m_activeTransaction)
+	{
+		throw std::runtime_error("Cannot revert session state outside transaction");
+	}
+
+	if (0 == key)
+	{
+		reset();
+		return;
+	}
+
+	size_t elementIndex = 0;
+
+	if (false == CheckpointKeyToIndex(m_transactionRecords, key, elementIndex))
+	{
+		throw std::runtime_error("Invalid checkpoint key (checkpoint may have been overwritten?)");
+	}
+
+	const size_t numRemove = m_transactionRecords.size() - (elementIndex + 1);
+
+	auto purged = 0;
 
 	try
 	{
-		for (auto id : m_filters)
+		ProcessReverse(m_transactionRecords, numRemove, [this, &purged](SessionRecord &record)
 		{
-			wfp::ObjectDeleter::DeleteFilter(engine, id);
-			++deleted;
-		}
+			record.purge(*m_engine);
+			++purged;
+		});
 	}
 	catch (...)
 	{
-		RemoveElements(m_filters, deleted);
+		EraseBack(m_transactionRecords, purged);
 		throw;
 	}
 
-	RemoveElements(m_filters, deleted);
+	EraseBack(m_transactionRecords, numRemove);
 }
 
-void SessionController::resetProviders(wfp::FilterEngine &engine)
+void SessionController::reset()
 {
-	auto deleted = 0;
+	if (false == m_activeTransaction)
+	{
+		throw std::runtime_error("Cannot reset session state outside transaction");
+	}
+
+	auto purged = 0;
 
 	try
 	{
-		for (const auto &id : m_providers)
+		ProcessReverse(m_transactionRecords, m_transactionRecords.size(), [this, &purged](SessionRecord &record)
 		{
-			wfp::ObjectDeleter::DeleteProvider(engine, id);
-			++deleted;
-		}
+			record.purge(*m_engine);
+			++purged;
+		});
 	}
 	catch (...)
 	{
-		RemoveElements(m_providers, deleted);
+		EraseBack(m_transactionRecords, purged);
 		throw;
 	}
 
-	RemoveElements(m_providers, deleted);
-}
-
-void SessionController::resetSublayers(wfp::FilterEngine &engine)
-{
-	auto deleted = 0;
-
-	try
-	{
-		for (const auto &id : m_sublayers)
-		{
-			wfp::ObjectDeleter::DeleteSublayer(engine, id);
-			++deleted;
-		}
-	}
-	catch (...)
-	{
-		RemoveElements(m_sublayers, deleted);
-		throw;
-	}
-
-	RemoveElements(m_sublayers, deleted);
+	m_transactionRecords.clear();
 }
