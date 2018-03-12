@@ -82,6 +82,14 @@ FilterBuilder &FilterBuilder::weight(UINT64 weight)
 	return *this;
 }
 
+FilterBuilder &FilterBuilder::weight(WeightClass cls)
+{
+	m_filter.weight.type = FWP_UINT8;
+	m_filter.weight.uint8 = static_cast<UINT8>(cls);
+
+	return *this;
+}
+
 FilterBuilder &FilterBuilder::block()
 {
 	m_filter.action.type = FWP_ACTION_BLOCK;
