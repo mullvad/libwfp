@@ -1,26 +1,24 @@
 #include "stdafx.h"
 #include "conditionremoteport.h"
 #include "libwfp/internal/conditionassembler.h"
-#include "libcommon/error.h"
-#include <guiddef.h>
-#include <fwpmu.h>
 #include <sstream>
 
 using ConditionAssembler = ::wfp::internal::ConditionAssembler;
 
 namespace wfp::conditions {
 
-ConditionRemotePort::ConditionRemotePort(UINT16 port)
+ConditionRemotePort::ConditionRemotePort(uint16_t port, const IRelaxedComparison &comparison)
 	: m_port(port)
+	, m_comparison(comparison)
 {
-	m_assembled = ConditionAssembler::Uint16(identifier(), FWP_MATCH_EQUAL, port);
+	m_assembled = ConditionAssembler::Uint16(identifier(), m_comparison.op(), port);
 }
 
 std::wstring ConditionRemotePort::toString() const
 {
 	std::wstringstream ss;
 
-	ss << L"remote port = " << m_port;
+	ss << L"remote port " << m_comparison.toString() << L" " << m_port;
 
 	return ss.str();
 }

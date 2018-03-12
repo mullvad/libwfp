@@ -1,7 +1,8 @@
 #pragma once
 
+#include "comparison.h"
+#include "ifiltercondition.h"
 #include "libcommon/buffer.h"
-#include "libwfp/ifiltercondition.h"
 
 namespace wfp::conditions {
 
@@ -9,7 +10,7 @@ class ConditionRemotePort : public IFilterCondition
 {
 public:
 
-	ConditionRemotePort(UINT16 port);
+	ConditionRemotePort(uint16_t port, const IRelaxedComparison &comparison = CompareEq());
 
 	std::wstring toString() const override;
 	const GUID &identifier() const override;
@@ -17,7 +18,9 @@ public:
 
 private:
 
-	UINT16 m_port;
+	uint16_t m_port;
+	ComparisonSpecification m_comparison;
+
 	common::Buffer m_assembled;
 };
 

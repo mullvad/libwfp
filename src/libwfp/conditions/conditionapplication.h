@@ -1,7 +1,8 @@
 #pragma once
 
+#include "comparison.h"
+#include "ifiltercondition.h"
 #include "libcommon/buffer.h"
-#include "libwfp/ifiltercondition.h"
 
 namespace wfp::conditions {
 
@@ -9,7 +10,7 @@ class ConditionApplication : public IFilterCondition
 {
 public:
 
-	ConditionApplication(const std::wstring &application);
+	ConditionApplication(const std::wstring &application, const IStrictComparison &comparison = CompareEq());
 
 	std::wstring toString() const override;
 	const GUID &identifier() const override;
@@ -18,6 +19,8 @@ public:
 private:
 
 	std::wstring m_application;
+	ComparisonSpecification m_comparison;
+
 	common::Buffer m_assembled;
 };
 
