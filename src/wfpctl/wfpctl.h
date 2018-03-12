@@ -21,16 +21,27 @@
 
 typedef struct tag_WfpctlSettings
 {
-	// Allow all traffic on loopback interface.
-	bool AllowLoopback;
+	// Permit outbound DHCP requests and inbound DHCP responses on all interfaces.
+	bool permitDhcp;
 
-	// Allow DHCP requests and responses on all interfaces.
-	bool AllowDhcp;
-
-	// Allow all traffic to and from private address ranges.
-	bool AllowLan;
+	// Permit all traffic to and from private address ranges.
+	bool permitLan;
 }
 WfpctlSettings;
+
+enum WfpctlProtocol : uint8_t
+{
+	Tcp = 0,
+	Udp = 1
+};
+
+typedef struct tag_WfpctlRelay
+{
+	const wchar_t *ip;
+	uint16_t port;
+	WfpctlProtocol protocol;
+}
+WfpctlRelay;
 
 #pragma pack(pop)
 
@@ -82,7 +93,7 @@ bool
 WFPCTL_API
 Wfpctl_ApplyPolicyConnecting(
 	const WfpctlSettings &settings,
-	const wchar_t *relayIp
+	const WfpctlRelay &relay
 );
 
 //
@@ -91,15 +102,24 @@ Wfpctl_ApplyPolicyConnecting(
 // Apply restrictions in the firewall that blocks all traffic, except:
 // - What is specified by settings
 // - Communication with the relay server
-// - Communication with the tunnel endpoint
+// - Non-DNS traffic inside the VPN tunnel
+// - DNS requests inside the VPN tunnel, to the specified DNS server
+//
+// Parameters:
+//
+// tunnelInterfaceAlias:
+//   Friendly name of VPN tunnel interface
+// primaryDns:
+//   String encoded IP address of DNS to use inside tunnel
 //
 WFPCTL_LINKAGE
 bool
 WFPCTL_API
 Wfpctl_ApplyPolicyConnected(
 	const WfpctlSettings &settings,
-	const wchar_t *relayIp,
-	const wchar_t *tunnelIp
+	const WfpctlRelay &relay,
+	const wchar_t *tunnelInterfaceAlias,
+	const wchar_t *primaryDns
 );
 
 //
