@@ -55,4 +55,9 @@ inline size_t AlignNative(size_t value)
 	return ::common::math::RoundPowerTwo(value, sizeof(size_t));
 }
 
+inline uint16_t ByteSwap(uint16_t val)
+{
+	return ((val & 0xFF) << 8) | ((val & 0xFF00) >> 8);
+}
+
 }

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "string.h"
+#include "memory.h"
 #include <algorithm>
 #include <iomanip>
 #include <memory>
@@ -82,7 +83,7 @@ std::wstring Join(const std::vector<std::wstring> &parts)
 	};
 }
 
-std::wstring FormatIpV4(UINT32 ip)
+std::wstring FormatIpv4(uint32_t ip)
 {
 	std::wstringstream ss;
 
@@ -94,7 +95,16 @@ std::wstring FormatIpV4(UINT32 ip)
 	return ss.str();
 }
 
-std::wstring FormatIpV6(const UINT8 ip[16])
+std::wstring FormatIpv4(uint32_t ip, uint8_t routingPrefix)
+{
+	std::wstringstream ss(FormatIpv4(ip));
+
+	ss << L"/" << routingPrefix;
+
+	return ss.str();
+}
+
+std::wstring FormatIpv6(const uint8_t ip[16])
 {
 	//
 	// TODO: Omit longest sequence of zeros to create compact representation
@@ -105,14 +115,26 @@ std::wstring FormatIpV6(const UINT8 ip[16])
 	const UINT16 *wptr = (const UINT16 *)ip;
 
 	//
-	// Assume little endian words
+	// Since this is executing on a little-endian system
+	// the words will be byte swapped when read into registers
 	//
 
+	const auto swap = ::common::memory::ByteSwap;
+
 	ss	<< std::hex
-		<< *(wptr + 0) << L':' << *(wptr + 1) << L':'
-		<< *(wptr + 2) << L':' << *(wptr + 3) << L':'
-		<< *(wptr + 4) << L':' << *(wptr + 5) << L':'
-		<< *(wptr + 6) << L':' << *(wptr + 7);
+		<< swap(*(wptr + 0)) << L':' << swap(*(wptr + 1)) << L':'
+		<< swap(*(wptr + 2)) << L':' << swap(*(wptr + 3)) << L':'
+		<< swap(*(wptr + 4)) << L':' << swap(*(wptr + 5)) << L':'
+		<< swap(*(wptr + 6)) << L':' << swap(*(wptr + 7));
+
+	return ss.str();
+}
+
+std::wstring FormatIpv6(const uint8_t ip[16], uint8_t routingPrefix)
+{
+	std::wstringstream ss(FormatIpv6(ip));
+
+	ss << L"/" << routingPrefix;
 
 	return ss.str();
 }
