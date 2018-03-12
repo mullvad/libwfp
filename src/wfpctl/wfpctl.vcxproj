@@ -22,7 +22,16 @@
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="mullvadguids.cpp" />
     <ClCompile Include="mullvadobjects.cpp" />
+    <ClCompile Include="rules\blockall.cpp" />
+    <ClCompile Include="rules\permitdhcp.cpp" />
+    <ClCompile Include="rules\permitlan.cpp" />
+    <ClCompile Include="rules\permitlanservice.cpp" />
+    <ClCompile Include="rules\permitloopback.cpp" />
+    <ClCompile Include="rules\permitvpnrelay.cpp" />
+    <ClCompile Include="rules\permitvpntunnel.cpp" />
+    <ClCompile Include="rules\restrictdns.cpp" />
     <ClCompile Include="sessioncontroller.cpp" />
+    <ClCompile Include="sessionrecord.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -33,9 +42,20 @@
     <ClCompile Include="wfpctl.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="iobjectinstaller.h" />
     <ClInclude Include="mullvadguids.h" />
     <ClInclude Include="mullvadobjects.h" />
+    <ClInclude Include="rules\blockall.h" />
+    <ClInclude Include="rules\ifirewallrule.h" />
+    <ClInclude Include="rules\permitdhcp.h" />
+    <ClInclude Include="rules\permitlan.h" />
+    <ClInclude Include="rules\permitlanservice.h" />
+    <ClInclude Include="rules\permitloopback.h" />
+    <ClInclude Include="rules\permitvpnrelay.h" />
+    <ClInclude Include="rules\permitvpntunnel.h" />
+    <ClInclude Include="rules\restrictdns.h" />
     <ClInclude Include="sessioncontroller.h" />
+    <ClInclude Include="sessionrecord.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="wfpcontext.h" />
@@ -127,7 +147,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>ws2_32.lib;libwfp.lib;libcommon.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libwfp.lib;libcommon.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)../bin/$(Platform)-$(Configuration)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -145,7 +165,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>ws2_32.lib;libwfp.lib;libcommon.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libwfp.lib;libcommon.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)../bin/$(Platform)-$(Configuration)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -167,7 +187,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>ws2_32.lib;libwfp.lib;libcommon.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libwfp.lib;libcommon.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)../bin/$(Platform)-$(Configuration)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -189,7 +209,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>ws2_32.lib;libwfp.lib;libcommon.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libwfp.lib;libcommon.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)../bin/$(Platform)-$(Configuration)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
