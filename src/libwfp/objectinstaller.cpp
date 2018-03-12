@@ -8,7 +8,7 @@ namespace wfp
 {
 
 //static
-bool ObjectInstaller::AddFilter(FilterEngine &engine, FilterBuilder &filterBuilder, ConditionBuilder &conditionBuilder, UINT64 *id)
+bool ObjectInstaller::AddFilter(FilterEngine &engine, FilterBuilder &filterBuilder, const IConditionBuilder &conditionBuilder, UINT64 *id)
 {
 	return conditionBuilder.build([&](FWPM_FILTER_CONDITION0 *conditions, size_t numConditions)
 	{
