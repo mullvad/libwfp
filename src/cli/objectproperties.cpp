@@ -252,11 +252,11 @@ PropertyList EventProperties(const FWPM_NET_EVENT0 &event, IPropertyDecorator *d
 	{
 		if (event.header.ipVersion == FWP_IP_VERSION_V4)
 		{
-			props.add(L"local addr", common::string::FormatIpV4(event.header.localAddrV4));
+			props.add(L"local addr", common::string::FormatIpv4(event.header.localAddrV4));
 		}
 		else
 		{
-			props.add(L"local addr", common::string::FormatIpV6(event.header.localAddrV6.byteArray16));
+			props.add(L"local addr", common::string::FormatIpv6(event.header.localAddrV6.byteArray16));
 		}
 	}
 
@@ -265,11 +265,11 @@ PropertyList EventProperties(const FWPM_NET_EVENT0 &event, IPropertyDecorator *d
 	{
 		if (event.header.ipVersion == FWP_IP_VERSION_V4)
 		{
-			props.add(L"remote addr", common::string::FormatIpV4(event.header.remoteAddrV4));
+			props.add(L"remote addr", common::string::FormatIpv4(event.header.remoteAddrV4));
 		}
 		else
 		{
-			props.add(L"remote addr", common::string::FormatIpV6(event.header.remoteAddrV6.byteArray16));
+			props.add(L"remote addr", common::string::FormatIpv6(event.header.remoteAddrV6.byteArray16));
 		}
 	}
 
@@ -391,11 +391,11 @@ PropertyList EventProperties(const FWPM_NET_EVENT1 &event, IPropertyDecorator *d
 	{
 		if (event.header.ipVersion == FWP_IP_VERSION_V4)
 		{
-			props.add(L"local addr", common::string::FormatIpV4(event.header.localAddrV4));
+			props.add(L"local addr", common::string::FormatIpv4(event.header.localAddrV4));
 		}
 		else
 		{
-			props.add(L"local addr", common::string::FormatIpV6(event.header.localAddrV6.byteArray16));
+			props.add(L"local addr", common::string::FormatIpv6(event.header.localAddrV6.byteArray16));
 		}
 	}
 
@@ -404,11 +404,11 @@ PropertyList EventProperties(const FWPM_NET_EVENT1 &event, IPropertyDecorator *d
 	{
 		if (event.header.ipVersion == FWP_IP_VERSION_V4)
 		{
-			props.add(L"remote addr", common::string::FormatIpV4(event.header.remoteAddrV4));
+			props.add(L"remote addr", common::string::FormatIpv4(event.header.remoteAddrV4));
 		}
 		else
 		{
-			props.add(L"remote addr", common::string::FormatIpV6(event.header.remoteAddrV6.byteArray16));
+			props.add(L"remote addr", common::string::FormatIpv6(event.header.remoteAddrV6.byteArray16));
 		}
 	}
 
