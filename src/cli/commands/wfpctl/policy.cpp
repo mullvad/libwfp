@@ -10,15 +10,30 @@ namespace commands::wfpctl
 namespace detail
 {
 
-WfpctlSettings CreateSettings(const std::wstring &loopback, const std::wstring &dhcp, const std::wstring &lan)
+WfpctlSettings CreateSettings(const std::wstring &dhcp, const std::wstring &lan)
 {
 	WfpctlSettings s;
 
-	s.AllowLoopback = (0 == _wcsicmp(loopback.c_str(), L"yes"));
-	s.AllowDhcp = (0 == _wcsicmp(dhcp.c_str(), L"yes"));
-	s.AllowLan = (0 == _wcsicmp(lan.c_str(), L"yes"));
+	s.permitDhcp = (0 == _wcsicmp(dhcp.c_str(), L"yes"));
+	s.permitLan = (0 == _wcsicmp(lan.c_str(), L"yes"));
 
 	return s;
+}
+
+WfpctlProtocol TranslateProtocol(const std::wstring &protocol)
+{
+	return (0 == _wcsicmp(protocol.c_str(), L"tcp") ? WfpctlProtocol::Tcp : WfpctlProtocol::Udp);
+}
+
+WfpctlRelay CreateRelay(const wchar_t *ip, const std::wstring &port, const std::wstring &protocol)
+{
+	WfpctlRelay r;
+
+	r.ip = ip;
+	r.port = common::string::LexicalCast<uint16_t>(port);
+	r.protocol = TranslateProtocol(protocol);
+
+	return r;
 }
 
 } // namespace detail
@@ -74,15 +89,23 @@ void Policy::processConnecting(const KeyValuePairs &arguments)
 {
 	auto settings = detail::CreateSettings
 	(
-		GetArgumentValue(arguments, L"loopback"),
 		GetArgumentValue(arguments, L"dhcp"),
 		GetArgumentValue(arguments, L"lan")
+	);
+
+	auto r = GetArgumentValue(arguments, L"relay");
+
+	auto relay = detail::CreateRelay
+	(
+		r.c_str(),
+		GetArgumentValue(arguments, L"port"),
+		GetArgumentValue(arguments, L"protocol")
 	);
 
 	auto success = Wfpctl_ApplyPolicyConnecting
 	(
 		settings,
-		GetArgumentValue(arguments, L"relay").c_str()
+		relay
 	);
 
 	m_messageSink((success
@@ -94,16 +117,25 @@ void Policy::processConnected(const KeyValuePairs &arguments)
 {
 	auto settings = detail::CreateSettings
 	(
-		GetArgumentValue(arguments, L"loopback"),
 		GetArgumentValue(arguments, L"dhcp"),
 		GetArgumentValue(arguments, L"lan")
+	);
+
+	auto r = GetArgumentValue(arguments, L"relay");
+
+	auto relay = detail::CreateRelay
+	(
+		r.c_str(),
+		GetArgumentValue(arguments, L"port"),
+		GetArgumentValue(arguments, L"protocol")
 	);
 
 	auto success = Wfpctl_ApplyPolicyConnected
 	(
 		settings,
-		GetArgumentValue(arguments, L"relay").c_str(),
-		GetArgumentValue(arguments, L"tunnel").c_str()
+		relay,
+		GetArgumentValue(arguments, L"tunnel").c_str(),
+		GetArgumentValue(arguments, L"dns").c_str()
 	);
 
 	m_messageSink((success
