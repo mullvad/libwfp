@@ -39,6 +39,12 @@
     <ClCompile Include="common\math.cpp">
       <Filter>common</Filter>
     </ClCompile>
+    <ClCompile Include="common\network.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="wfp\ipaddress.cpp">
+      <Filter>wfp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ncat.h" />
