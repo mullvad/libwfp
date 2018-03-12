@@ -4,9 +4,18 @@
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="wfpctl.cpp" />
+    <ClCompile Include="wfpcontext.cpp" />
+    <ClCompile Include="sessioncontroller.cpp" />
+    <ClCompile Include="mullvadguids.cpp" />
+    <ClCompile Include="mullvadobjects.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="wfpctl.h" />
+    <ClInclude Include="wfpcontext.h" />
+    <ClInclude Include="sessioncontroller.h" />
+    <ClInclude Include="mullvadguids.h" />
+    <ClInclude Include="mullvadobjects.h" />
   </ItemGroup>
 </Project>

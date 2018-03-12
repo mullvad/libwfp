@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "error.h"
+#include "string.h"
 #include <exception>
 #include <iomanip>
 #include <sstream>
@@ -23,7 +24,7 @@ std::wstring FormatWindowsError(DWORD errorCode)
 		return ss.str();
 	}
 
-	std::wstring result(buffer);
+	auto result = common::string::TrimRight(std::wstring(buffer));
 	LocalFree(buffer);
 
 	return result;
@@ -50,7 +51,7 @@ std::string FormatWindowsErrorPlain(DWORD errorCode)
 		return ss.str();
 	}
 
-	std::string result(buffer);
+	auto result = common::string::TrimRight(std::string(buffer));
 	LocalFree(buffer);
 
 	return result;

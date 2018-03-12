@@ -20,6 +20,7 @@ public:
 	static std::unique_ptr<FilterEngine> StandardSession();
 
 	// Create a session using a specific timeout when waiting for the transaction lock.
+	// The timeout value is specified in milliseconds.
 	// Specifying a timeout of INFINITE will cause an indefinite wait.
 	// Zero is a reserved value in this context and means "system default timeout".
 	static std::unique_ptr<FilterEngine> DynamicSession(uint32_t timeout);

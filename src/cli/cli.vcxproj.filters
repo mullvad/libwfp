@@ -13,6 +13,9 @@
     <Filter Include="commands\monitor">
       <UniqueIdentifier>{ff50eaf3-6e11-41ad-bae9-24427a025d33}</UniqueIdentifier>
     </Filter>
+    <Filter Include="commands\wfpctl">
+      <UniqueIdentifier>{571487f4-437d-4ad1-a409-f2b143f6803e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="modules\imodule.h">
@@ -63,6 +66,19 @@
     </ClInclude>
     <ClInclude Include="ipropertydecorator.h" />
     <ClInclude Include="propertydecorator.h" />
+    <ClInclude Include="commands\wfpctl\policy.h">
+      <Filter>commands\wfpctl</Filter>
+    </ClInclude>
+    <ClInclude Include="subcommanddispatcher.h" />
+    <ClInclude Include="modules\wfpctl.h">
+      <Filter>modules</Filter>
+    </ClInclude>
+    <ClInclude Include="commands\wfpctl\init.h">
+      <Filter>commands\wfpctl</Filter>
+    </ClInclude>
+    <ClInclude Include="commands\wfpctl\deinit.h">
+      <Filter>commands\wfpctl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="commands\list\sessions.cpp">
@@ -97,5 +113,15 @@
       <Filter>commands\monitor</Filter>
     </ClCompile>
     <ClCompile Include="propertydecorator.cpp" />
+    <ClCompile Include="commands\wfpctl\policy.cpp">
+      <Filter>commands\wfpctl</Filter>
+    </ClCompile>
+    <ClCompile Include="subcommanddispatcher.cpp" />
+    <ClCompile Include="commands\wfpctl\init.cpp">
+      <Filter>commands\wfpctl</Filter>
+    </ClCompile>
+    <ClCompile Include="commands\wfpctl\deinit.cpp">
+      <Filter>commands\wfpctl</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

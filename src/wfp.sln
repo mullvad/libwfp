@@ -1,12 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2006
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cli", "cli\cli.vcxproj", "{242A58CA-8E54-4170-A8C5-6F91CC4F7DB2}"
 	ProjectSection(ProjectDependencies) = postProject
 		{B52E2D10-A94A-4605-914A-2DCEF6A757EF} = {B52E2D10-A94A-4605-914A-2DCEF6A757EF}
 		{2164E6D9-6023-4932-A08F-7A5C15E2CA0B} = {2164E6D9-6023-4932-A08F-7A5C15E2CA0B}
+		{801E7DEB-2BD0-4E60-9E4B-74A5CA12ADCB} = {801E7DEB-2BD0-4E60-9E4B-74A5CA12ADCB}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libwfp", "libwfp\libwfp.vcxproj", "{2164E6D9-6023-4932-A08F-7A5C15E2CA0B}"
@@ -14,6 +15,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libcommon", "libcommon\libcommon.vcxproj", "{B52E2D10-A94A-4605-914A-2DCEF6A757EF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wfpctl", "wfpctl\wfpctl.vcxproj", "{801E7DEB-2BD0-4E60-9E4B-74A5CA12ADCB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B52E2D10-A94A-4605-914A-2DCEF6A757EF} = {B52E2D10-A94A-4605-914A-2DCEF6A757EF}
+		{2164E6D9-6023-4932-A08F-7A5C15E2CA0B} = {2164E6D9-6023-4932-A08F-7A5C15E2CA0B}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tests", "tests\tests.vcxproj", "{F3FEBDE7-FBC8-48EC-8F24-5F33B8ACFB2A}"
 	ProjectSection(ProjectDependencies) = postProject

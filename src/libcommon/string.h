@@ -4,6 +4,7 @@
 #include <windows.h>
 #include <algorithm>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace common::string {
@@ -55,7 +56,52 @@ bool BeginsWith(const std::basic_string<T> &hay, const std::basic_string<T> &nee
 std::wstring Lower(const std::wstring &str);
 std::vector<std::wstring> Tokenize(const std::wstring &str, const std::wstring &delimiters);
 std::string ToAnsi(const std::wstring &str);
+std::wstring ToWide(const std::string &str);
 
 std::wstring Summary(const std::wstring &str, size_t max);
+
+typedef std::unordered_map<std::wstring, std::wstring> KeyValuePairs;
+
+KeyValuePairs SplitKeyValuePairs(const std::vector<std::wstring> &serializedPairs);
+
+extern const char *TrimChars;
+extern const wchar_t *WideTrimChars;
+
+template<typename T>
+const T *SelectTrimChars()
+{
+	return nullptr;
+}
+
+template<>
+inline const char *SelectTrimChars<char>()
+{
+	return TrimChars;
+}
+
+template<>
+inline const wchar_t *SelectTrimChars<wchar_t>()
+{
+	return WideTrimChars;
+}
+
+template<typename T>
+std::basic_string<T> TrimRight(const std::basic_string<T> &str)
+{
+	std::basic_string<T> trimmed(str);
+
+	auto index = trimmed.find_last_not_of(SelectTrimChars<T>());
+
+	if (std::basic_string<T>::npos == index)
+	{
+		trimmed.clear();
+	}
+	else
+	{
+		trimmed.resize(index + 1);
+	}
+
+	return trimmed;
+}
 
 }

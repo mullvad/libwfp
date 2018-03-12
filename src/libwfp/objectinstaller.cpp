@@ -8,7 +8,7 @@ namespace wfp
 {
 
 //static
-bool ObjectInstaller::AddFilter(FilterEngine &engine, FilterBuilder &filterBuilder, ConditionBuilder &conditionBuilder)
+bool ObjectInstaller::AddFilter(FilterEngine &engine, FilterBuilder &filterBuilder, ConditionBuilder &conditionBuilder, UINT64 *id)
 {
 	return conditionBuilder.build([&](FWPM_FILTER_CONDITION0 *conditions, size_t numConditions)
 	{
@@ -21,7 +21,7 @@ bool ObjectInstaller::AddFilter(FilterEngine &engine, FilterBuilder &filterBuild
 				engine.session(),
 				&filter,
 				nullptr,
-				nullptr
+				id
 			);
 
 			THROW_UNLESS(ERROR_SUCCESS, status, "Register filter with BFE");
@@ -32,7 +32,7 @@ bool ObjectInstaller::AddFilter(FilterEngine &engine, FilterBuilder &filterBuild
 }
 
 //static
-bool ObjectInstaller::AddProvider(FilterEngine &engine, ProviderBuilder &providerBuilder)
+bool ObjectInstaller::AddProvider(FilterEngine &engine, ProviderBuilder &providerBuilder, GUID *key)
 {
 	return providerBuilder.build([&](FWPM_PROVIDER0 &provider)
 	{
@@ -44,12 +44,17 @@ bool ObjectInstaller::AddProvider(FilterEngine &engine, ProviderBuilder &provide
 
 		THROW_UNLESS(ERROR_SUCCESS, status, "Register provider with BFE");
 
+		if (nullptr != key)
+		{
+			*key = provider.providerKey;
+		}
+
 		return true;
 	});
 }
 
 //static
-bool ObjectInstaller::AddSublayer(FilterEngine &engine, SublayerBuilder &sublayerBuilder)
+bool ObjectInstaller::AddSublayer(FilterEngine &engine, SublayerBuilder &sublayerBuilder, GUID *key)
 {
 	return sublayerBuilder.build([&](FWPM_SUBLAYER0 &sublayer)
 	{
@@ -60,6 +65,11 @@ bool ObjectInstaller::AddSublayer(FilterEngine &engine, SublayerBuilder &sublaye
 		);
 
 		THROW_UNLESS(ERROR_SUCCESS, status, "Register sublayer with BFE");
+
+		if (nullptr != key)
+		{
+			*key = sublayer.subLayerKey;
+		}
 
 		return true;
 	});
