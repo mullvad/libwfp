@@ -18,7 +18,7 @@ public:
 
 	ConditionBuilder(const GUID &layer);
 
-	ConditionBuilder &add_condition(conditions::IFilterCondition *condition);
+	ConditionBuilder &add_condition(std::unique_ptr<conditions::IFilterCondition> condition);
 
 	bool build(ConditionSink sink) const override;
 

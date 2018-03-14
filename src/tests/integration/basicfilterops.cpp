@@ -7,6 +7,7 @@
 #include "libwfp/objectdeleter.h"
 #include "libwfp/objectinstaller.h"
 #include "gtest/gtest.h"
+#include <memory>
 
 using namespace ::wfp::conditions;
 
@@ -15,7 +16,7 @@ TEST(IntegrationTest, BasicFilterOps)
 	static const GUID Layer = FWPM_LAYER_ALE_FLOW_ESTABLISHED_V4;
 
 	wfp::ConditionBuilder conditionBuilder(Layer);
-	conditionBuilder.add_condition(new ConditionRemotePort(5555));
+	conditionBuilder.add_condition(std::make_unique<ConditionRemotePort>(uint16_t(5555)));
 
 	wfp::FilterBuilder filterBuilder;
 
