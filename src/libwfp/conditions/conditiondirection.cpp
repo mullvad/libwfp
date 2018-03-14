@@ -6,7 +6,7 @@ using ConditionAssembler = ::wfp::internal::ConditionAssembler;
 
 namespace wfp::conditions {
 
-ConditionDirection::ConditionDirection(Direction direction)
+ConditionDirection::ConditionDirection(Direction direction, ctor_tag)
 	: m_direction(direction)
 {
 	m_assembled = ConditionAssembler::Uint32
@@ -38,15 +38,15 @@ const FWPM_FILTER_CONDITION0 &ConditionDirection::condition() const
 }
 
 //static
-ConditionDirection *ConditionDirection::Inbound()
+std::unique_ptr<ConditionDirection> ConditionDirection::Inbound()
 {
-	return new ConditionDirection(Direction::Inbound);
+	return std::make_unique<ConditionDirection>(Direction::Inbound, ctor_tag());
 }
 
 //static
-ConditionDirection *ConditionDirection::Outbound()
+std::unique_ptr<ConditionDirection> ConditionDirection::Outbound()
 {
-	return new ConditionDirection(Direction::Outbound);
+	return std::make_unique<ConditionDirection>(Direction::Outbound, ctor_tag());
 }
 
 }

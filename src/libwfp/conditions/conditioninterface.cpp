@@ -38,7 +38,7 @@ UINT64 LuidFromName(const std::wstring &interfaceName)
 
 namespace wfp::conditions {
 
-ConditionInterface::ConditionInterface(UINT32 interfaceIndex, const IStrictComparison &comparison)
+ConditionInterface::ConditionInterface(uint32_t interfaceIndex, const IStrictComparison &comparison, ctor_tag)
 	: m_interfaceIndex(interfaceIndex)
 	, m_interfaceLuid(0)
 	, m_identifierType(IdentifierType::Index)
@@ -47,7 +47,7 @@ ConditionInterface::ConditionInterface(UINT32 interfaceIndex, const IStrictCompa
 	m_assembled = ConditionAssembler::Uint32(identifier(), m_comparison.op(), m_interfaceIndex);
 }
 
-ConditionInterface::ConditionInterface(UINT64 interfaceLuid, const IStrictComparison &comparison)
+ConditionInterface::ConditionInterface(uint64_t interfaceLuid, const IStrictComparison &comparison, ctor_tag)
 	: m_interfaceIndex(0)
 	, m_interfaceLuid(interfaceLuid)
 	, m_identifierType(IdentifierType::Luid)
@@ -56,7 +56,7 @@ ConditionInterface::ConditionInterface(UINT64 interfaceLuid, const IStrictCompar
 	m_assembled = ConditionAssembler::Uint64(identifier(), m_comparison.op(), m_interfaceLuid);
 }
 
-ConditionInterface::ConditionInterface(const std::wstring &interfaceIdentifier, IdentifierType type, const IStrictComparison &comparison)
+ConditionInterface::ConditionInterface(const std::wstring &interfaceIdentifier, IdentifierType type, const IStrictComparison &comparison, ctor_tag)
 	: m_interfaceIndex(0)
 	, m_interfaceLuid(0)
 	, m_interfaceIdentifier(interfaceIdentifier)
@@ -87,27 +87,27 @@ ConditionInterface::ConditionInterface(const std::wstring &interfaceIdentifier, 
 }
 
 //static
-ConditionInterface *ConditionInterface::Index(uint32_t interfaceIndex, const IStrictComparison &comparison)
+std::unique_ptr<ConditionInterface> ConditionInterface::Index(uint32_t interfaceIndex, const IStrictComparison &comparison)
 {
-	return new ConditionInterface(interfaceIndex, comparison);
+	return std::make_unique<ConditionInterface>(interfaceIndex, comparison, ctor_tag());
 }
 
 //static
-ConditionInterface *ConditionInterface::Luid(uint64_t interfaceLuid, const IStrictComparison &comparison)
+std::unique_ptr<ConditionInterface> ConditionInterface::Luid(uint64_t interfaceLuid, const IStrictComparison &comparison)
 {
-	return new ConditionInterface(interfaceLuid, comparison);
+	return std::make_unique<ConditionInterface>(interfaceLuid, comparison, ctor_tag());
 }
 
 //static
-ConditionInterface *ConditionInterface::Alias(const std::wstring &interfaceAlias, const IStrictComparison &comparison)
+std::unique_ptr<ConditionInterface> ConditionInterface::Alias(const std::wstring &interfaceAlias, const IStrictComparison &comparison)
 {
-	return new ConditionInterface(interfaceAlias, IdentifierType::Alias, comparison);
+	return std::make_unique<ConditionInterface>(interfaceAlias, IdentifierType::Alias, comparison, ctor_tag());
 }
 
 //static
-ConditionInterface *ConditionInterface::Name(const std::wstring &interfaceName, const IStrictComparison &comparison)
+std::unique_ptr<ConditionInterface> ConditionInterface::Name(const std::wstring &interfaceName, const IStrictComparison &comparison)
 {
-	return new ConditionInterface(interfaceName, IdentifierType::Name, comparison);
+	return std::make_unique<ConditionInterface>(interfaceName, IdentifierType::Name, comparison, ctor_tag());
 }
 
 std::wstring ConditionInterface::toString() const

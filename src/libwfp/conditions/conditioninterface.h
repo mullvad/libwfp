@@ -4,11 +4,14 @@
 #include "ifiltercondition.h"
 #include "libcommon/buffer.h"
 #include <windows.h>
+#include <memory>
 
 namespace wfp::conditions {
 
 class ConditionInterface : public IFilterCondition
 {
+	struct ctor_tag { explicit ctor_tag() = default; };
+
 	enum class IdentifierType
 	{
 		Index,
@@ -17,16 +20,17 @@ class ConditionInterface : public IFilterCondition
 		Name
 	};
 
-	ConditionInterface(uint32_t interfaceIndex, const IStrictComparison &comparison);
-	ConditionInterface(uint64_t interfaceLuid, const IStrictComparison &comparison);
-	ConditionInterface(const std::wstring &interfaceIdentifier, IdentifierType type, const IStrictComparison &comparison);
-
 public:
 
-	static ConditionInterface *Index(uint32_t interfaceIndex, const IStrictComparison &comparison = CompareEq());
-	static ConditionInterface *Luid(uint64_t interfaceLuid, const IStrictComparison &comparison = CompareEq());
-	static ConditionInterface *Alias(const std::wstring &interfaceAlias, const IStrictComparison &comparison = CompareEq());
-	static ConditionInterface *Name(const std::wstring &interfaceName, const IStrictComparison &comparison = CompareEq());
+	// Public but non-invokable
+	ConditionInterface(uint32_t interfaceIndex, const IStrictComparison &comparison, ctor_tag);
+	ConditionInterface(uint64_t interfaceLuid, const IStrictComparison &comparison, ctor_tag);
+	ConditionInterface(const std::wstring &interfaceIdentifier, IdentifierType type, const IStrictComparison &comparison, ctor_tag);
+
+	static std::unique_ptr<ConditionInterface> Index(uint32_t interfaceIndex, const IStrictComparison &comparison = CompareEq());
+	static std::unique_ptr<ConditionInterface> Luid(uint64_t interfaceLuid, const IStrictComparison &comparison = CompareEq());
+	static std::unique_ptr<ConditionInterface> Alias(const std::wstring &interfaceAlias, const IStrictComparison &comparison = CompareEq());
+	static std::unique_ptr<ConditionInterface> Name(const std::wstring &interfaceName, const IStrictComparison &comparison = CompareEq());
 
 	std::wstring toString() const override;
 	const GUID &identifier() const override;
