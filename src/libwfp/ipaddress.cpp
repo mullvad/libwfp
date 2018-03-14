@@ -92,10 +92,8 @@ IpAddress::IpAddress(uint32_t netnode)
 }
 
 IpAddress::IpAddress(const IpAddress::Literal &netnode)
-	: m_ipv4(netnode.address)
-	, m_type(Type::Ipv4)
+	: IpAddress(netnode.address)
 {
-	memset(m_ipv6, 0, sizeof(m_ipv6));
 }
 
 IpAddress::IpAddress(const FWP_BYTE_ARRAY16 &netnode)
