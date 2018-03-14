@@ -112,7 +112,7 @@ std::wstring FormatIpv6(const uint8_t ip[16])
 
 	std::wstringstream ss;
 
-	const UINT16 *wptr = (const UINT16 *)ip;
+	auto wptr = (const uint16_t *)ip;
 
 	//
 	// Since this is executing on a little-endian system
