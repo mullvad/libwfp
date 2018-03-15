@@ -10,7 +10,7 @@ namespace wfp
 
 class FilterEngine
 {
-	struct ctor_tag { explicit ctor_tag() = default; };
+	FilterEngine(bool dynamic, uint32_t *timeout);
 
 public:
 
@@ -26,19 +26,14 @@ public:
 	static std::unique_ptr<FilterEngine> DynamicSession(uint32_t timeout);
 	static std::unique_ptr<FilterEngine> StandardSession(uint32_t timeout);
 
-	// Public but non-invokable
-	FilterEngine(bool dynamic, uint32_t timeout, ctor_tag);
-
 	~FilterEngine();
 
 	HANDLE session() const;
 
 private:
 
-	FilterEngine(const FilterEngine &);
-	FilterEngine &operator=(const FilterEngine &);
-
-	void new_internal(const FWPM_SESSION0 &sessionInfo);
+	FilterEngine(const FilterEngine &) = delete;
+	FilterEngine &operator=(const FilterEngine &) = delete;
 
 	HANDLE m_session;
 };

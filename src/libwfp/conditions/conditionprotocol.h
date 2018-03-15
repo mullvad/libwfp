@@ -8,18 +8,15 @@ namespace wfp::conditions {
 
 class ConditionProtocol : public IFilterCondition
 {
-	struct ctor_tag { explicit ctor_tag() = default; };
-
 	enum class Protocol
 	{
 		Tcp,
 		Udp
 	};
 
-public:
+	ConditionProtocol(Protocol protocol);
 
-	// Public but non-invokable
-	ConditionProtocol(Protocol protocol, ctor_tag);
+public:
 
 	static std::unique_ptr<ConditionProtocol> Tcp();
 	static std::unique_ptr<ConditionProtocol> Udp();

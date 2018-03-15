@@ -10,21 +10,7 @@
 namespace common
 {
 
-//static
-std::unique_ptr<ApplicationRunner> ApplicationRunner::StartDetached(
-	const std::wstring &path, const std::wstring &args)
-{
-	return std::make_unique<ApplicationRunner>(path, args, DETACHED_PROCESS, ctor_tag{});
-}
-
-//static
-std::unique_ptr<ApplicationRunner> ApplicationRunner::StartWithoutConsole(
-	const std::wstring &path, const std::wstring &args)
-{
-	return std::make_unique<ApplicationRunner>(path, args, CREATE_NO_WINDOW, ctor_tag{});
-}
-
-ApplicationRunner::ApplicationRunner(const std::wstring &path, const std::wstring &args, DWORD creationFlags, ctor_tag)
+ApplicationRunner::ApplicationRunner(const std::wstring &path, const std::wstring &args, DWORD creationFlags)
 	: m_processId(0)
 {
 	auto cmdline = CreateCommandLine(path, args);
@@ -49,6 +35,20 @@ ApplicationRunner::ApplicationRunner(const std::wstring &path, const std::wstrin
 
 	m_processId = pi.dwProcessId;
 	m_process.reset(new HANDLE(pi.hProcess));
+}
+
+//static
+std::unique_ptr<ApplicationRunner> ApplicationRunner::StartDetached(
+	const std::wstring &path, const std::wstring &args)
+{
+	return std::unique_ptr<ApplicationRunner>(new ApplicationRunner(path, args, DETACHED_PROCESS));
+}
+
+//static
+std::unique_ptr<ApplicationRunner> ApplicationRunner::StartWithoutConsole(
+	const std::wstring &path, const std::wstring &args)
+{
+	return std::unique_ptr<ApplicationRunner>(new ApplicationRunner(path, args, CREATE_NO_WINDOW));
 }
 
 bool ApplicationRunner::read(std::string &data, size_t maxChars, size_t timeout)

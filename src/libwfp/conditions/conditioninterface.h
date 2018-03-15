@@ -10,8 +10,6 @@ namespace wfp::conditions {
 
 class ConditionInterface : public IFilterCondition
 {
-	struct ctor_tag { explicit ctor_tag() = default; };
-
 	enum class IdentifierType
 	{
 		Index,
@@ -20,12 +18,11 @@ class ConditionInterface : public IFilterCondition
 		Name
 	};
 
-public:
+	ConditionInterface(uint32_t interfaceIndex, const IStrictComparison &comparison);
+	ConditionInterface(uint64_t interfaceLuid, const IStrictComparison &comparison);
+	ConditionInterface(const std::wstring &interfaceIdentifier, IdentifierType type, const IStrictComparison &comparison);
 
-	// Public but non-invokable
-	ConditionInterface(uint32_t interfaceIndex, const IStrictComparison &comparison, ctor_tag);
-	ConditionInterface(uint64_t interfaceLuid, const IStrictComparison &comparison, ctor_tag);
-	ConditionInterface(const std::wstring &interfaceIdentifier, IdentifierType type, const IStrictComparison &comparison, ctor_tag);
+public:
 
 	static std::unique_ptr<ConditionInterface> Index(uint32_t interfaceIndex, const IStrictComparison &comparison = CompareEq());
 	static std::unique_ptr<ConditionInterface> Luid(uint64_t interfaceLuid, const IStrictComparison &comparison = CompareEq());

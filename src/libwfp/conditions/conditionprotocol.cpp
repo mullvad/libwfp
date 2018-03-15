@@ -7,7 +7,7 @@ using ConditionAssembler = ::wfp::internal::ConditionAssembler;
 
 namespace wfp::conditions {
 
-ConditionProtocol::ConditionProtocol(Protocol protocol, ctor_tag)
+ConditionProtocol::ConditionProtocol(Protocol protocol)
 	: m_protocol(protocol)
 {
 	m_assembled = ConditionAssembler::Uint8
@@ -41,13 +41,13 @@ const FWPM_FILTER_CONDITION0 &ConditionProtocol::condition() const
 //static
 std::unique_ptr<ConditionProtocol> ConditionProtocol::Tcp()
 {
-	return std::make_unique<ConditionProtocol>(Protocol::Tcp, ctor_tag());
+	return std::unique_ptr<ConditionProtocol>(new ConditionProtocol(Protocol::Tcp));
 }
 
 //static
 std::unique_ptr<ConditionProtocol> ConditionProtocol::Udp()
 {
-	return std::make_unique<ConditionProtocol>(Protocol::Udp, ctor_tag());
+	return std::unique_ptr<ConditionProtocol>(new ConditionProtocol(Protocol::Udp));
 }
 
 }

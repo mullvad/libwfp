@@ -8,18 +8,15 @@ namespace wfp::conditions {
 
 class ConditionDirection : public IFilterCondition
 {
-	struct ctor_tag { explicit ctor_tag() = default; };
-
 	enum class Direction
 	{
 		Inbound,
 		Outbound
 	};
 
-public:
+	ConditionDirection(Direction direction);
 
-	// Public but non-invokable
-	ConditionDirection(Direction direction, ctor_tag);
+public:
 
 	static std::unique_ptr<ConditionDirection> Inbound();
 	static std::unique_ptr<ConditionDirection> Outbound();
