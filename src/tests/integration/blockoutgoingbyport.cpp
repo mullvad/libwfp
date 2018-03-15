@@ -10,6 +10,7 @@
 #include "libcommon/string.h"
 #include "tests/ncat.h"
 #include "gtest/gtest.h"
+#include <memory>
 
 using namespace ::wfp::conditions;
 
@@ -74,8 +75,8 @@ TEST(IntegrationTest, BlockOutgoingByPort)
 
 	wfp::ConditionBuilder conditionBuilder(LayerKey);
 
-	conditionBuilder.add_condition(new ConditionApplication(Ncat::PATH));
-	conditionBuilder.add_condition(new ConditionRemotePort(PORT));
+	conditionBuilder.add_condition(std::make_unique<ConditionApplication>(Ncat::PATH));
+	conditionBuilder.add_condition(std::make_unique<ConditionRemotePort>(PORT));
 
 	wfp::FilterBuilder filterBuilder;
 

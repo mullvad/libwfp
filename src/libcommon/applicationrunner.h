@@ -10,15 +10,12 @@ namespace common
 
 class ApplicationRunner
 {
-	struct ctor_tag { explicit ctor_tag() = default; };
+	ApplicationRunner(const std::wstring &path, const std::wstring &args, DWORD creationFlags);
 
 public:
 
 	static std::unique_ptr<ApplicationRunner> StartDetached(const std::wstring &path, const std::wstring &args);
 	static std::unique_ptr<ApplicationRunner> StartWithoutConsole(const std::wstring &path, const std::wstring &args);
-
-	// Public but non-invokable
-	ApplicationRunner(const std::wstring &path, const std::wstring &args, DWORD creationFlags, ctor_tag);
 
 	bool read(std::string &data, size_t maxChars, size_t timeout);
 	bool write(const std::string &data);
@@ -27,8 +24,8 @@ public:
 
 private:
 
-	ApplicationRunner(const ApplicationRunner &);
-	ApplicationRunner &operator=(const ApplicationRunner &);
+	ApplicationRunner(const ApplicationRunner &) = delete;
+	ApplicationRunner &operator=(const ApplicationRunner &) = delete;
 
 	static std::wstring CreateCommandLine(const std::wstring &path, const std::wstring &args);
 	void createPipes();

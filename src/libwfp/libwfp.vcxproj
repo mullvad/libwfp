@@ -21,11 +21,20 @@
   <ItemGroup>
     <ClCompile Include="conditionbuilder.cpp" />
     <ClCompile Include="conditions\conditionapplication.cpp" />
+    <ClCompile Include="conditions\conditiondirection.cpp" />
+    <ClCompile Include="conditions\conditioninterface.cpp" />
+    <ClCompile Include="conditions\conditionlocalip.cpp" />
+    <ClCompile Include="conditions\conditionlocalport.cpp" />
+    <ClCompile Include="conditions\conditionlocalportrange.cpp" />
+    <ClCompile Include="conditions\conditionloopback.cpp" />
+    <ClCompile Include="conditions\conditionprotocol.cpp" />
+    <ClCompile Include="conditions\conditionremoteip.cpp" />
     <ClCompile Include="conditions\conditionremoteport.cpp" />
+    <ClCompile Include="conditions\conditionremoteportrange.cpp" />
     <ClCompile Include="filterbuilder.cpp" />
     <ClCompile Include="filterengine.cpp" />
     <ClCompile Include="internal\conditionassembler.cpp" />
-    <ClCompile Include="ipaddr.cpp" />
+    <ClCompile Include="ipaddress.cpp" />
     <ClCompile Include="layerconditions.cpp" />
     <ClCompile Include="objectdeleter.cpp" />
     <ClCompile Include="objectenumerator.cpp" />
@@ -44,14 +53,27 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="conditionbuilder.h" />
+    <ClInclude Include="conditions\comparison.h" />
     <ClInclude Include="conditions\conditionapplication.h" />
+    <ClInclude Include="conditions\conditiondirection.h" />
+    <ClInclude Include="conditions\conditioninterface.h" />
+    <ClInclude Include="conditions\conditionlocalip.h" />
+    <ClInclude Include="conditions\conditionlocalport.h" />
+    <ClInclude Include="conditions\conditionlocalportrange.h" />
+    <ClInclude Include="conditions\conditionloopback.h" />
+    <ClInclude Include="conditions\conditionprotocol.h" />
+    <ClInclude Include="conditions\conditionremoteip.h" />
     <ClInclude Include="conditions\conditionremoteport.h" />
+    <ClInclude Include="conditions\conditionremoteportrange.h" />
+    <ClInclude Include="conditions\icomparisonoperator.h" />
+    <ClInclude Include="conditions\ifiltercondition.h" />
     <ClInclude Include="filterbuilder.h" />
     <ClInclude Include="filterengine.h" />
-    <ClInclude Include="ifiltercondition.h" />
+    <ClInclude Include="iconditionbuilder.h" />
     <ClInclude Include="internal\conditionassembler.h" />
-    <ClInclude Include="ipaddr.h" />
+    <ClInclude Include="ipaddress.h" />
     <ClInclude Include="layerconditions.h" />
+    <ClInclude Include="nullconditionbuilder.h" />
     <ClInclude Include="objectdeleter.h" />
     <ClInclude Include="objectenumerator.h" />
     <ClInclude Include="objectexplorer.h" />
@@ -151,7 +173,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>fwpuclnt.lib</AdditionalDependencies>
+      <AdditionalDependencies>fwpuclnt.lib;ws2_32.lib;iphlpapi.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -170,7 +192,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>fwpuclnt.lib</AdditionalDependencies>
+      <AdditionalDependencies>fwpuclnt.lib;ws2_32.lib;iphlpapi.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -193,7 +215,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>fwpuclnt.lib</AdditionalDependencies>
+      <AdditionalDependencies>fwpuclnt.lib;ws2_32.lib;iphlpapi.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -216,7 +238,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>fwpuclnt.lib</AdditionalDependencies>
+      <AdditionalDependencies>fwpuclnt.lib;ws2_32.lib;iphlpapi.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -2,15 +2,15 @@
 #include "conditionapplication.h"
 #include "libwfp/internal/conditionassembler.h"
 #include "libcommon/error.h"
-#include <guiddef.h>
-#include <fwpmu.h>
+#include <sstream>
 
 using ConditionAssembler = ::wfp::internal::ConditionAssembler;
 
 namespace wfp::conditions {
 
-ConditionApplication::ConditionApplication(const std::wstring &application)
+ConditionApplication::ConditionApplication(const std::wstring &application, const IStrictComparison &comparison)
 	: m_application(application)
+	, m_comparison(comparison)
 {
 	FWP_BYTE_BLOB *blob;
 
@@ -18,14 +18,18 @@ ConditionApplication::ConditionApplication(const std::wstring &application)
 
 	THROW_UNLESS(ERROR_SUCCESS, status, "Retrieve application identifier from filename");
 
-	m_assembled = ConditionAssembler::ByteBlob(identifier(), FWP_MATCH_EQUAL, *blob);
+	m_assembled = ConditionAssembler::ByteBlob(identifier(), m_comparison.op(), *blob);
 
 	FwpmFreeMemory0((void**)&blob);
 }
 
 std::wstring ConditionApplication::toString() const
 {
-	return std::wstring(L"application = ").append(m_application);
+	std::wstringstream ss;
+
+	ss << L"application " << m_comparison.toString() << L" " << m_application;
+
+	return ss.str();
 }
 
 const GUID &ConditionApplication::identifier() const

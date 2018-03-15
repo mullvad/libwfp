@@ -3,6 +3,8 @@
 #include "layerconditions.h"
 #include <stdexcept>
 
+using IFilterCondition = wfp::conditions::IFilterCondition;
+
 namespace wfp
 {
 
@@ -11,14 +13,14 @@ ConditionBuilder::ConditionBuilder(const GUID &layer)
 	memcpy(&m_layer, &layer, sizeof(layer));
 }
 
-ConditionBuilder &ConditionBuilder::add_condition(IFilterCondition *condition)
+ConditionBuilder &ConditionBuilder::add_condition(std::unique_ptr<IFilterCondition> condition)
 {
 	if (false == LayerConditions::IsCompatible(m_layer, condition->identifier()))
 	{
 		throw std::runtime_error("Condition is not compatible with layer");
 	}
 
-	m_conditions.push_back(std::unique_ptr<IFilterCondition>(condition));
+	m_conditions.insert(std::move(condition));
 
 	return *this;
 }

@@ -3,6 +3,7 @@
 #include <objbase.h>
 #include <windows.h>
 #include <algorithm>
+#include <sstream>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -36,8 +37,10 @@ std::wstring FormatFlags(std::vector<std::pair<T, std::wstring> > &definitions, 
 	return Join(present);
 }
 
-std::wstring FormatIpV4(UINT32 ip);
-std::wstring FormatIpV6(const UINT8 ip[16]);
+std::wstring FormatIpv4(uint32_t ip);
+std::wstring FormatIpv4(uint32_t ip, uint8_t routingPrefix);
+std::wstring FormatIpv6(const uint8_t ip[16]);
+std::wstring FormatIpv6(const uint8_t ip[16], uint8_t routingPrefix);
 
 std::wstring FormatTime(const FILETIME &filetime);
 std::wstring FormatLocalTime(const FILETIME &filetime);
@@ -102,6 +105,17 @@ std::basic_string<T> TrimRight(const std::basic_string<T> &str)
 	}
 
 	return trimmed;
+}
+
+template<typename T>
+T LexicalCast(const std::wstring &s)
+{
+	std::wstringstream ss(s);
+	T casted;
+
+	ss >> casted;
+
+	return casted;
 }
 
 }
