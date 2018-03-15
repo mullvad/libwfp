@@ -44,6 +44,8 @@ private:
 	SessionController(const SessionController &) = delete;
 	SessionController &operator=(const SessionController &) = delete;
 
+	void rewindState(size_t steps);
+
 	std::unique_ptr<wfp::FilterEngine> m_engine;
 
 	std::vector<SessionRecord> m_records;
