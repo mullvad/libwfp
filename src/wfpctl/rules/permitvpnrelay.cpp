@@ -28,7 +28,7 @@ const GUID &LayerFromIp(const wfp::IpAddress &ip)
 	};
 }
 
-ConditionProtocol *CreateProtocolCondition(PermitVpnRelay::Protocol protocol)
+std::unique_ptr<ConditionProtocol> CreateProtocolCondition(PermitVpnRelay::Protocol protocol)
 {
 	switch (protocol)
 	{
@@ -70,8 +70,8 @@ bool PermitVpnRelay::apply(IObjectInstaller &objectInstaller)
 
 	wfp::ConditionBuilder conditionBuilder(LayerFromIp(m_relay));
 
-	conditionBuilder.add_condition(new ConditionRemoteIp(m_relay));
-	conditionBuilder.add_condition(new ConditionRemotePort(m_relayPort));
+	conditionBuilder.add_condition(std::make_unique<ConditionRemoteIp>(m_relay));
+	conditionBuilder.add_condition(std::make_unique<ConditionRemotePort>(m_relayPort));
 	conditionBuilder.add_condition(CreateProtocolCondition(m_protocol));
 
 	return objectInstaller.addFilter(filterBuilder, conditionBuilder);

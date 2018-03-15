@@ -32,8 +32,8 @@ bool PermitLanService::apply(IObjectInstaller &objectInstaller)
 
 	wfp::ConditionBuilder conditionBuilder(FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V4);
 
-	conditionBuilder.add_condition(new ConditionLocalIp(wfp::IpAddress::Literal({ 10, 0, 0, 0 }), 8));
-	conditionBuilder.add_condition(new ConditionRemoteIp(wfp::IpAddress::Literal({ 10, 0, 0, 0 }), 8));
+	conditionBuilder.add_condition(std::make_unique<ConditionLocalIp>(wfp::IpAddress::Literal({ 10, 0, 0, 0 }), uint8_t(8)));
+	conditionBuilder.add_condition(std::make_unique<ConditionRemoteIp>(wfp::IpAddress::Literal({ 10, 0, 0, 0 }), uint8_t(8)));
 
 	if (!objectInstaller.addFilter(filterBuilder, conditionBuilder))
 	{
@@ -50,8 +50,8 @@ bool PermitLanService::apply(IObjectInstaller &objectInstaller)
 
 	conditionBuilder.reset();
 
-	conditionBuilder.add_condition(new ConditionLocalIp(wfp::IpAddress::Literal({ 172, 16, 0, 0 }), 12));
-	conditionBuilder.add_condition(new ConditionRemoteIp(wfp::IpAddress::Literal({ 172, 16, 0, 0 }), 12));
+	conditionBuilder.add_condition(std::make_unique<ConditionLocalIp>(wfp::IpAddress::Literal({ 172, 16, 0, 0 }), uint8_t(12)));
+	conditionBuilder.add_condition(std::make_unique<ConditionRemoteIp>(wfp::IpAddress::Literal({ 172, 16, 0, 0 }), uint8_t(12)));
 
 	if (!objectInstaller.addFilter(filterBuilder, conditionBuilder))
 	{
@@ -68,8 +68,8 @@ bool PermitLanService::apply(IObjectInstaller &objectInstaller)
 
 	conditionBuilder.reset();
 
-	conditionBuilder.add_condition(new ConditionLocalIp(wfp::IpAddress::Literal({ 192, 168, 0, 0 }), 16));
-	conditionBuilder.add_condition(new ConditionRemoteIp(wfp::IpAddress::Literal({ 192, 168, 0, 0 }), 16));
+	conditionBuilder.add_condition(std::make_unique<ConditionLocalIp>(wfp::IpAddress::Literal({ 192, 168, 0, 0 }), uint8_t(16)));
+	conditionBuilder.add_condition(std::make_unique<ConditionRemoteIp>(wfp::IpAddress::Literal({ 192, 168, 0, 0 }), uint8_t(16)));
 
 	return objectInstaller.addFilter(filterBuilder, conditionBuilder);
 }

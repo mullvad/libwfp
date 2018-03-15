@@ -31,7 +31,7 @@ bool PermitLoopback::apply(IObjectInstaller &objectInstaller)
 	{
 		wfp::ConditionBuilder conditionBuilder(FWPM_LAYER_ALE_AUTH_CONNECT_V4);
 
-		conditionBuilder.add_condition(new ConditionLoopback);
+		conditionBuilder.add_condition(std::make_unique<ConditionLoopback>());
 
 		if (false == objectInstaller.addFilter(filterBuilder, conditionBuilder))
 		{
@@ -50,7 +50,7 @@ bool PermitLoopback::apply(IObjectInstaller &objectInstaller)
 	{
 		wfp::ConditionBuilder conditionBuilder(FWPM_LAYER_ALE_AUTH_CONNECT_V6);
 
-		conditionBuilder.add_condition(new ConditionLoopback);
+		conditionBuilder.add_condition(std::make_unique<ConditionLoopback>());
 
 		if (false == objectInstaller.addFilter(filterBuilder, conditionBuilder))
 		{
@@ -70,7 +70,7 @@ bool PermitLoopback::apply(IObjectInstaller &objectInstaller)
 	{
 		wfp::ConditionBuilder conditionBuilder(FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V4);
 
-		conditionBuilder.add_condition(new ConditionLoopback);
+		conditionBuilder.add_condition(std::make_unique<ConditionLoopback>());
 
 		if (false == objectInstaller.addFilter(filterBuilder, conditionBuilder))
 		{
@@ -88,7 +88,7 @@ bool PermitLoopback::apply(IObjectInstaller &objectInstaller)
 
 	wfp::ConditionBuilder conditionBuilder(FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V6);
 
-	conditionBuilder.add_condition(new ConditionLoopback);
+	conditionBuilder.add_condition(std::make_unique<ConditionLoopback>());
 
 	return objectInstaller.addFilter(filterBuilder, conditionBuilder);
 }
