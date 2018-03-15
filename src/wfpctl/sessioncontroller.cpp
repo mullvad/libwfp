@@ -206,12 +206,6 @@ void SessionController::revert(uint32_t key)
 		throw std::runtime_error("Cannot revert session state outside transaction");
 	}
 
-	if (0 == key)
-	{
-		reset();
-		return;
-	}
-
 	size_t elementIndex = 0;
 
 	if (false == CheckpointKeyToIndex(m_transactionRecords, key, elementIndex))
@@ -221,23 +215,7 @@ void SessionController::revert(uint32_t key)
 
 	const size_t numRemove = m_transactionRecords.size() - (elementIndex + 1);
 
-	auto purged = 0;
-
-	try
-	{
-		ProcessReverse(m_transactionRecords, numRemove, [this, &purged](SessionRecord &record)
-		{
-			record.purge(*m_engine);
-			++purged;
-		});
-	}
-	catch (...)
-	{
-		EraseBack(m_transactionRecords, purged);
-		throw;
-	}
-
-	EraseBack(m_transactionRecords, numRemove);
+	rewindState(numRemove);
 }
 
 void SessionController::reset()
@@ -247,11 +225,16 @@ void SessionController::reset()
 		throw std::runtime_error("Cannot reset session state outside transaction");
 	}
 
+	rewindState(m_transactionRecords.size());
+}
+
+void SessionController::rewindState(size_t steps)
+{
 	auto purged = 0;
 
 	try
 	{
-		ProcessReverse(m_transactionRecords, m_transactionRecords.size(), [this, &purged](SessionRecord &record)
+		ProcessReverse(m_transactionRecords, steps, [this, &purged](SessionRecord &record)
 		{
 			record.purge(*m_engine);
 			++purged;
@@ -263,5 +246,5 @@ void SessionController::reset()
 		throw;
 	}
 
-	m_transactionRecords.clear();
+	EraseBack(m_transactionRecords, steps);
 }
