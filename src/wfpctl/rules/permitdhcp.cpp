@@ -6,7 +6,7 @@
 #include "libwfp/ipaddress.h"
 #include "libwfp/conditions/conditionprotocol.h"
 #include "libwfp/conditions/conditionlocalport.h"
-#include "libwfp/conditions/conditionremoteip.h"
+#include "libwfp/conditions/conditionip.h"
 #include "libwfp/conditions/conditionremoteport.h"
 
 using namespace wfp::conditions;
@@ -44,7 +44,7 @@ bool PermitDhcp::apply(IObjectInstaller &objectInstaller)
 
 		conditionBuilder.add_condition(ConditionProtocol::Udp());
 		conditionBuilder.add_condition(std::make_unique<ConditionLocalPort>(uint16_t(68)));
-		conditionBuilder.add_condition(std::make_unique<ConditionRemoteIp>(wfp::IpAddress::Literal({ 255, 255, 255, 255 })));
+		conditionBuilder.add_condition(ConditionIp::Remote(wfp::IpAddress::Literal({ 255, 255, 255, 255 })));
 		conditionBuilder.add_condition(std::make_unique<ConditionRemotePort>(uint16_t(67)));
 
 		if (!objectInstaller.addFilter(filterBuilder, conditionBuilder))

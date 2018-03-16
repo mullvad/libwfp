@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "conditionlocalip.h"
+#include "conditionip.h"
 #include "libwfp/internal/conditionassembler.h"
 #include "libcommon/network.h"
 #include "libcommon/string.h"
@@ -10,8 +10,9 @@ using ConditionAssembler = ::wfp::internal::ConditionAssembler;
 
 namespace wfp::conditions {
 
-ConditionLocalIp::ConditionLocalIp(const IpAddress &netnode, const IStrictComparison &comparison)
-	: m_net(netnode)
+ConditionIp::ConditionIp(bool local, const IpAddress &netnode, const IStrictComparison &comparison)
+	: m_local(local)
+	, m_net(netnode)
 	, m_prefix(0)
 	, m_comparison(comparison)
 {
@@ -38,8 +39,9 @@ ConditionLocalIp::ConditionLocalIp(const IpAddress &netnode, const IStrictCompar
 	}
 }
 
-ConditionLocalIp::ConditionLocalIp(const IpAddress &network, uint8_t prefix, const IStrictComparison &comparison)
-	: m_net(network)
+ConditionIp::ConditionIp(bool local, const IpAddress &network, uint8_t prefix, const IStrictComparison &comparison)
+	: m_local(local)
+	, m_net(network)
 	, m_prefix(prefix)
 	, m_comparison(comparison)
 {
@@ -76,30 +78,56 @@ ConditionLocalIp::ConditionLocalIp(const IpAddress &network, uint8_t prefix, con
 	}
 }
 
-std::wstring ConditionLocalIp::toString() const
+//static
+std::unique_ptr<ConditionIp> ConditionIp::Local(const IpAddress &netnode, const IStrictComparison &comparison)
+{
+	return std::unique_ptr<ConditionIp>(new ConditionIp(true, netnode, comparison));
+}
+
+//static
+std::unique_ptr<ConditionIp> ConditionIp::Local(const IpAddress &netnode, uint8_t prefix, const IStrictComparison &comparison)
+{
+	return std::unique_ptr<ConditionIp>(new ConditionIp(true, netnode, prefix, comparison));
+}
+
+//static
+std::unique_ptr<ConditionIp> ConditionIp::Remote(const IpAddress &netnode, const IStrictComparison &comparison)
+{
+	return std::unique_ptr<ConditionIp>(new ConditionIp(false, netnode, comparison));
+}
+
+//static
+std::unique_ptr<ConditionIp> ConditionIp::Remote(const IpAddress &netnode, uint8_t prefix, const IStrictComparison &comparison)
+{
+	return std::unique_ptr<ConditionIp>(new ConditionIp(false, netnode, prefix, comparison));
+}
+
+std::wstring ConditionIp::toString() const
 {
 	std::wstringstream ss;
+
+	const auto target = (m_local ? L"local" : L"remote");
 
 	switch (m_addressType)
 	{
 		case AddressType::Ipv4:
 		{
-			ss << L"local ip " << m_comparison.toString() << L" " << common::string::FormatIpv4(m_net.addr());
+			ss << target << L" ip " << m_comparison.toString() << L" " << common::string::FormatIpv4(m_net.addr());
 			break;
 		}
 		case AddressType::Ipv4Network:
 		{
-			ss << L"local ip net " << m_comparison.toString() << L" " << common::string::FormatIpv4(m_net.addr(), m_prefix);
+			ss << target << L" ip net " << m_comparison.toString() << L" " << common::string::FormatIpv4(m_net.addr(), m_prefix);
 			break;
 		}
 		case AddressType::Ipv6:
 		{
-			ss << L"local ip " << m_comparison.toString() << L" " << common::string::FormatIpv6(m_net.addr6().byteArray16);
+			ss << target << L" ip " << m_comparison.toString() << L" " << common::string::FormatIpv6(m_net.addr6().byteArray16);
 			break;
 		}
 		case AddressType::Ipv6Network:
 		{
-			ss << L"local ip net " << m_comparison.toString() << L" " << common::string::FormatIpv6(m_net.addr6().byteArray16, m_prefix);
+			ss << target << L" ip net " << m_comparison.toString() << L" " << common::string::FormatIpv6(m_net.addr6().byteArray16, m_prefix);
 			break;
 		}
 		default:
@@ -111,12 +139,12 @@ std::wstring ConditionLocalIp::toString() const
 	return ss.str();
 }
 
-const GUID &ConditionLocalIp::identifier() const
+const GUID &ConditionIp::identifier() const
 {
-	return FWPM_CONDITION_IP_LOCAL_ADDRESS;
+	return (m_local ? FWPM_CONDITION_IP_LOCAL_ADDRESS : FWPM_CONDITION_IP_REMOTE_ADDRESS);
 }
 
-const FWPM_FILTER_CONDITION0 &ConditionLocalIp::condition() const
+const FWPM_FILTER_CONDITION0 &ConditionIp::condition() const
 {
 	return *reinterpret_cast<FWPM_FILTER_CONDITION0 *>(m_assembled.data());
 }

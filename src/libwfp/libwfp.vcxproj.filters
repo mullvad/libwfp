@@ -34,9 +34,6 @@
     <ClCompile Include="conditions\conditionprotocol.cpp">
       <Filter>conditions</Filter>
     </ClCompile>
-    <ClCompile Include="conditions\conditionremoteip.cpp">
-      <Filter>conditions</Filter>
-    </ClCompile>
     <ClCompile Include="conditions\conditioninterface.cpp">
       <Filter>conditions</Filter>
     </ClCompile>
@@ -55,10 +52,10 @@
     <ClCompile Include="conditions\conditiondirection.cpp">
       <Filter>conditions</Filter>
     </ClCompile>
-    <ClCompile Include="conditions\conditionlocalip.cpp">
+    <ClCompile Include="ipaddress.cpp" />
+    <ClCompile Include="conditions\conditionip.cpp">
       <Filter>conditions</Filter>
     </ClCompile>
-    <ClCompile Include="ipaddress.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="objectdeleter.h" />
@@ -85,9 +82,6 @@
     <ClInclude Include="layerconditions.h" />
     <ClInclude Include="objectmonitor.h" />
     <ClInclude Include="conditions\conditionprotocol.h">
-      <Filter>conditions</Filter>
-    </ClInclude>
-    <ClInclude Include="conditions\conditionremoteip.h">
       <Filter>conditions</Filter>
     </ClInclude>
     <ClInclude Include="conditions\conditioninterface.h">
@@ -117,11 +111,11 @@
     <ClInclude Include="conditions\conditiondirection.h">
       <Filter>conditions</Filter>
     </ClInclude>
-    <ClInclude Include="conditions\conditionlocalip.h">
-      <Filter>conditions</Filter>
-    </ClInclude>
     <ClInclude Include="ipaddress.h" />
     <ClInclude Include="iconditionbuilder.h" />
     <ClInclude Include="nullconditionbuilder.h" />
+    <ClInclude Include="conditions\conditionip.h">
+      <Filter>conditions</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
