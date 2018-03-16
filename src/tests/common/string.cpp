@@ -74,7 +74,7 @@ TEST(LibCommonString, FormatFlagsOneMatchSeveralFlagsManyDefinitions)
 
 TEST(LibCommonString, FormatIpV4)
 {
-	ASSERT_EQ(common::string::FormatIpV4(0x7f000001), L"127.0.0.1");
+	ASSERT_EQ(common::string::FormatIpv4(0x7f000001), L"127.0.0.1");
 }
 
 TEST(LibCommonString, FormatIpV6)
@@ -85,5 +85,5 @@ TEST(LibCommonString, FormatIpV6)
 		0x50, 0x00, 0x60, 0x00, 0x70, 0x00, 0x80, 0x00
 	};
 
-	ASSERT_EQ(common::string::FormatIpV6(ip), L"10:20:30:40:50:60:70:80");
+	ASSERT_EQ(common::string::FormatIpv6(ip), L"1000:2000:3000:4000:5000:6000:7000:8000");
 }
