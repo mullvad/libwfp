@@ -1,43 +1,55 @@
 #pragma once
 
-#include "libwfp/conditionbuilder.h"
-#include "libwfp/filterbuilder.h"
+#include "iobjectinstaller.h"
+#include "sessionrecord.h"
 #include "libwfp/filterengine.h"
-#include "libwfp/providerbuilder.h"
-#include "libwfp/sublayerbuilder.h"
+#include <atomic>
+#include <memory>
 #include <vector>
 
-class SessionController
+class SessionController : public IObjectInstaller
 {
 public:
 
-	SessionController() = default;
+	SessionController(std::unique_ptr<wfp::FilterEngine> &&engine);
+	~SessionController();
 
-	bool addProvider(wfp::FilterEngine &engine, wfp::ProviderBuilder &providerBuilder);
-	bool addSublayer(wfp::FilterEngine &engine, wfp::SublayerBuilder &sublayerBuilder);
-	bool addFilter(wfp::FilterEngine &engine, wfp::FilterBuilder &filterBuilder, wfp::ConditionBuilder &conditionBuilder);
+	bool addProvider(wfp::ProviderBuilder &providerBuilder) override;
+	bool addSublayer(wfp::SublayerBuilder &sublayerBuilder) override;
+	bool addFilter(wfp::FilterBuilder &filterBuilder, const wfp::IConditionBuilder &conditionBuilder) override;
 
-	//
-	// This is the same as destroying and recreating the session
-	// but can be completed inside a transaction
-	//
-	void resetSession(wfp::FilterEngine &engine);
+	bool executeTransaction(std::function<bool()> operation);
+	bool executeReadOnlyTransaction(std::function<bool()> operation);
 
 	//
-	// Only reset filters, leaving all other objects that have been
-	// created in the current session
+	// Retrieve checkpoint key that can be used to restore the current session state
+	// This should be done outside of an active transaction
 	//
-	void resetFilters(wfp::FilterEngine &engine);
+	uint32_t checkpoint();
+
+	//
+	// Purge objects in the stack and return to an earlier state
+	// Use only inside active transaction
+	//
+	void revert(uint32_t key);
+
+	//
+	// Purge all objects in the stack
+	// Use only inside active transaction
+	//
+	void reset();
 
 private:
 
-	SessionController(const SessionController &);
-	SessionController &operator=(const SessionController &);
+	SessionController(const SessionController &) = delete;
+	SessionController &operator=(const SessionController &) = delete;
 
-	void resetProviders(wfp::FilterEngine &engine);
-	void resetSublayers(wfp::FilterEngine &engine);
+	void rewindState(size_t steps);
 
-	std::vector<GUID> m_providers;
-	std::vector<GUID> m_sublayers;
-	std::vector<UINT64> m_filters;
+	std::unique_ptr<wfp::FilterEngine> m_engine;
+
+	std::vector<SessionRecord> m_records;
+	std::vector<SessionRecord> m_transactionRecords;
+
+	std::atomic_bool m_activeTransaction;
 };

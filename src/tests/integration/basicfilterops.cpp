@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "libwfp/conditionbuilder.h"
-#include "libwfp/conditions/conditionremoteport.h"
+#include "libwfp/conditions/conditionport.h"
 #include "libwfp/filterbuilder.h"
 #include "libwfp/filterengine.h"
 #include "libwfp/objectexplorer.h"
@@ -16,7 +16,7 @@ TEST(IntegrationTest, BasicFilterOps)
 	static const GUID Layer = FWPM_LAYER_ALE_FLOW_ESTABLISHED_V4;
 
 	wfp::ConditionBuilder conditionBuilder(Layer);
-	conditionBuilder.add_condition(std::make_unique<ConditionRemotePort>(uint16_t(5555)));
+	conditionBuilder.add_condition(ConditionPort::Remote(5555));
 
 	wfp::FilterBuilder filterBuilder;
 

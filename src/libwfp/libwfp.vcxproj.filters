@@ -23,9 +23,6 @@
     <ClCompile Include="conditions\conditionapplication.cpp">
       <Filter>conditions</Filter>
     </ClCompile>
-    <ClCompile Include="conditions\conditionremoteport.cpp">
-      <Filter>conditions</Filter>
-    </ClCompile>
     <ClCompile Include="conditionbuilder.cpp" />
     <ClCompile Include="filterbuilder.cpp" />
     <ClCompile Include="filterengine.cpp" />
@@ -34,31 +31,25 @@
     <ClCompile Include="conditions\conditionprotocol.cpp">
       <Filter>conditions</Filter>
     </ClCompile>
-    <ClCompile Include="conditions\conditionremoteip.cpp">
-      <Filter>conditions</Filter>
-    </ClCompile>
     <ClCompile Include="conditions\conditioninterface.cpp">
-      <Filter>conditions</Filter>
-    </ClCompile>
-    <ClCompile Include="conditions\conditionlocalport.cpp">
       <Filter>conditions</Filter>
     </ClCompile>
     <ClCompile Include="conditions\conditionloopback.cpp">
       <Filter>conditions</Filter>
     </ClCompile>
-    <ClCompile Include="conditions\conditionlocalportrange.cpp">
-      <Filter>conditions</Filter>
-    </ClCompile>
-    <ClCompile Include="conditions\conditionremoteportrange.cpp">
-      <Filter>conditions</Filter>
-    </ClCompile>
     <ClCompile Include="conditions\conditiondirection.cpp">
       <Filter>conditions</Filter>
     </ClCompile>
-    <ClCompile Include="conditions\conditionlocalip.cpp">
+    <ClCompile Include="ipaddress.cpp" />
+    <ClCompile Include="conditions\conditionip.cpp">
       <Filter>conditions</Filter>
     </ClCompile>
-    <ClCompile Include="ipaddress.cpp" />
+    <ClCompile Include="conditions\conditionport.cpp">
+      <Filter>conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="conditions\conditionportrange.cpp">
+      <Filter>conditions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="objectdeleter.h" />
@@ -76,9 +67,6 @@
     <ClInclude Include="conditions\conditionapplication.h">
       <Filter>conditions</Filter>
     </ClInclude>
-    <ClInclude Include="conditions\conditionremoteport.h">
-      <Filter>conditions</Filter>
-    </ClInclude>
     <ClInclude Include="conditionbuilder.h" />
     <ClInclude Include="filterbuilder.h" />
     <ClInclude Include="filterengine.h" />
@@ -87,13 +75,7 @@
     <ClInclude Include="conditions\conditionprotocol.h">
       <Filter>conditions</Filter>
     </ClInclude>
-    <ClInclude Include="conditions\conditionremoteip.h">
-      <Filter>conditions</Filter>
-    </ClInclude>
     <ClInclude Include="conditions\conditioninterface.h">
-      <Filter>conditions</Filter>
-    </ClInclude>
-    <ClInclude Include="conditions\conditionlocalport.h">
       <Filter>conditions</Filter>
     </ClInclude>
     <ClInclude Include="conditions\conditionloopback.h">
@@ -108,20 +90,20 @@
     <ClInclude Include="conditions\comparison.h">
       <Filter>conditions</Filter>
     </ClInclude>
-    <ClInclude Include="conditions\conditionlocalportrange.h">
-      <Filter>conditions</Filter>
-    </ClInclude>
-    <ClInclude Include="conditions\conditionremoteportrange.h">
-      <Filter>conditions</Filter>
-    </ClInclude>
     <ClInclude Include="conditions\conditiondirection.h">
-      <Filter>conditions</Filter>
-    </ClInclude>
-    <ClInclude Include="conditions\conditionlocalip.h">
       <Filter>conditions</Filter>
     </ClInclude>
     <ClInclude Include="ipaddress.h" />
     <ClInclude Include="iconditionbuilder.h" />
     <ClInclude Include="nullconditionbuilder.h" />
+    <ClInclude Include="conditions\conditionip.h">
+      <Filter>conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="conditions\conditionport.h">
+      <Filter>conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="conditions\conditionportrange.h">
+      <Filter>conditions</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

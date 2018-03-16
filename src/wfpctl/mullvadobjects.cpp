@@ -16,31 +16,31 @@ std::unique_ptr<wfp::ProviderBuilder> MullvadObjects::Provider()
 }
 
 //static
-std::unique_ptr<wfp::SublayerBuilder> MullvadObjects::SublayerBlocking()
+std::unique_ptr<wfp::SublayerBuilder> MullvadObjects::SublayerWhitelist()
 {
 	auto builder = std::make_unique<wfp::SublayerBuilder>();
 
 	(*builder)
-		.name(L"Mullvad VPN Blocking")
-		.description(L"Mullvad VPN filters for blocking traffic")
-		.key(MullvadGuids::SublayerBlocking())
+		.name(L"Mullvad VPN whitelist")
+		.description(L"Filters that permit traffic")
+		.key(MullvadGuids::SublayerWhitelist())
 		.provider(MullvadGuids::Provider())
-		.weight(MAXUINT16 - 1);
+		.weight(MAXUINT16);
 
 	return builder;
 }
 
 //static
-std::unique_ptr<wfp::SublayerBuilder> MullvadObjects::SublayerAllowing()
+std::unique_ptr<wfp::SublayerBuilder> MullvadObjects::SublayerBlacklist()
 {
 	auto builder = std::make_unique<wfp::SublayerBuilder>();
 
 	(*builder)
-		.name(L"Mullvad VPN Allowing")
-		.description(L"Mullvad VPN filters for allowing traffic")
-		.key(MullvadGuids::SublayerAllowing())
+		.name(L"Mullvad VPN blacklist")
+		.description(L"Filters that block traffic")
+		.key(MullvadGuids::SublayerBlacklist())
 		.provider(MullvadGuids::Provider())
-		.weight(MAXUINT16);
+		.weight(MAXUINT16 - 1);
 
 	return builder;
 }

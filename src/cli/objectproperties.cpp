@@ -8,6 +8,12 @@
 #include <vector>
 #include <cwchar>
 
+// Add missing constants
+// These are documented in MSDN but not defined in any header?
+#define FWP_DIRECTION_IN 0x00003900L
+#define FWP_DIRECTION_OUT 0x00003901L
+#define FWP_DIRECTION_FORWARD 0x00003902L
+
 namespace detail
 {
 
@@ -123,9 +129,9 @@ std::wstring Direction(UINT32 direction)
 {
 	switch (direction)
 	{
-	case 0x3900: return L"In";
-	case 0x3901: return L"Out";
-	case 0x3902: return L"Forward";
+	case FWP_DIRECTION_IN: return L"In";
+	case FWP_DIRECTION_OUT: return L"Out";
+	case FWP_DIRECTION_FORWARD: return L"Forward";
 	default: return L"[Unknown]";
 	}
 }
@@ -252,11 +258,11 @@ PropertyList EventProperties(const FWPM_NET_EVENT0 &event, IPropertyDecorator *d
 	{
 		if (event.header.ipVersion == FWP_IP_VERSION_V4)
 		{
-			props.add(L"local addr", common::string::FormatIpV4(event.header.localAddrV4));
+			props.add(L"local addr", common::string::FormatIpv4(event.header.localAddrV4));
 		}
 		else
 		{
-			props.add(L"local addr", common::string::FormatIpV6(event.header.localAddrV6.byteArray16));
+			props.add(L"local addr", common::string::FormatIpv6(event.header.localAddrV6.byteArray16));
 		}
 	}
 
@@ -265,11 +271,11 @@ PropertyList EventProperties(const FWPM_NET_EVENT0 &event, IPropertyDecorator *d
 	{
 		if (event.header.ipVersion == FWP_IP_VERSION_V4)
 		{
-			props.add(L"remote addr", common::string::FormatIpV4(event.header.remoteAddrV4));
+			props.add(L"remote addr", common::string::FormatIpv4(event.header.remoteAddrV4));
 		}
 		else
 		{
-			props.add(L"remote addr", common::string::FormatIpV6(event.header.remoteAddrV6.byteArray16));
+			props.add(L"remote addr", common::string::FormatIpv6(event.header.remoteAddrV6.byteArray16));
 		}
 	}
 
@@ -391,11 +397,11 @@ PropertyList EventProperties(const FWPM_NET_EVENT1 &event, IPropertyDecorator *d
 	{
 		if (event.header.ipVersion == FWP_IP_VERSION_V4)
 		{
-			props.add(L"local addr", common::string::FormatIpV4(event.header.localAddrV4));
+			props.add(L"local addr", common::string::FormatIpv4(event.header.localAddrV4));
 		}
 		else
 		{
-			props.add(L"local addr", common::string::FormatIpV6(event.header.localAddrV6.byteArray16));
+			props.add(L"local addr", common::string::FormatIpv6(event.header.localAddrV6.byteArray16));
 		}
 	}
 
@@ -404,11 +410,11 @@ PropertyList EventProperties(const FWPM_NET_EVENT1 &event, IPropertyDecorator *d
 	{
 		if (event.header.ipVersion == FWP_IP_VERSION_V4)
 		{
-			props.add(L"remote addr", common::string::FormatIpV4(event.header.remoteAddrV4));
+			props.add(L"remote addr", common::string::FormatIpv4(event.header.remoteAddrV4));
 		}
 		else
 		{
-			props.add(L"remote addr", common::string::FormatIpV6(event.header.remoteAddrV6.byteArray16));
+			props.add(L"remote addr", common::string::FormatIpv6(event.header.remoteAddrV6.byteArray16));
 		}
 	}
 

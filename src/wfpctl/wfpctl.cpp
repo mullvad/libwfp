@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "wfpctl.h"
 #include "wfpcontext.h"
-#include "libwfp/ipaddr.h"
+#include "libwfp/ipaddress.h"
 #include <windows.h>
 #include <stdexcept>
 
@@ -28,6 +28,10 @@ Wfpctl_Initialize(
 {
 	if (nullptr != g_wfpContext)
 	{
+		//
+		// This is an error.
+		// The existing instance may have a different timeout etc.
+		//
 		return false;
 	}
 
@@ -79,7 +83,7 @@ bool
 WFPCTL_API
 Wfpctl_ApplyPolicyConnecting(
 	const WfpctlSettings &settings,
-	const wchar_t *relayIp
+	const WfpctlRelay &relay
 )
 {
 	if (nullptr == g_wfpContext)
@@ -89,7 +93,7 @@ Wfpctl_ApplyPolicyConnecting(
 
 	try
 	{
-		return g_wfpContext->applyPolicyConnecting(settings, wfp::IpAddr(relayIp));
+		return g_wfpContext->applyPolicyConnecting(settings, relay);
 	}
 	catch (std::exception &err)
 	{
@@ -111,8 +115,9 @@ bool
 WFPCTL_API
 Wfpctl_ApplyPolicyConnected(
 	const WfpctlSettings &settings,
-	const wchar_t *relayIp,
-	const wchar_t *tunnelIp
+	const WfpctlRelay &relay,
+	const wchar_t *tunnelInterfaceAlias,
+	const wchar_t *primaryDns
 )
 {
 	if (nullptr == g_wfpContext)
@@ -122,7 +127,7 @@ Wfpctl_ApplyPolicyConnected(
 
 	try
 	{
-		return g_wfpContext->applyPolicyConnected(settings, wfp::IpAddr(relayIp), wfp::IpAddr(tunnelIp));
+		return g_wfpContext->applyPolicyConnected(settings, relay, tunnelInterfaceAlias, primaryDns);
 	}
 	catch (std::exception &err)
 	{
@@ -146,15 +151,16 @@ Wfpctl_Reset()
 {
 	if (nullptr == g_wfpContext)
 	{
-		return true;
+		//
+		// This is an error.
+		// The reset instance enforces the block-all rule.
+		//
+		return false;
 	}
-
-	delete g_wfpContext;
-	g_wfpContext = nullptr;
 
 	try
 	{
-		g_wfpContext = new WfpContext(g_timeout);
+		return g_wfpContext->reset();
 	}
 	catch (std::exception &err)
 	{
@@ -169,6 +175,4 @@ Wfpctl_Reset()
 	{
 		return false;
 	}
-
-	return true;
 }
