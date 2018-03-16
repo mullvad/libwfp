@@ -8,6 +8,12 @@
 #include <vector>
 #include <cwchar>
 
+// Add missing constants
+// These are documented in MSDN but not defined in any header?
+#define FWP_DIRECTION_IN 0x00003900L
+#define FWP_DIRECTION_OUT 0x00003901L
+#define FWP_DIRECTION_FORWARD 0x00003902L
+
 namespace detail
 {
 
@@ -123,9 +129,9 @@ std::wstring Direction(UINT32 direction)
 {
 	switch (direction)
 	{
-	case 0x3900: return L"In";
-	case 0x3901: return L"Out";
-	case 0x3902: return L"Forward";
+	case FWP_DIRECTION_IN: return L"In";
+	case FWP_DIRECTION_OUT: return L"Out";
+	case FWP_DIRECTION_FORWARD: return L"Forward";
 	default: return L"[Unknown]";
 	}
 }
