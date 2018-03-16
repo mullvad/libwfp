@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "conditionloopback.h"
 #include "libwfp/internal/conditionassembler.h"
+#include <ipifcons.h>
 #include <sstream>
 #include <stdexcept>
 
@@ -27,9 +28,12 @@ namespace wfp::conditions {
 ConditionLoopback::ConditionLoopback(const IStrictComparison &comparison)
 	: m_comparison(comparison)
 {
-	UINT32 flags = FWP_CONDITION_FLAG_IS_LOOPBACK;
-
-	m_assembled = ConditionAssembler::Uint32(identifier(), TranslateComparison(m_comparison.op()), flags);
+	m_assembled = ConditionAssembler::Uint32
+	(
+		identifier(),
+		TranslateComparison(m_comparison.op()),
+		UINT32(IF_TYPE_SOFTWARE_LOOPBACK)
+	);
 }
 
 std::wstring ConditionLoopback::toString() const
@@ -43,7 +47,7 @@ std::wstring ConditionLoopback::toString() const
 
 const GUID &ConditionLoopback::identifier() const
 {
-	return FWPM_CONDITION_FLAGS;
+	return FWPM_CONDITION_INTERFACE_TYPE;
 }
 
 const FWPM_FILTER_CONDITION0 &ConditionLoopback::condition() const
