@@ -5,7 +5,7 @@
 #include "libwfp/conditionbuilder.h"
 #include "libwfp/conditions/conditionprotocol.h"
 #include "libwfp/conditions/conditionip.h"
-#include "libwfp/conditions/conditionremoteport.h"
+#include "libwfp/conditions/conditionport.h"
 
 using namespace wfp::conditions;
 
@@ -71,7 +71,7 @@ bool PermitVpnRelay::apply(IObjectInstaller &objectInstaller)
 	wfp::ConditionBuilder conditionBuilder(LayerFromIp(m_relay));
 
 	conditionBuilder.add_condition(ConditionIp::Remote(m_relay));
-	conditionBuilder.add_condition(std::make_unique<ConditionRemotePort>(m_relayPort));
+	conditionBuilder.add_condition(ConditionPort::Remote(m_relayPort));
 	conditionBuilder.add_condition(CreateProtocolCondition(m_protocol));
 
 	return objectInstaller.addFilter(filterBuilder, conditionBuilder);

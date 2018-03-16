@@ -5,9 +5,9 @@
 #include "libwfp/conditionbuilder.h"
 #include "libwfp/ipaddress.h"
 #include "libwfp/conditions/conditionprotocol.h"
-#include "libwfp/conditions/conditionlocalport.h"
+#include "libwfp/conditions/conditionport.h"
 #include "libwfp/conditions/conditionip.h"
-#include "libwfp/conditions/conditionremoteport.h"
+#include "libwfp/conditions/conditionport.h"
 
 using namespace wfp::conditions;
 
@@ -43,9 +43,9 @@ bool PermitDhcp::apply(IObjectInstaller &objectInstaller)
 		wfp::ConditionBuilder conditionBuilder(FWPM_LAYER_ALE_AUTH_CONNECT_V4);
 
 		conditionBuilder.add_condition(ConditionProtocol::Udp());
-		conditionBuilder.add_condition(std::make_unique<ConditionLocalPort>(uint16_t(68)));
+		conditionBuilder.add_condition(ConditionPort::Local(68));
 		conditionBuilder.add_condition(ConditionIp::Remote(wfp::IpAddress::Literal({ 255, 255, 255, 255 })));
-		conditionBuilder.add_condition(std::make_unique<ConditionRemotePort>(uint16_t(67)));
+		conditionBuilder.add_condition(ConditionPort::Remote(67));
 
 		if (!objectInstaller.addFilter(filterBuilder, conditionBuilder))
 		{
@@ -65,8 +65,8 @@ bool PermitDhcp::apply(IObjectInstaller &objectInstaller)
 	wfp::ConditionBuilder conditionBuilder(FWPM_LAYER_ALE_AUTH_RECV_ACCEPT_V4);
 
 	conditionBuilder.add_condition(ConditionProtocol::Udp());
-	conditionBuilder.add_condition(std::make_unique<ConditionRemotePort>(uint16_t(67)));
-	conditionBuilder.add_condition(std::make_unique<ConditionLocalPort>(uint16_t(68)));
+	conditionBuilder.add_condition(ConditionPort::Remote(67));
+	conditionBuilder.add_condition(ConditionPort::Local(68));
 
 	return objectInstaller.addFilter(filterBuilder, conditionBuilder);
 }

@@ -23,9 +23,6 @@
     <ClCompile Include="conditions\conditionapplication.cpp">
       <Filter>conditions</Filter>
     </ClCompile>
-    <ClCompile Include="conditions\conditionremoteport.cpp">
-      <Filter>conditions</Filter>
-    </ClCompile>
     <ClCompile Include="conditionbuilder.cpp" />
     <ClCompile Include="filterbuilder.cpp" />
     <ClCompile Include="filterengine.cpp" />
@@ -35,9 +32,6 @@
       <Filter>conditions</Filter>
     </ClCompile>
     <ClCompile Include="conditions\conditioninterface.cpp">
-      <Filter>conditions</Filter>
-    </ClCompile>
-    <ClCompile Include="conditions\conditionlocalport.cpp">
       <Filter>conditions</Filter>
     </ClCompile>
     <ClCompile Include="conditions\conditionloopback.cpp">
@@ -54,6 +48,9 @@
     </ClCompile>
     <ClCompile Include="ipaddress.cpp" />
     <ClCompile Include="conditions\conditionip.cpp">
+      <Filter>conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="conditions\conditionport.cpp">
       <Filter>conditions</Filter>
     </ClCompile>
   </ItemGroup>
@@ -73,9 +70,6 @@
     <ClInclude Include="conditions\conditionapplication.h">
       <Filter>conditions</Filter>
     </ClInclude>
-    <ClInclude Include="conditions\conditionremoteport.h">
-      <Filter>conditions</Filter>
-    </ClInclude>
     <ClInclude Include="conditionbuilder.h" />
     <ClInclude Include="filterbuilder.h" />
     <ClInclude Include="filterengine.h" />
@@ -85,9 +79,6 @@
       <Filter>conditions</Filter>
     </ClInclude>
     <ClInclude Include="conditions\conditioninterface.h">
-      <Filter>conditions</Filter>
-    </ClInclude>
-    <ClInclude Include="conditions\conditionlocalport.h">
       <Filter>conditions</Filter>
     </ClInclude>
     <ClInclude Include="conditions\conditionloopback.h">
@@ -115,6 +106,9 @@
     <ClInclude Include="iconditionbuilder.h" />
     <ClInclude Include="nullconditionbuilder.h" />
     <ClInclude Include="conditions\conditionip.h">
+      <Filter>conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="conditions\conditionport.h">
       <Filter>conditions</Filter>
     </ClInclude>
   </ItemGroup>

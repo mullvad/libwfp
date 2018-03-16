@@ -5,7 +5,7 @@
 #include "libwfp/conditionbuilder.h"
 #include "libwfp/conditions/conditioninterface.h"
 #include "libwfp/conditions/conditionip.h"
-#include "libwfp/conditions/conditionremoteport.h"
+#include "libwfp/conditions/conditionport.h"
 
 using namespace wfp::conditions;
 
@@ -44,7 +44,7 @@ bool RestrictDns::apply(IObjectInstaller &objectInstaller)
 	{
 		wfp::ConditionBuilder conditionBuilder(FWPM_LAYER_ALE_AUTH_CONNECT_V4);
 
-		conditionBuilder.add_condition(std::make_unique<ConditionRemotePort>(uint16_t(53)));
+		conditionBuilder.add_condition(ConditionPort::Remote(53));
 		conditionBuilder.add_condition(ConditionInterface::Alias(m_tunnelInterfaceAlias, CompareNeq()));
 
 		if (!objectInstaller.addFilter(filterBuilder, conditionBuilder))
@@ -64,7 +64,7 @@ bool RestrictDns::apply(IObjectInstaller &objectInstaller)
 	{
 		wfp::ConditionBuilder conditionBuilder(FWPM_LAYER_ALE_AUTH_CONNECT_V6);
 
-		conditionBuilder.add_condition(std::make_unique<ConditionRemotePort>(uint16_t(53)));
+		conditionBuilder.add_condition(ConditionPort::Remote(53));
 		conditionBuilder.add_condition(ConditionInterface::Alias(m_tunnelInterfaceAlias, CompareNeq()));
 
 		if (!objectInstaller.addFilter(filterBuilder, conditionBuilder))
@@ -94,7 +94,7 @@ bool RestrictDns::apply(IObjectInstaller &objectInstaller)
 		{
 			wfp::ConditionBuilder conditionBuilder(FWPM_LAYER_ALE_AUTH_CONNECT_V4);
 
-			conditionBuilder.add_condition(std::make_unique<ConditionRemotePort>(uint16_t(53)));
+			conditionBuilder.add_condition(ConditionPort::Remote(53));
 			conditionBuilder.add_condition(ConditionIp::Remote(m_dns, CompareNeq()));
 
 			if (!objectInstaller.addFilter(filterBuilder, conditionBuilder))
@@ -109,7 +109,7 @@ bool RestrictDns::apply(IObjectInstaller &objectInstaller)
 
 		wfp::ConditionBuilder conditionBuilder(FWPM_LAYER_ALE_AUTH_CONNECT_V6);
 
-		conditionBuilder.add_condition(std::make_unique<ConditionRemotePort>(uint16_t(53)));
+		conditionBuilder.add_condition(ConditionPort::Remote(53));
 
 		return objectInstaller.addFilter(filterBuilder, conditionBuilder);
 	}
@@ -125,7 +125,7 @@ bool RestrictDns::apply(IObjectInstaller &objectInstaller)
 	{
 		wfp::ConditionBuilder conditionBuilder(FWPM_LAYER_ALE_AUTH_CONNECT_V6);
 
-		conditionBuilder.add_condition(std::make_unique<ConditionRemotePort>(uint16_t(53)));
+		conditionBuilder.add_condition(ConditionPort::Remote(53));
 		conditionBuilder.add_condition(ConditionIp::Remote(m_dns, CompareNeq()));
 
 		if (!objectInstaller.addFilter(filterBuilder, conditionBuilder))
@@ -140,7 +140,7 @@ bool RestrictDns::apply(IObjectInstaller &objectInstaller)
 
 	wfp::ConditionBuilder conditionBuilder(FWPM_LAYER_ALE_AUTH_CONNECT_V4);
 
-	conditionBuilder.add_condition(std::make_unique<ConditionRemotePort>(uint16_t(53)));
+	conditionBuilder.add_condition(ConditionPort::Remote(53));
 
 	return objectInstaller.addFilter(filterBuilder, conditionBuilder);
 }

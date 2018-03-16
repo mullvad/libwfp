@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "libwfp/conditionbuilder.h"
 #include "libwfp/conditions/conditionapplication.h"
-#include "libwfp/conditions/conditionremoteport.h"
+#include "libwfp/conditions/conditionport.h"
 #include "libwfp/filterbuilder.h"
 #include "libwfp/filterengine.h"
 #include "libwfp/objectinstaller.h"
@@ -76,7 +76,7 @@ TEST(IntegrationTest, BlockOutgoingByPort)
 	wfp::ConditionBuilder conditionBuilder(LayerKey);
 
 	conditionBuilder.add_condition(std::make_unique<ConditionApplication>(Ncat::PATH));
-	conditionBuilder.add_condition(std::make_unique<ConditionRemotePort>(PORT));
+	conditionBuilder.add_condition(ConditionPort::Remote(PORT));
 
 	wfp::FilterBuilder filterBuilder;
 
