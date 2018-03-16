@@ -24,11 +24,10 @@
     <ClCompile Include="conditions\conditiondirection.cpp" />
     <ClCompile Include="conditions\conditioninterface.cpp" />
     <ClCompile Include="conditions\conditionip.cpp" />
-    <ClCompile Include="conditions\conditionlocalportrange.cpp" />
     <ClCompile Include="conditions\conditionloopback.cpp" />
     <ClCompile Include="conditions\conditionport.cpp" />
+    <ClCompile Include="conditions\conditionportrange.cpp" />
     <ClCompile Include="conditions\conditionprotocol.cpp" />
-    <ClCompile Include="conditions\conditionremoteportrange.cpp" />
     <ClCompile Include="filterbuilder.cpp" />
     <ClCompile Include="filterengine.cpp" />
     <ClCompile Include="internal\conditionassembler.cpp" />
@@ -56,11 +55,10 @@
     <ClInclude Include="conditions\conditiondirection.h" />
     <ClInclude Include="conditions\conditioninterface.h" />
     <ClInclude Include="conditions\conditionip.h" />
-    <ClInclude Include="conditions\conditionlocalportrange.h" />
     <ClInclude Include="conditions\conditionloopback.h" />
     <ClInclude Include="conditions\conditionport.h" />
+    <ClInclude Include="conditions\conditionportrange.h" />
     <ClInclude Include="conditions\conditionprotocol.h" />
-    <ClInclude Include="conditions\conditionremoteportrange.h" />
     <ClInclude Include="conditions\icomparisonoperator.h" />
     <ClInclude Include="conditions\ifiltercondition.h" />
     <ClInclude Include="filterbuilder.h" />

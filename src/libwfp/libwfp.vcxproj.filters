@@ -37,12 +37,6 @@
     <ClCompile Include="conditions\conditionloopback.cpp">
       <Filter>conditions</Filter>
     </ClCompile>
-    <ClCompile Include="conditions\conditionlocalportrange.cpp">
-      <Filter>conditions</Filter>
-    </ClCompile>
-    <ClCompile Include="conditions\conditionremoteportrange.cpp">
-      <Filter>conditions</Filter>
-    </ClCompile>
     <ClCompile Include="conditions\conditiondirection.cpp">
       <Filter>conditions</Filter>
     </ClCompile>
@@ -51,6 +45,9 @@
       <Filter>conditions</Filter>
     </ClCompile>
     <ClCompile Include="conditions\conditionport.cpp">
+      <Filter>conditions</Filter>
+    </ClCompile>
+    <ClCompile Include="conditions\conditionportrange.cpp">
       <Filter>conditions</Filter>
     </ClCompile>
   </ItemGroup>
@@ -93,12 +90,6 @@
     <ClInclude Include="conditions\comparison.h">
       <Filter>conditions</Filter>
     </ClInclude>
-    <ClInclude Include="conditions\conditionlocalportrange.h">
-      <Filter>conditions</Filter>
-    </ClInclude>
-    <ClInclude Include="conditions\conditionremoteportrange.h">
-      <Filter>conditions</Filter>
-    </ClInclude>
     <ClInclude Include="conditions\conditiondirection.h">
       <Filter>conditions</Filter>
     </ClInclude>
@@ -109,6 +100,9 @@
       <Filter>conditions</Filter>
     </ClInclude>
     <ClInclude Include="conditions\conditionport.h">
+      <Filter>conditions</Filter>
+    </ClInclude>
+    <ClInclude Include="conditions\conditionportrange.h">
       <Filter>conditions</Filter>
     </ClInclude>
   </ItemGroup>
