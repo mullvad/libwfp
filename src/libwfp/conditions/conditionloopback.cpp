@@ -7,33 +7,12 @@
 
 using ConditionAssembler = ::wfp::internal::ConditionAssembler;
 
-namespace
-{
-
-FWP_MATCH_TYPE TranslateComparison(FWP_MATCH_TYPE op)
-{
-	switch (op)
-	{
-	case FWP_MATCH_EQUAL:		return FWP_MATCH_FLAGS_ALL_SET;
-	case FWP_MATCH_NOT_EQUAL:	return FWP_MATCH_FLAGS_NONE_SET;
-	};
-
-	throw std::logic_error("Cannot translate comparison operator");
-}
-
-} // anonymous namespace
-
 namespace wfp::conditions {
 
 ConditionLoopback::ConditionLoopback(const IStrictComparison &comparison)
 	: m_comparison(comparison)
 {
-	m_assembled = ConditionAssembler::Uint32
-	(
-		identifier(),
-		TranslateComparison(m_comparison.op()),
-		UINT32(IF_TYPE_SOFTWARE_LOOPBACK)
-	);
+	m_assembled = ConditionAssembler::Uint32(identifier(), m_comparison.op(), UINT32(IF_TYPE_SOFTWARE_LOOPBACK));
 }
 
 std::wstring ConditionLoopback::toString() const
