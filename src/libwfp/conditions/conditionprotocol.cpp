@@ -14,7 +14,7 @@ ConditionProtocol::ConditionProtocol(Protocol protocol)
 	(
 		identifier(),
 		FWP_MATCH_EQUAL,
-		static_cast<UINT8>(Protocol::Tcp == m_protocol ? IPPROTO_TCP : IPPROTO_UDP)
+		Protocol::Tcp == m_protocol ? UINT8(IPPROTO_TCP) : UINT8(IPPROTO_UDP)
 	);
 }
 

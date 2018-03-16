@@ -12,7 +12,7 @@ ConditionPort::ConditionPort(bool local, uint16_t port, const IRelaxedComparison
 	, m_port(port)
 	, m_comparison(comparison)
 {
-	m_assembled = ConditionAssembler::Uint16(identifier(), m_comparison.op(), port);
+	m_assembled = ConditionAssembler::Uint16(identifier(), m_comparison.op(), m_port);
 }
 
 //static
