@@ -13,18 +13,6 @@ uint32_t PackIpv4(uint8_t a, uint8_t b, uint8_t c, uint8_t d)
 	return ((uint32_t(a) << 24) | (uint32_t(b) << 16) | (uint32_t(c) << 8) | d);
 }
 
-uint32_t Ipv4FromInitializerList(const std::initializer_list<uint8_t> &netnode)
-{
-	auto it = netnode.begin();
-
-	auto a = *it++;
-	auto b = *it++;
-	auto c = *it++;
-	auto d = *it++;
-
-	return PackIpv4(a, b, c, d);
-}
-
 } // anonymous namespace
 
 namespace wfp
@@ -37,7 +25,14 @@ IpAddress::Literal::Literal(const std::initializer_list<uint8_t> &netnode)
 		throw std::runtime_error("Invalid IPv4 specification");
 	}
 
-	address = Ipv4FromInitializerList(netnode);
+	auto it = netnode.begin();
+
+	auto a = *it++;
+	auto b = *it++;
+	auto c = *it++;
+	auto d = *it++;
+
+	address = PackIpv4(a, b, c, d);
 }
 
 IpAddress::Literal6::Literal6(const std::initializer_list<uint16_t> &netnode)
