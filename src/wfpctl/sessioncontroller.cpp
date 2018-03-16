@@ -20,7 +20,7 @@ void EraseBack(T &container, size_t elements)
 	{
 		container.erase
 		(
-			container.begin() + (container.size() - elements),
+			std::next(container.begin(), container.size() - elements),
 			container.end()
 		);
 	}
@@ -30,9 +30,7 @@ template<typename T>
 void ProcessReverse(T &container, size_t elements, std::function<void(typename T::value_type &)> f)
 {
 	auto it = container.rbegin();
-
-	auto end = it;
-	std::advance(end, elements);
+	auto end = std::next(it, elements);
 
 	while (it != end)
 	{
