@@ -62,6 +62,7 @@ WfpctlRelay;
 //
 typedef void (WFPCTL_API *WfpctlErrorSink)(const char *errorMessage, void *context);
 
+extern "C"
 WFPCTL_LINKAGE
 bool
 WFPCTL_API
@@ -76,6 +77,7 @@ Wfpctl_Initialize(
 //
 // Call this function once before unloading WFPCTL or exiting the process.
 //
+extern "C"
 WFPCTL_LINKAGE
 bool
 WFPCTL_API
@@ -88,6 +90,7 @@ Wfpctl_Deinitialize();
 // - What is specified by settings
 // - Communication with the relay server
 //
+extern "C"
 WFPCTL_LINKAGE
 bool
 WFPCTL_API
@@ -112,6 +115,7 @@ Wfpctl_ApplyPolicyConnecting(
 // primaryDns:
 //   String encoded IP address of DNS to use inside tunnel
 //
+extern "C"
 WFPCTL_LINKAGE
 bool
 WFPCTL_API
@@ -127,6 +131,7 @@ Wfpctl_ApplyPolicyConnected(
 //
 // Clear the policy in effect, if any.
 //
+extern "C"
 WFPCTL_LINKAGE
 bool
 WFPCTL_API
