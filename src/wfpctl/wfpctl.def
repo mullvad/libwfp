@@ -1,0 +1,7 @@
+LIBRARY wfpctl
+EXPORTS
+            _Wfpctl_ApplyPolicyConnected@16 @1
+            _Wfpctl_ApplyPolicyConnecting@8 @2
+            _Wfpctl_Deinitialize@0 @3
+            _Wfpctl_Initialize@12 @4
+            _Wfpctl_Reset@0 @5
