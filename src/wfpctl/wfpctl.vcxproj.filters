@@ -77,4 +77,7 @@
       <UniqueIdentifier>{3639a3ba-599e-400c-918b-8869654cdc1f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="wfpctl.def" />
+  </ItemGroup>
 </Project>
