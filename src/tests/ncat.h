@@ -14,12 +14,13 @@ public:
 		Error = 1
 	};
 
-	static const wchar_t *PATH;
-
 	Ncat(const std::wstring &args);
+
 	bool write(const std::string &data);
 	std::string output();
 	DWORD returnCode();
+
+	static std::wstring Path();
 
 private:
 

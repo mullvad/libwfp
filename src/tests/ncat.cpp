@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "ncat.h"
 #include <stdexcept>
-
-const wchar_t *Ncat::PATH = L"c:\\tools\\ncat.exe";
+#include <windows.h>
+#include <libcommon/string.h>
 
 Ncat::Ncat(const std::wstring &args)
 {
-	m_nc = common::ApplicationRunner::StartDetached(PATH, args);
+	m_nc = common::ApplicationRunner::StartDetached(Path(), args);
 }
 
 bool Ncat::write(const std::string &data)
@@ -36,4 +36,37 @@ DWORD Ncat::returnCode()
 	}
 
 	throw std::runtime_error("Failed to read Ncat return code");
+}
+
+// static
+std::wstring Ncat::Path()
+{
+	//
+	// Current process is started from
+	// x:\foo\bar\libwfp\bin\<arch>-<target>\tests.exe
+	//
+	// From that, we need to construct:
+	// x:\foo\bar\libwfp\thirdparty\ncat\ncat.exe
+	//
+
+	wchar_t rawPath[MAX_PATH];
+
+	if (0 == GetModuleFileNameW(NULL, rawPath, _countof(rawPath)))
+	{
+		throw std::runtime_error("Failed to construct path for Ncat");
+	}
+
+	std::wstring path(rawPath);
+
+	static const auto repositoryName = L"libwfp";
+
+	auto repositoryOffset = path.rfind(repositoryName);
+
+	if (repositoryOffset == std::wstring::npos)
+	{
+		throw std::runtime_error("Failed to construct path for Ncat");
+	}
+
+	return path.substr(0, repositoryOffset + wcslen(repositoryName) + 1)
+		.append(L"thirdparty\\ncat\\ncat.exe");
 }

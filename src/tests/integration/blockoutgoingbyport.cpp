@@ -75,7 +75,7 @@ TEST(IntegrationTest, BlockOutgoingByPort)
 
 	wfp::ConditionBuilder conditionBuilder(LayerKey);
 
-	conditionBuilder.add_condition(std::make_unique<ConditionApplication>(Ncat::PATH));
+	conditionBuilder.add_condition(std::make_unique<ConditionApplication>(Ncat::Path()));
 	conditionBuilder.add_condition(ConditionPort::Remote(PORT));
 
 	wfp::FilterBuilder filterBuilder;
