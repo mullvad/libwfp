@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "objectinstaller.h"
 #include "libcommon/error.h"
+#include "libcommon/guid.h"
 #include <guiddef.h>
 #include <fwpmu.h>
 
@@ -36,6 +37,11 @@ bool ObjectInstaller::AddProvider(FilterEngine &engine, ProviderBuilder &provide
 {
 	return providerBuilder.build([&](FWPM_PROVIDER0 &provider)
 	{
+		if (nullptr != key && common::Guid::Empty(provider.providerKey))
+		{
+			provider.providerKey = common::Guid::GenerateQuick();
+		}
+
 		auto status = FwpmProviderAdd0(
 			engine.session(),
 			&provider,
@@ -58,6 +64,11 @@ bool ObjectInstaller::AddSublayer(FilterEngine &engine, SublayerBuilder &sublaye
 {
 	return sublayerBuilder.build([&](FWPM_SUBLAYER0 &sublayer)
 	{
+		if (nullptr != key && common::Guid::Empty(sublayer.subLayerKey))
+		{
+			sublayer.subLayerKey = common::Guid::GenerateQuick();
+		}
+
 		auto status = FwpmSubLayerAdd0(
 			engine.session(),
 			&sublayer,
