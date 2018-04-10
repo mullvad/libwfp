@@ -7,6 +7,7 @@
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="string.cpp" />
     <ClCompile Include="network.cpp" />
+    <ClCompile Include="guid.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="applicationrunner.h" />
@@ -19,5 +20,6 @@
     <ClInclude Include="string.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="network.h" />
+    <ClInclude Include="guid.h" />
   </ItemGroup>
 </Project>
