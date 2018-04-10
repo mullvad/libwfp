@@ -40,45 +40,45 @@ libwfp is targeted at Windows 7, 8 and 10.
 
 int main()
 {
-	auto engine = wfp::FilterEngine::DynamicSession();
+    auto engine = wfp::FilterEngine::DynamicSession();
 
-	wfp::SublayerBuilder sublayer;
+    wfp::SublayerBuilder sublayer;
 
-	sublayer
-		.name(L"libwfp example layer")
-		.weight(MAXUINT16);
+    sublayer
+        .name(L"libwfp example layer")
+        .weight(MAXUINT16);
 
-	GUID sublayerGuid;
+    GUID sublayerGuid;
 
-	wfp::ObjectInstaller::AddSublayer(*engine, sublayer, &sublayerGuid);
+    wfp::ObjectInstaller::AddSublayer(*engine, sublayer, &sublayerGuid);
 
-	// Conditions are checked against the specified layer
-	// To verify that they're compatible
-	wfp::ConditionBuilder conditions(FWPM_LAYER_ALE_AUTH_CONNECT_V4);
+    // Conditions are checked against the specified layer
+    // To verify that they're compatible
+    wfp::ConditionBuilder conditions(FWPM_LAYER_ALE_AUTH_CONNECT_V4);
 
-	// Match on application
-	conditions.add_condition(std::make_unique<wfp::conditions::ConditionApplication>( \
-		L"c:\\windows\\system32\\svchost.exe"));
+    // Match on application
+    conditions.add_condition(std::make_unique<wfp::conditions::ConditionApplication>( \
+        L"c:\\windows\\system32\\svchost.exe"));
 
-	// Match remote ports outside given range
-	conditions.add_condition(wfp::conditions::ConditionPortRange::Remote( \
-		0, 1023, wfp::conditions::CompareNeq()));
+    // Match remote ports outside given range
+    conditions.add_condition(wfp::conditions::ConditionPortRange::Remote( \
+        0, 1023, wfp::conditions::CompareNeq()));
 
-	wfp::FilterBuilder filter;
+    wfp::FilterBuilder filter;
 
-	filter
-		.name(L"Svchost peer filter")
-		.description(L"Block comms with remote services outside the well-known port range")
-		.layer(FWPM_LAYER_ALE_AUTH_CONNECT_V4)
-		.sublayer(sublayerGuid)
-		.weight(wfp::FilterBuilder::WeightClass::Max)
-		.block();
+    filter
+        .name(L"Svchost peer filter")
+        .description(L"Block comms with remote services outside the well-known port range")
+        .layer(FWPM_LAYER_ALE_AUTH_CONNECT_V4)
+        .sublayer(sublayerGuid)
+        .weight(wfp::FilterBuilder::WeightClass::Max)
+        .block();
 
-	wfp::ObjectInstaller::AddFilter(*engine, filter, conditions);
+    wfp::ObjectInstaller::AddFilter(*engine, filter, conditions);
 
-	//
-	// <More code here>
-	//
+    //
+    // <More code here>
+    //
 
     return 0;
 }
