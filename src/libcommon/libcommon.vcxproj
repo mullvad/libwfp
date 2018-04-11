@@ -22,6 +22,7 @@
     <ClCompile Include="applicationrunner.cpp" />
     <ClCompile Include="binarycomposer.cpp" />
     <ClCompile Include="error.cpp" />
+    <ClCompile Include="guid.cpp" />
     <ClCompile Include="network.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -36,6 +37,7 @@
     <ClInclude Include="binarycomposer.h" />
     <ClInclude Include="buffer.h" />
     <ClInclude Include="error.h" />
+    <ClInclude Include="guid.h" />
     <ClInclude Include="math.h" />
     <ClInclude Include="memory.h" />
     <ClInclude Include="network.h" />
@@ -130,7 +132,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>rpcrt4.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -147,6 +149,9 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>rpcrt4.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -167,7 +172,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>rpcrt4.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -188,6 +193,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>rpcrt4.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
