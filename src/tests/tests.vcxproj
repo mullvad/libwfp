@@ -171,9 +171,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="common\math.cpp" />
-    <ClCompile Include="common\network.cpp" />
-    <ClCompile Include="common\string.cpp" />
     <ClCompile Include="integration\basicfilterops.cpp" />
     <ClCompile Include="integration\basicproviderops.cpp" />
     <ClCompile Include="integration\basicsublayerops.cpp" />

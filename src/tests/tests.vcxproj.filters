@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="common">
-      <UniqueIdentifier>{47f95656-b673-4e1c-b3f9-7ec8d8bb6c8d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="integration">
       <UniqueIdentifier>{2bb539b3-69f0-48d7-9b0d-f99bf08f3970}</UniqueIdentifier>
     </Filter>
@@ -30,18 +27,9 @@
     <ClCompile Include="integration\transaction.cpp">
       <Filter>integration</Filter>
     </ClCompile>
-    <ClCompile Include="common\string.cpp">
-      <Filter>common</Filter>
-    </ClCompile>
     <ClCompile Include="ncat.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="tests.cpp" />
-    <ClCompile Include="common\math.cpp">
-      <Filter>common</Filter>
-    </ClCompile>
-    <ClCompile Include="common\network.cpp">
-      <Filter>common</Filter>
-    </ClCompile>
     <ClCompile Include="wfp\ipaddress.cpp">
       <Filter>wfp</Filter>
     </ClCompile>
