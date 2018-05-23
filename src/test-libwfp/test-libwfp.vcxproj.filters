@@ -29,7 +29,7 @@
     </ClCompile>
     <ClCompile Include="ncat.cpp" />
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="tests.cpp" />
+    <ClCompile Include="test-libwfp.cpp" />
     <ClCompile Include="wfp\ipaddress.cpp">
       <Filter>wfp</Filter>
     </ClCompile>
