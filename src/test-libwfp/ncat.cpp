@@ -58,15 +58,15 @@ std::wstring Ncat::Path()
 
 	std::wstring path(rawPath);
 
-	static const auto repositoryName = L"libwfp";
+	static const auto repositoryDir = L"libwfp\\";
 
-	auto repositoryOffset = path.rfind(repositoryName);
+	auto repositoryOffset = path.rfind(repositoryDir);
 
 	if (repositoryOffset == std::wstring::npos)
 	{
 		throw std::runtime_error("Failed to construct path for Ncat");
 	}
 
-	return path.substr(0, repositoryOffset + wcslen(repositoryName) + 1)
+	return path.substr(0, repositoryOffset + wcslen(repositoryDir))
 		.append(L"thirdparty\\ncat\\ncat.exe");
 }

@@ -5,9 +5,24 @@ provides builders for defining providers, filters and sets of conditions.
 
 ## Checking out the code
 
-This repository contains a submodule, so clone it recursively:
+The code is dependent on two other repositories:
+
+* mullvad/googletest
+
+   Forked `Google Test` that only updates a few project settings.
+   
+* mullvad/windows-libraries
+
+   Specifically, the `libcommon` library contained herein, for general functionality not provided by
+   the standard library.
+
+For reasons of flexibility, these repositories are not included as submodules. They are instead
+required to be checked out at the same level as libwfp:
 ```
-git clone --recursive https://github.com/mullvad/libwfp.git
+mkdir libwfp && cd libwfp
+git clone https://github.com/mullvad/googletest.git
+git clone https://github.com/mullvad/windows-libraries.git
+git clone https://github.com/mullvad/libwfp.git
 ```
 
 ## Development environment
@@ -17,11 +32,9 @@ perfectly fine choice.
 
 ## Dependencies
 
-The code has been implemented with minimal dependencies. The only external component (beyond what
-is offered by Windows itself) is Google Test, and it's only required during development.
+For dependencies required during development, see above, section *Checking out the code*.
 
-A forked version of Google Test is included as a submodule. There are no code changes in the fork,
-only project settings have changed.
+For deployment there are no external dependencies beyond what is already provided by Windows itself.
 
 libwfp is targeted at Windows 7, 8 and 10.
 

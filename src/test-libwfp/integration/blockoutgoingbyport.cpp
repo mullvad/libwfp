@@ -8,7 +8,7 @@
 #include "libwfp/providerbuilder.h"
 #include "libwfp/sublayerbuilder.h"
 #include "libcommon/string.h"
-#include "tests/ncat.h"
+#include "test-libwfp/ncat.h"
 #include "gtest/gtest.h"
 #include <memory>
 
