@@ -27,6 +27,12 @@ public:
 		m_conditions.clear();
 	}
 
+	void reset(const GUID &layer)
+	{
+		memcpy(&m_layer, &layer, sizeof(layer));
+		reset();
+	}
+
 private:
 
 	GUID m_layer;
