@@ -1,5 +1,12 @@
 #pragma once
 
+//
+// This would be more suitably placed into `libwfp.h`, alas there is no such file
+//
+#pragma comment(lib, "fwpuclnt.lib")
+#pragma comment(lib, "ws2_32.lib")
+#pragma comment(lib, "iphlpapi.lib")
+
 #include "stdafx.h"
 #include <fwpmtypes.h>
 #include <windows.h>
