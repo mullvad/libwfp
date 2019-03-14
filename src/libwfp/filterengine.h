@@ -7,7 +7,6 @@
 #pragma comment(lib, "ws2_32.lib")
 #pragma comment(lib, "iphlpapi.lib")
 
-#include "stdafx.h"
 #include <fwpmtypes.h>
 #include <windows.h>
 #include <memory>
