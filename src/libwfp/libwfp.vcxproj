@@ -66,6 +66,7 @@
     <ClInclude Include="iconditionbuilder.h" />
     <ClInclude Include="internal\conditionassembler.h" />
     <ClInclude Include="ipaddress.h" />
+    <ClInclude Include="iidentifiable.h" />
     <ClInclude Include="layerconditions.h" />
     <ClInclude Include="nullconditionbuilder.h" />
     <ClInclude Include="objectdeleter.h" />

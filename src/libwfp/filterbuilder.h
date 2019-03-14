@@ -1,5 +1,6 @@
 #pragma once
 
+#include "iidentifiable.h"
 #include <guiddef.h>
 #include <fwpmu.h>
 #include <windows.h>
@@ -20,7 +21,7 @@ namespace wfp
 
 typedef std::function<bool(FWPM_FILTER0 &)> FilterSink;
 
-class FilterBuilder
+class FilterBuilder : public IIdentifiable
 {
 public:
 
@@ -69,6 +70,8 @@ public:
 	FilterBuilder &permit();
 
 	bool build(FilterSink sink);
+
+	const GUID &IIdentifiable::id() const override;
 
 private:
 
