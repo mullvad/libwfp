@@ -64,4 +64,9 @@ bool ProviderBuilder::build(ProviderSink sink)
 	return sink(m_provider);
 }
 
+const GUID &ProviderBuilder::id() const
+{
+	return m_provider.providerKey;
+}
+
 }

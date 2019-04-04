@@ -70,4 +70,9 @@ bool SublayerBuilder::build(SublayerSink sink)
 	return sink(m_sublayer);
 }
 
+const GUID &SublayerBuilder::id() const
+{
+	return m_sublayer.subLayerKey;
+}
+
 }

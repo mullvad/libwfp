@@ -105,5 +105,6 @@
     <ClInclude Include="conditions\conditionportrange.h">
       <Filter>conditions</Filter>
     </ClInclude>
+    <ClInclude Include="iidentifiable.h" />
   </ItemGroup>
 </Project>

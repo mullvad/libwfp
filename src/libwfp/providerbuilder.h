@@ -1,5 +1,6 @@
 #pragma once
 
+#include "iidentifiable.h"
 #include <guiddef.h>
 #include <fwpmu.h>
 #include <functional>
@@ -10,7 +11,7 @@ namespace wfp
 
 typedef std::function<bool(FWPM_PROVIDER0 &)> ProviderSink;
 
-class ProviderBuilder
+class ProviderBuilder : public IIdentifiable
 {
 public:
 
@@ -30,6 +31,8 @@ public:
 	ProviderBuilder &serviceName(const std::wstring &serviceName);
 
 	bool build(ProviderSink sink);
+
+	const GUID &IIdentifiable::id() const override;
 
 private:
 

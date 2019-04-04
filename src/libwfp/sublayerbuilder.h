@@ -1,5 +1,6 @@
 #pragma once
 
+#include "iidentifiable.h"
 #include <guiddef.h>
 #include <fwpmu.h>
 #include <windows.h>
@@ -12,7 +13,7 @@ namespace wfp
 
 typedef std::function<bool(FWPM_SUBLAYER0 &)> SublayerSink;
 
-class SublayerBuilder
+class SublayerBuilder : public IIdentifiable
 {
 public:
 
@@ -28,6 +29,8 @@ public:
 	SublayerBuilder &weight(UINT16 weight);
 
 	bool build(SublayerSink sink);
+
+	const GUID &IIdentifiable::id() const override;
 
 private:
 

@@ -107,4 +107,9 @@ bool FilterBuilder::build(FilterSink sink)
 	return sink(m_filter);
 }
 
+const GUID &FilterBuilder::id() const
+{
+	return m_filter.filterKey;
+}
+
 }
