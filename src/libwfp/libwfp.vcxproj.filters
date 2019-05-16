@@ -50,6 +50,7 @@
     <ClCompile Include="conditions\conditionportrange.cpp">
       <Filter>conditions</Filter>
     </ClCompile>
+    <ClCompile Include="ipnetwork.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="objectdeleter.h" />
@@ -106,5 +107,6 @@
       <Filter>conditions</Filter>
     </ClInclude>
     <ClInclude Include="iidentifiable.h" />
+    <ClInclude Include="ipnetwork.h" />
   </ItemGroup>
 </Project>
