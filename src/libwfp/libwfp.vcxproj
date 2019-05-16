@@ -32,6 +32,7 @@
     <ClCompile Include="filterengine.cpp" />
     <ClCompile Include="internal\conditionassembler.cpp" />
     <ClCompile Include="ipaddress.cpp" />
+    <ClCompile Include="ipnetwork.cpp" />
     <ClCompile Include="layerconditions.cpp" />
     <ClCompile Include="objectdeleter.cpp" />
     <ClCompile Include="objectenumerator.cpp" />
@@ -67,6 +68,7 @@
     <ClInclude Include="internal\conditionassembler.h" />
     <ClInclude Include="ipaddress.h" />
     <ClInclude Include="iidentifiable.h" />
+    <ClInclude Include="ipnetwork.h" />
     <ClInclude Include="layerconditions.h" />
     <ClInclude Include="nullconditionbuilder.h" />
     <ClInclude Include="objectdeleter.h" />
