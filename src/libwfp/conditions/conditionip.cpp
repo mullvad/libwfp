@@ -11,25 +11,21 @@ using ConditionAssembler = ::wfp::internal::ConditionAssembler;
 namespace wfp::conditions {
 
 ConditionIp::ConditionIp(bool local, const IpAddress &netnode, const IStrictComparison &comparison)
-	: m_local(local)
-	, m_net(netnode)
-	, m_prefix(0)
+	: m_type(Type::NetNode)
+	, m_local(local)
+	, m_netnode(std::make_unique<IpAddress>(netnode))
 	, m_comparison(comparison)
 {
-	switch (m_net.type())
+	switch (netnode.type())
 	{
 		case IpAddress::Type::Ipv4:
 		{
-			m_addressType = AddressType::Ipv4;
-			m_assembled = ConditionAssembler::Uint32(identifier(), m_comparison.op(), m_net.addr());
-
+			m_assembled = ConditionAssembler::Uint32(identifier(), m_comparison.op(), netnode.addr());
 			break;
 		}
 		case IpAddress::Type::Ipv6:
 		{
-			m_addressType = AddressType::Ipv6;
-			m_assembled = ConditionAssembler::ByteArray16(identifier(), m_comparison.op(), m_net.addr6());
-
+			m_assembled = ConditionAssembler::ByteArray16(identifier(), m_comparison.op(), netnode.addr6());
 			break;
 		}
 		default:
@@ -39,36 +35,22 @@ ConditionIp::ConditionIp(bool local, const IpAddress &netnode, const IStrictComp
 	}
 }
 
-ConditionIp::ConditionIp(bool local, const IpAddress &network, uint8_t prefix, const IStrictComparison &comparison)
-	: m_local(local)
-	, m_net(network)
-	, m_prefix(prefix)
+ConditionIp::ConditionIp(bool local, const IpNetwork &network, const IStrictComparison &comparison)
+	: m_type(Type::Network)
+	, m_local(local)
+	, m_network(std::make_unique<IpNetwork>(network))
 	, m_comparison(comparison)
 {
-	switch (m_net.type())
+	switch (network.type())
 	{
-		case IpAddress::Type::Ipv4:
+		case IpNetwork::Type::Ipv4:
 		{
-			m_addressType = AddressType::Ipv4Network;
-
-			FWP_V4_ADDR_AND_MASK netdef;
-			netdef.addr = m_net.addr();
-			netdef.mask = common::network::MaskFromRoutingPrefix(m_prefix);
-
-			m_assembled = ConditionAssembler::Ipv4Network(identifier(), m_comparison.op(), netdef);
-
+			m_assembled = ConditionAssembler::Ipv4Network(identifier(), m_comparison.op(), network.net());
 			break;
 		}
 		case IpAddress::Type::Ipv6:
 		{
-			m_addressType = AddressType::Ipv6Network;
-
-			FWP_V6_ADDR_AND_MASK netdef;
-			memcpy(netdef.addr, m_net.addr6().byteArray16, sizeof(netdef.addr));
-			netdef.prefixLength = m_prefix;
-
-			m_assembled = ConditionAssembler::Ipv6Network(identifier(), m_comparison.op(), netdef);
-
+			m_assembled = ConditionAssembler::Ipv6Network(identifier(), m_comparison.op(), network.net6());
 			break;
 		}
 		default:
@@ -85,9 +67,9 @@ std::unique_ptr<ConditionIp> ConditionIp::Local(const IpAddress &netnode, const 
 }
 
 //static
-std::unique_ptr<ConditionIp> ConditionIp::Local(const IpAddress &netnode, uint8_t prefix, const IStrictComparison &comparison)
+std::unique_ptr<ConditionIp> ConditionIp::Local(const IpNetwork &network, const IStrictComparison &comparison)
 {
-	return std::unique_ptr<ConditionIp>(new ConditionIp(true, netnode, prefix, comparison));
+	return std::unique_ptr<ConditionIp>(new ConditionIp(true, network, comparison));
 }
 
 //static
@@ -97,9 +79,9 @@ std::unique_ptr<ConditionIp> ConditionIp::Remote(const IpAddress &netnode, const
 }
 
 //static
-std::unique_ptr<ConditionIp> ConditionIp::Remote(const IpAddress &netnode, uint8_t prefix, const IStrictComparison &comparison)
+std::unique_ptr<ConditionIp> ConditionIp::Remote(const IpNetwork &network, const IStrictComparison &comparison)
 {
-	return std::unique_ptr<ConditionIp>(new ConditionIp(false, netnode, prefix, comparison));
+	return std::unique_ptr<ConditionIp>(new ConditionIp(false, network, comparison));
 }
 
 std::wstring ConditionIp::toString() const
@@ -108,26 +90,16 @@ std::wstring ConditionIp::toString() const
 
 	const auto target = (m_local ? L"local" : L"remote");
 
-	switch (m_addressType)
+	switch (m_type)
 	{
-		case AddressType::Ipv4:
+		case Type::NetNode:
 		{
-			ss << target << L" ip " << m_comparison.toString() << L" " << common::string::FormatIpv4(m_net.addr());
+			ss << target << L" ip " << m_comparison.toString() << L" " << m_netnode->toString();
 			break;
 		}
-		case AddressType::Ipv4Network:
+		case Type::Network:
 		{
-			ss << target << L" ip net " << m_comparison.toString() << L" " << common::string::FormatIpv4(m_net.addr(), m_prefix);
-			break;
-		}
-		case AddressType::Ipv6:
-		{
-			ss << target << L" ip " << m_comparison.toString() << L" " << common::string::FormatIpv6(m_net.addr6().byteArray16);
-			break;
-		}
-		case AddressType::Ipv6Network:
-		{
-			ss << target << L" ip net " << m_comparison.toString() << L" " << common::string::FormatIpv6(m_net.addr6().byteArray16, m_prefix);
+			ss << target << L" ip net " << m_comparison.toString() << L" " << m_network->toString();
 			break;
 		}
 		default:
