@@ -2,6 +2,7 @@
 #include "conditionprotocol.h"
 #include "libwfp/internal/conditionassembler.h"
 #include <winsock2.h>
+#include <stdexcept>
 
 using ConditionAssembler = ::wfp::internal::ConditionAssembler;
 
@@ -14,18 +15,26 @@ ConditionProtocol::ConditionProtocol(Protocol protocol)
 	(
 		identifier(),
 		FWP_MATCH_EQUAL,
-		Protocol::Tcp == m_protocol ? UINT8(IPPROTO_TCP) : UINT8(IPPROTO_UDP)
+		TranslateProtocol(protocol)
 	);
 }
 
 std::wstring ConditionProtocol::toString() const
 {
-	return
-	(
-		Protocol::Tcp == m_protocol
-		? L"protocol = TCP"
-		: L"protocol = UDP"
-	);
+	switch (m_protocol)
+	{
+		case Protocol::Tcp: return L"protocol = TCP";
+		case Protocol::Udp: return L"protocol = UDP";
+		case Protocol::Icmp: return L"protocol = ICMP";
+		case Protocol::IcmpV6: return L"protocol = ICMPv6";
+		case Protocol::Ip: return L"protocol = IP";
+		case Protocol::IpV6: return L"protocol = IPv6";
+		case Protocol::Raw: return L"protocol = Raw";
+		default:
+		{
+			throw std::runtime_error("Missing case handler");
+		}
+	}
 }
 
 const GUID &ConditionProtocol::identifier() const
@@ -48,6 +57,55 @@ std::unique_ptr<ConditionProtocol> ConditionProtocol::Tcp()
 std::unique_ptr<ConditionProtocol> ConditionProtocol::Udp()
 {
 	return std::unique_ptr<ConditionProtocol>(new ConditionProtocol(Protocol::Udp));
+}
+
+//static
+std::unique_ptr<ConditionProtocol> ConditionProtocol::Icmp()
+{
+	return std::unique_ptr<ConditionProtocol>(new ConditionProtocol(Protocol::Icmp));
+}
+
+//static
+std::unique_ptr<ConditionProtocol> ConditionProtocol::IcmpV6()
+{
+	return std::unique_ptr<ConditionProtocol>(new ConditionProtocol(Protocol::IcmpV6));
+}
+
+//static
+std::unique_ptr<ConditionProtocol> ConditionProtocol::Ip()
+{
+	return std::unique_ptr<ConditionProtocol>(new ConditionProtocol(Protocol::Ip));
+}
+
+//static
+std::unique_ptr<ConditionProtocol> ConditionProtocol::IpV6()
+{
+	return std::unique_ptr<ConditionProtocol>(new ConditionProtocol(Protocol::IpV6));
+}
+
+//static
+std::unique_ptr<ConditionProtocol> ConditionProtocol::Raw()
+{
+	return std::unique_ptr<ConditionProtocol>(new ConditionProtocol(Protocol::Raw));
+}
+
+// static
+uint8_t ConditionProtocol::TranslateProtocol(Protocol protocol)
+{
+	switch (protocol)
+	{
+		case Protocol::Tcp: return IPPROTO_TCP;
+		case Protocol::Udp: return IPPROTO_UDP;
+		case Protocol::Icmp: return IPPROTO_ICMP;
+		case Protocol::IcmpV6: return IPPROTO_ICMPV6;
+		case Protocol::Ip: return IPPROTO_IPV4;
+		case Protocol::IpV6: return IPPROTO_IPV6;
+		case Protocol::Raw: return IPPROTO_RAW;
+		default:
+		{
+			throw std::runtime_error("Missing case handler");
+		}
+	}
 }
 
 }
