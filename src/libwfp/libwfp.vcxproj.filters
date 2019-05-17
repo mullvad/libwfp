@@ -51,6 +51,9 @@
       <Filter>conditions</Filter>
     </ClCompile>
     <ClCompile Include="ipnetwork.cpp" />
+    <ClCompile Include="conditions\conditionicmp.cpp">
+      <Filter>conditions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="objectdeleter.h" />
@@ -108,5 +111,8 @@
     </ClInclude>
     <ClInclude Include="iidentifiable.h" />
     <ClInclude Include="ipnetwork.h" />
+    <ClInclude Include="conditions\conditionicmp.h">
+      <Filter>conditions</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
