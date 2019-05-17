@@ -52,6 +52,12 @@ FilterBuilder &FilterBuilder::disabled()
 	return *this;
 }
 
+FilterBuilder &FilterBuilder::definitive()
+{
+	m_filter.flags |= FWPM_FILTER_FLAG_CLEAR_ACTION_RIGHT;
+	return *this;
+}
+
 FilterBuilder &FilterBuilder::provider(const GUID &provider)
 {
 	memcpy(&m_providerKey, &provider, sizeof(m_providerKey));

@@ -34,6 +34,7 @@ public:
 	FilterBuilder &persistent();
 	FilterBuilder &boottime();
 	FilterBuilder &disabled();
+	FilterBuilder &definitive();
 
 	FilterBuilder &provider(const GUID &provider);
 	FilterBuilder &layer(const GUID &layer);
