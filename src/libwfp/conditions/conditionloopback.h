@@ -10,7 +10,13 @@ class ConditionLoopback : public IFilterCondition
 {
 public:
 
-	ConditionLoopback(const IStrictComparison &comparison = CompareEq());
+	enum class Type
+	{
+		LoopbackInterface,
+		LoopbackTraffic
+	};
+
+	ConditionLoopback(Type type = Type::LoopbackTraffic, const IStrictComparison &comparison = CompareEq());
 
 	std::wstring toString() const override;
 	const GUID &identifier() const override;
@@ -18,6 +24,7 @@ public:
 
 private:
 
+	Type m_type;
 	ComparisonSpecification m_comparison;
 	common::Buffer m_assembled;
 };
