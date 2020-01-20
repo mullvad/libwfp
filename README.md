@@ -99,7 +99,7 @@ int main()
 
 # License
 
-Copyright (C) 2018 Amagicom AB
+Copyright (C) 2020 Amagicom AB
 
 Permission to use the code, documentation and contents is granted under the conditions of the MIT
 license.
