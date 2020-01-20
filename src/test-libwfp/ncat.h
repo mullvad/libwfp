@@ -1,6 +1,6 @@
 #pragma once
 
-#include <libcommon/applicationrunner.h>
+#include <libcommon/process/applicationrunner.h>
 #include <memory>
 #include <string>
 
@@ -24,5 +24,5 @@ public:
 
 private:
 
-	std::unique_ptr<common::ApplicationRunner> m_nc;
+	std::unique_ptr<common::process::ApplicationRunner> m_nc;
 };
