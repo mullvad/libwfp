@@ -6,7 +6,7 @@
 
 Ncat::Ncat(const std::wstring &args)
 {
-	m_nc = common::ApplicationRunner::StartDetached(Path(), args);
+	m_nc = common::process::ApplicationRunner::StartDetached(Path(), args);
 }
 
 bool Ncat::write(const std::string &data)
