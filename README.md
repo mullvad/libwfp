@@ -5,22 +5,17 @@ provides builders for defining providers, filters and sets of conditions.
 
 ## Checking out the code
 
-The code is dependent on two other repositories:
+The code is dependent on one other repository:
 
-* mullvad/googletest
-
-   Forked `Google Test` that only updates a few project settings.
-   
 * mullvad/windows-libraries
 
    Specifically, the `libcommon` library contained herein, for general functionality not provided by
    the standard library.
 
-For reasons of flexibility, these repositories are not included as submodules. They are instead
+For reasons of flexibility, this repository is not included as a submodule. It is instead
 required to be checked out at the same level as libwfp:
 ```
 mkdir libwfp && cd libwfp
-git clone https://github.com/mullvad/googletest.git
 git clone https://github.com/mullvad/windows-libraries.git
 git clone https://github.com/mullvad/libwfp.git
 ```
