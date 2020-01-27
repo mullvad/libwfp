@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "ipaddress.h"
-#include "libcommon/string.h"
+#include <libcommon/string.h>
+#include <libcommon/error.h>
 #include <ws2tcpip.h>
 #include <winsock2.h>
-#include <stdexcept>
 
 namespace
 {
@@ -22,7 +22,7 @@ IpAddress::Literal::Literal(const std::initializer_list<uint8_t> &netnode)
 {
 	if (netnode.size() != 4)
 	{
-		throw std::runtime_error("Invalid IPv4 specification");
+		THROW_ERROR("Invalid IPv4 specification");
 	}
 
 	auto it = netnode.begin();
@@ -39,7 +39,7 @@ IpAddress::Literal6::Literal6(const std::initializer_list<uint16_t> &netnode)
 {
 	if (netnode.size() != 8)
 	{
-		throw std::runtime_error("Invalid IPv6 specification");
+		THROW_ERROR("Invalid IPv6 specification");
 	}
 
 	size_t index = 0;
@@ -75,7 +75,7 @@ IpAddress::IpAddress(const std::wstring &netnode)
 	}
 	else
 	{
-		throw std::runtime_error("Parser failure: Invalid IP address.");
+		THROW_ERROR("Parser failure: Invalid IP address");
 	}
 }
 
@@ -119,7 +119,7 @@ std::wstring IpAddress::toString() const
 		}
 		default:
 		{
-			throw std::logic_error("Missing case handler in switch clause");
+			THROW_ERROR("Missing case handler in switch clause");
 		}
 	}
 }

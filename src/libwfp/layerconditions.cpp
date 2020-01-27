@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "layerconditions.h"
+#include <libcommon/string.h>
+#include <libcommon/error.h>
 #include <guiddef.h>
 #include <fwpmu.h>
 #include <functional>
@@ -780,7 +782,8 @@ ConditionsCollection GetLayerConditions(const GUID &layer)
 
 		if (lookup.end() == match)
 		{
-			throw std::runtime_error("Invalid layer GUID");
+			const auto msg = std::wstring(L"Invalid layer GUID: ").append(common::string::FormatGuid(layer));
+			THROW_ERROR(common::string::ToAnsi(msg).c_str());
 		}
 
 		result = match->second;

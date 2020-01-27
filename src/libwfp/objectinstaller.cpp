@@ -25,7 +25,10 @@ bool ObjectInstaller::AddFilter(FilterEngine &engine, FilterBuilder &filterBuild
 				id
 			);
 
-			THROW_UNLESS(ERROR_SUCCESS, status, "Register filter with BFE");
+			if (ERROR_SUCCESS != status)
+			{
+				THROW_WINDOWS_ERROR(status, "Register filter with BFE");
+			}
 
 			return true;
 		});
@@ -48,7 +51,10 @@ bool ObjectInstaller::AddProvider(FilterEngine &engine, ProviderBuilder &provide
 			nullptr
 		);
 
-		THROW_UNLESS(ERROR_SUCCESS, status, "Register provider with BFE");
+		if (ERROR_SUCCESS != status)
+		{
+			THROW_WINDOWS_ERROR(status, "Register provider with BFE");
+		}
 
 		if (nullptr != key)
 		{
@@ -75,7 +81,10 @@ bool ObjectInstaller::AddSublayer(FilterEngine &engine, SublayerBuilder &sublaye
 			nullptr
 		);
 
-		THROW_UNLESS(ERROR_SUCCESS, status, "Register sublayer with BFE");
+		if (ERROR_SUCCESS != status)
+		{
+			THROW_WINDOWS_ERROR(status, "Register sublayer with BFE");
+		}
 
 		if (nullptr != key)
 		{

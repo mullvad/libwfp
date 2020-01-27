@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "ipnetwork.h"
-#include "libcommon/string.h"
-#include "libcommon/network.h"
-#include <stdexcept>
+#include <libcommon/string.h>
+#include <libcommon/network.h>
+#include <libcommon/error.h>
 
 namespace wfp
 {
@@ -32,7 +32,7 @@ IpNetwork::IpNetwork(const IpAddress &addr, uint8_t prefix)
 		}
 		default:
 		{
-			throw std::logic_error("Missing case handler in switch clause");
+			THROW_ERROR("Missing case handler in switch clause");
 		}
 	}
 }
@@ -51,7 +51,7 @@ std::wstring IpNetwork::toString() const
 		}
 		default:
 		{
-			throw std::logic_error("Missing case handler in switch clause");
+			THROW_ERROR("Missing case handler in switch clause");
 		}
 	}
 }

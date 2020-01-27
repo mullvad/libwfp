@@ -24,7 +24,10 @@ void ObjectMonitor::monitorEvents(std::function<void(const FWPM_NET_EVENT1&)> ca
 
 	auto status = FwpmNetEventSubscribe0(m_engine->session(), &spec, EventCallback, this, &m_eventSubscription);
 
-	THROW_UNLESS(status, ERROR_SUCCESS, "Register subscription for net events.");
+	if (ERROR_SUCCESS != status)
+	{
+		THROW_WINDOWS_ERROR(status, "Register subscription for net events.");
+	}
 }
 
 //static

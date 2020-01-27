@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "conditionicmp.h"
 #include "libwfp/internal/conditionassembler.h"
+#include <libcommon/error.h>
 #include <sstream>
 
 using ConditionAssembler = ::wfp::internal::ConditionAssembler;
@@ -33,7 +34,7 @@ std::wstring ConditionIcmp::toString() const
 		}
 		default:
 		{
-			throw std::logic_error("Missing case handler in switch clause");
+			THROW_ERROR("Missing case handler in switch clause");
 		}
 	}
 
@@ -56,7 +57,7 @@ const GUID &ConditionIcmp::identifier() const
 		}
 		default:
 		{
-			throw std::logic_error("Missing case handler in switch clause");
+			THROW_ERROR("Missing case handler in switch clause");
 		}
 	}
 }
