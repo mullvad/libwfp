@@ -12,26 +12,16 @@
     <ClCompile Include="wfp\layerconditions.cpp">
       <Filter>wfp</Filter>
     </ClCompile>
-    <ClCompile Include="integration\basicfilterops.cpp">
-      <Filter>integration</Filter>
-    </ClCompile>
-    <ClCompile Include="integration\basicproviderops.cpp">
-      <Filter>integration</Filter>
-    </ClCompile>
-    <ClCompile Include="integration\basicsublayerops.cpp">
-      <Filter>integration</Filter>
-    </ClCompile>
-    <ClCompile Include="integration\blockoutgoingbyport.cpp">
-      <Filter>integration</Filter>
-    </ClCompile>
     <ClCompile Include="integration\transaction.cpp">
       <Filter>integration</Filter>
     </ClCompile>
     <ClCompile Include="ncat.cpp" />
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="test-libwfp.cpp" />
     <ClCompile Include="wfp\ipaddress.cpp">
       <Filter>wfp</Filter>
+    </ClCompile>
+    <ClCompile Include="integration\operations.cpp">
+      <Filter>integration</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
