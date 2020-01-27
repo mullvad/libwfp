@@ -18,7 +18,7 @@ void ObjectDeleter::DeleteFilter(FilterEngine &engine, const GUID &key)
 		return;
 	}
 
-	::common::error::Throw("Delete filter", status);
+	THROW_WINDOWS_ERROR(status, "Delete filter")
 }
 
 //static
@@ -34,7 +34,7 @@ void ObjectDeleter::DeleteFilter(FilterEngine &engine, UINT64 key)
 		return;
 	}
 
-	::common::error::Throw("Delete filter", status);
+	THROW_WINDOWS_ERROR(status, "Delete filter");
 }
 
 //static
@@ -50,7 +50,7 @@ void ObjectDeleter::DeleteProvider(FilterEngine &engine, const GUID &key)
 		return;
 	}
 
-	::common::error::Throw("Delete provider", status);
+	THROW_WINDOWS_ERROR(status, "Delete provider");
 }
 
 //static
@@ -66,7 +66,7 @@ void ObjectDeleter::DeleteSublayer(FilterEngine &engine, const GUID &key)
 		return;
 	}
 
-	::common::error::Throw("Delete sublayer", status);
+	THROW_WINDOWS_ERROR(status, "Delete sublayer");
 }
 
 }
