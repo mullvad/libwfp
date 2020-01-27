@@ -51,7 +51,7 @@ std::wstring Ncat::Path()
 
 	wchar_t rawPath[MAX_PATH];
 
-	if (0 == GetModuleFileNameW(NULL, rawPath, _countof(rawPath)))
+	if (0 == GetCurrentDirectory(_countof(rawPath), rawPath))
 	{
 		throw std::runtime_error("Failed to construct path for Ncat");
 	}
