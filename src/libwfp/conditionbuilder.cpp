@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "conditionbuilder.h"
 #include "layerconditions.h"
-#include <stdexcept>
+#include <libcommon/error.h>
 
 using IFilterCondition = wfp::conditions::IFilterCondition;
 
@@ -17,7 +17,7 @@ ConditionBuilder &ConditionBuilder::add_condition(std::unique_ptr<IFilterConditi
 {
 	if (false == LayerConditions::IsCompatible(m_layer, condition->identifier()))
 	{
-		throw std::runtime_error("Condition is not compatible with layer");
+		THROW_ERROR("Condition is not compatible with layer");
 	}
 
 	m_conditions.insert(std::move(condition));

@@ -2,7 +2,7 @@
 #include "conditionprotocol.h"
 #include "libwfp/internal/conditionassembler.h"
 #include <winsock2.h>
-#include <stdexcept>
+#include <libcommon/error.h>
 
 using ConditionAssembler = ::wfp::internal::ConditionAssembler;
 
@@ -32,7 +32,7 @@ std::wstring ConditionProtocol::toString() const
 		case Protocol::Raw: return L"protocol = Raw";
 		default:
 		{
-			throw std::runtime_error("Missing case handler");
+			THROW_ERROR("Missing case handler");
 		}
 	}
 }
@@ -103,7 +103,7 @@ uint8_t ConditionProtocol::TranslateProtocol(Protocol protocol)
 		case Protocol::Raw: return IPPROTO_RAW;
 		default:
 		{
-			throw std::runtime_error("Missing case handler");
+			THROW_ERROR("Missing case handler");
 		}
 	}
 }

@@ -3,8 +3,8 @@
 #include "libwfp/internal/conditionassembler.h"
 #include "libcommon/network.h"
 #include "libcommon/string.h"
+#include "libcommon/error.h"
 #include <sstream>
-#include <stdexcept>
 
 using ConditionAssembler = ::wfp::internal::ConditionAssembler;
 
@@ -30,7 +30,7 @@ ConditionIp::ConditionIp(bool local, const IpAddress &netnode, const IStrictComp
 		}
 		default:
 		{
-			throw std::logic_error("Missing case handler in switch clause");
+			THROW_ERROR("Missing case handler in switch clause");
 		}
 	}
 }
@@ -55,7 +55,7 @@ ConditionIp::ConditionIp(bool local, const IpNetwork &network, const IStrictComp
 		}
 		default:
 		{
-			throw std::logic_error("Missing case handler in switch clause");
+			THROW_ERROR("Missing case handler in switch clause");
 		}
 	}
 }
@@ -104,7 +104,7 @@ std::wstring ConditionIp::toString() const
 		}
 		default:
 		{
-			throw std::logic_error("Missing case handler in switch clause");
+			THROW_ERROR("Missing case handler in switch clause");
 		}
 	};
 

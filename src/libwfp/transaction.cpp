@@ -24,7 +24,10 @@ bool Transaction::Execute(FilterEngine &engine, std::function<bool()> operation,
 {
 	auto status = FwpmTransactionBegin0(engine.session(), (readWrite ? 0 : FWPM_TXN_READ_ONLY));
 
-	THROW_UNLESS(ERROR_SUCCESS, status, "Initiate WFP transaction");
+	if (ERROR_SUCCESS != status)
+	{
+		THROW_WINDOWS_ERROR(status, "Initiate WFP transaction");
+	}
 
 	bool operationResult = false;
 
@@ -35,7 +38,12 @@ bool Transaction::Execute(FilterEngine &engine, std::function<bool()> operation,
 	catch (...)
 	{
 		// Attemp to abort and throw with inner exception if it fails
-		THROW_UNLESS(ERROR_SUCCESS, FwpmTransactionAbort0(engine.session()), "Abort WFP transaction");
+		status = FwpmTransactionAbort0(engine.session());
+
+		if (ERROR_SUCCESS != status)
+		{
+			THROW_WINDOWS_ERROR(status, "Abort WFP transaction");
+		}
 
 		// Successfully aborted so rethrow original exception
 		throw;
@@ -43,11 +51,21 @@ bool Transaction::Execute(FilterEngine &engine, std::function<bool()> operation,
 
 	if (operationResult)
 	{
-		THROW_UNLESS(ERROR_SUCCESS, FwpmTransactionCommit0(engine.session()), "Commit WFP transaction");
+		status = FwpmTransactionCommit0(engine.session());
+
+		if (ERROR_SUCCESS != status)
+		{
+			THROW_WINDOWS_ERROR(status, "Commit WFP transaction");
+		}
 	}
 	else
 	{
-		THROW_UNLESS(ERROR_SUCCESS, FwpmTransactionAbort0(engine.session()), "Abort WFP transaction");
+		status = FwpmTransactionAbort0(engine.session());
+
+		if (ERROR_SUCCESS != status)
+		{
+			THROW_WINDOWS_ERROR(status, "Abort WFP transaction");
+		}
 	}
 
 	return operationResult;

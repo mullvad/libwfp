@@ -2,7 +2,8 @@
 #include "conditioninterface.h"
 #include "libwfp/internal/conditionassembler.h"
 #include <sstream>
-#include <stdexcept>
+#include <libcommon/error.h>
+#include <libcommon/string.h>
 #include <iphlpapi.h>
 
 using ConditionAssembler = ::wfp::internal::ConditionAssembler;
@@ -16,7 +17,12 @@ UINT64 LuidFromAlias(const std::wstring &interfaceAlias)
 
 	if (0 != ConvertInterfaceAliasToLuid(interfaceAlias.c_str(), &luid))
 	{
-		throw std::runtime_error("Unable to derive interface LUID from interface alias");
+		std::stringstream ss;
+
+		ss << "Unable to derive interface LUID from interface with alias \""
+			<< common::string::ToAnsi(interfaceAlias) << "\"";
+
+		THROW_ERROR(ss.str().c_str());
 	}
 
 	return luid.Value;
@@ -28,7 +34,12 @@ UINT64 LuidFromName(const std::wstring &interfaceName)
 
 	if (0 != ConvertInterfaceNameToLuidW(interfaceName.c_str(), &luid))
 	{
-		throw std::runtime_error("Unable to derive interface LUID from interface name");
+		std::stringstream ss;
+
+		ss << "Unable to derive interface LUID from interface with name \""
+			<< common::string::ToAnsi(interfaceName) << "\"";
+
+		THROW_ERROR(ss.str().c_str());
 	}
 
 	return luid.Value;
@@ -79,7 +90,7 @@ ConditionInterface::ConditionInterface(const std::wstring &interfaceIdentifier, 
 		}
 		default:
 		{
-			throw std::logic_error("Missing case handler in switch clause");
+			THROW_ERROR("Missing case handler in switch clause");
 		}
 	}
 
@@ -138,7 +149,7 @@ std::wstring ConditionInterface::toString() const
 		}
 		default:
 		{
-			throw std::logic_error("Missing case handler in switch clause");
+			THROW_ERROR("Missing case handler in switch clause");
 		}
 	};
 
@@ -161,7 +172,7 @@ const GUID &ConditionInterface::identifier() const
 		}
 		default:
 		{
-			throw std::logic_error("Missing case handler in switch clause");
+			THROW_ERROR("Missing case handler in switch clause");
 		}
 	};
 }

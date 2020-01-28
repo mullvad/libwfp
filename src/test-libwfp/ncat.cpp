@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "ncat.h"
-#include <stdexcept>
 #include <windows.h>
 #include <libcommon/string.h>
+#include <libcommon/error.h>
 
 Ncat::Ncat(const std::wstring &args)
 {
@@ -23,7 +23,7 @@ std::string Ncat::output()
 		return data;
 	}
 
-	throw std::runtime_error("Failed to read Ncat output");
+	THROW_ERROR("Failed to read Ncat output");
 }
 
 DWORD Ncat::returnCode()
@@ -35,7 +35,7 @@ DWORD Ncat::returnCode()
 		return returnCode;
 	}
 
-	throw std::runtime_error("Failed to read Ncat return code");
+	THROW_ERROR("Failed to read Ncat return code");
 }
 
 // static
@@ -53,7 +53,7 @@ std::wstring Ncat::Path()
 
 	if (0 == GetCurrentDirectory(_countof(rawPath), rawPath))
 	{
-		throw std::runtime_error("Failed to construct path for Ncat");
+		THROW_ERROR("Failed to construct path for Ncat");
 	}
 
 	std::wstring path(rawPath);
@@ -64,7 +64,7 @@ std::wstring Ncat::Path()
 
 	if (repositoryOffset == std::wstring::npos)
 	{
-		throw std::runtime_error("Failed to construct path for Ncat");
+		THROW_ERROR("Failed to construct path for Ncat");
 	}
 
 	return path.substr(0, repositoryOffset + wcslen(repositoryDir))

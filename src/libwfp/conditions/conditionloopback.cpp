@@ -3,7 +3,7 @@
 #include "libwfp/internal/conditionassembler.h"
 #include <ipifcons.h>
 #include <sstream>
-#include <stdexcept>
+#include <libcommon/error.h>
 
 using ConditionAssembler = ::wfp::internal::ConditionAssembler;
 
@@ -20,7 +20,7 @@ FWP_MATCH_TYPE GetFlagsMatchType(const ComparisonSpecification &comp)
 		case FWP_MATCH_NOT_EQUAL: return FWP_MATCH_FLAGS_NONE_SET;
 		default:
 		{
-			throw std::logic_error("Missing case handler in switch clause");
+			THROW_ERROR("Missing case handler in switch clause");
 		}
 	}
 }
@@ -49,7 +49,7 @@ ConditionLoopback::ConditionLoopback(Type type, const IStrictComparison &compari
 		}
 		default:
 		{
-			throw std::logic_error("Missing case handler in switch clause");
+			THROW_ERROR("Missing case handler in switch clause");
 		}
 	}
 }
@@ -72,7 +72,7 @@ std::wstring ConditionLoopback::toString() const
 		}
 		default:
 		{
-			throw std::logic_error("Missing case handler in switch clause");
+			THROW_ERROR("Missing case handler in switch clause");
 		}
 	}
 
@@ -89,7 +89,7 @@ const GUID &ConditionLoopback::identifier() const
 		case Type::LoopbackTraffic: return FWPM_CONDITION_FLAGS;
 		default:
 		{
-			throw std::logic_error("Missing case handler in switch clause");
+			THROW_ERROR("Missing case handler in switch clause");
 		}
 	}
 }
