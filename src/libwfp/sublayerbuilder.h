@@ -1,6 +1,7 @@
 #pragma once
 
 #include "iidentifiable.h"
+#include "buildervalidation.h"
 #include <guiddef.h>
 #include <fwpmu.h>
 #include <windows.h>
@@ -17,7 +18,10 @@ class SublayerBuilder : public IIdentifiable
 {
 public:
 
-	SublayerBuilder();
+	SublayerBuilder(BuilderValidation validation = BuilderValidation::Extra);
+
+	SublayerBuilder(const SublayerBuilder&) = delete;
+	SublayerBuilder &operator=(const SublayerBuilder&) = delete;
 
 	SublayerBuilder &key(const GUID &key);
 	SublayerBuilder &name(const std::wstring &name);
@@ -34,9 +38,6 @@ public:
 
 private:
 
-	SublayerBuilder(const SublayerBuilder &);
-	SublayerBuilder &operator=(const SublayerBuilder &);
-
 	FWPM_SUBLAYER0 m_sublayer;
 
 	std::wstring m_name;
@@ -44,6 +45,13 @@ private:
 	GUID m_providerKey;
 	std::unique_ptr<uint8_t[]> m_data;
 	size_t m_dataSize;
+
+	BuilderValidation m_validation;
+
+	bool m_keyProvided = false;
+	bool m_nameProvided = false;
+	bool m_providerProvided = false;
+	bool m_weightProvided = false;
 };
 
 }
