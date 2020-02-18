@@ -5,19 +5,24 @@
 namespace wfp
 {
 
-ProviderBuilder::ProviderBuilder()
+ProviderBuilder::ProviderBuilder(BuilderValidation validation)
+	: m_validation(validation)
 {
 	memset(&m_provider, 0, sizeof(m_provider));
 }
 
 ProviderBuilder &ProviderBuilder::key(const GUID &key)
 {
+	m_keyProvided = true;
+
 	memcpy(&m_provider.providerKey, &key, sizeof(m_provider.providerKey));
 	return *this;
 }
 
 ProviderBuilder &ProviderBuilder::name(const std::wstring &name)
 {
+	m_nameProvided = true;
+
 	m_name = name;
 	m_provider.displayData.name = const_cast<wchar_t *>(m_name.c_str());
 
@@ -61,6 +66,28 @@ ProviderBuilder &ProviderBuilder::serviceName(const std::wstring &serviceName)
 
 bool ProviderBuilder::build(ProviderSink sink)
 {
+	switch (m_validation)
+	{
+		case BuilderValidation::Extra:
+		{
+			if (false == m_keyProvided)
+			{
+				THROW_ERROR("Rejecting partially initialized sublayer");
+			}
+
+			// No break, fall through.
+		}
+		case BuilderValidation::OnlyCritical:
+		{
+			if (false == m_nameProvided)
+			{
+				THROW_ERROR("Rejecting partially initialized sublayer");
+			}
+
+			break;
+		}
+	}
+
 	return sink(m_provider);
 }
 
