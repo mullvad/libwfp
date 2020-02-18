@@ -23,7 +23,7 @@ public:
 
 	ProviderBuilder &persistent();
 
-	// Optional data to provide additonal context.
+	// Optional data to provide additional context.
 	ProviderBuilder &data(const uint8_t *data, size_t size);
 
 	// Optional name of Windows service hosting the provider.
