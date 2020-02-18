@@ -114,5 +114,6 @@
     <ClInclude Include="conditions\conditionicmp.h">
       <Filter>conditions</Filter>
     </ClInclude>
+    <ClInclude Include="buildervalidation.h" />
   </ItemGroup>
 </Project>
