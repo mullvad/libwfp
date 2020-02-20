@@ -51,6 +51,7 @@
     <ClCompile Include="transaction.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="buildervalidation.h" />
     <ClInclude Include="conditionbuilder.h" />
     <ClInclude Include="conditions\comparison.h" />
     <ClInclude Include="conditions\conditionapplication.h" />

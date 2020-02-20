@@ -5,19 +5,24 @@
 namespace wfp
 {
 
-SublayerBuilder::SublayerBuilder()
+SublayerBuilder::SublayerBuilder(BuilderValidation validation)
+	: m_validation(validation)
 {
 	memset(&m_sublayer, 0, sizeof(m_sublayer));
 }
 
 SublayerBuilder &SublayerBuilder::key(const GUID &key)
 {
+	m_keyProvided = true;
+
 	memcpy(&m_sublayer.subLayerKey, &key, sizeof(m_sublayer.subLayerKey));
 	return *this;
 }
 
 SublayerBuilder &SublayerBuilder::name(const std::wstring &name)
 {
+	m_nameProvided = true;
+
 	m_name = name;
 	m_sublayer.displayData.name = const_cast<wchar_t *>(m_name.c_str());
 
@@ -40,6 +45,8 @@ SublayerBuilder &SublayerBuilder::persistent()
 
 SublayerBuilder &SublayerBuilder::provider(const GUID &provider)
 {
+	m_providerProvided = true;
+
 	memcpy(&m_providerKey, &provider, sizeof(m_providerKey));
 	m_sublayer.providerKey = &m_providerKey;
 
@@ -61,12 +68,38 @@ SublayerBuilder &SublayerBuilder::data(const uint8_t *data, size_t size)
 
 SublayerBuilder &SublayerBuilder::weight(UINT16 weight)
 {
+	m_weightProvided = true;
+
 	m_sublayer.weight = weight;
 	return *this;
 }
 
 bool SublayerBuilder::build(SublayerSink sink)
 {
+	switch (m_validation)
+	{
+		case BuilderValidation::Extra:
+		{
+			if (false == m_keyProvided
+				|| false == m_providerProvided)
+			{
+				THROW_ERROR("Rejecting partially initialized sublayer");
+			}
+
+			// No break, fall through.
+		}
+		case BuilderValidation::OnlyCritical:
+		{
+			if (false == m_nameProvided
+				|| false == m_weightProvided)
+			{
+				THROW_ERROR("Rejecting partially initialized sublayer");
+			}
+
+			break;
+		}
+	}
+
 	return sink(m_sublayer);
 }
 

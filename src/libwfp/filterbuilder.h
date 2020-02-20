@@ -1,6 +1,7 @@
 #pragma once
 
 #include "iidentifiable.h"
+#include "buildervalidation.h"
 #include <guiddef.h>
 #include <fwpmu.h>
 #include <windows.h>
@@ -25,7 +26,10 @@ class FilterBuilder : public IIdentifiable
 {
 public:
 
-	FilterBuilder();
+	FilterBuilder(BuilderValidation validation = BuilderValidation::Extra);
+
+	FilterBuilder(const FilterBuilder&) = delete;
+	FilterBuilder &operator=(const FilterBuilder&) = delete;
 
 	FilterBuilder &key(const GUID &key);
 	FilterBuilder &name(const std::wstring &name);
@@ -76,15 +80,22 @@ public:
 
 private:
 
-	FilterBuilder(const FilterBuilder &);
-	FilterBuilder &operator=(const FilterBuilder &);
-
 	FWPM_FILTER0 m_filter;
 
 	std::wstring m_name;
 	std::wstring m_description;
 	GUID m_providerKey;
 	UINT64 m_weight;
+
+	BuilderValidation m_validation;
+
+	bool m_keyProvided = false;
+	bool m_nameProvided = false;
+	bool m_providerProvided = false;
+	bool m_layerProvided = false;
+	bool m_sublayerProvided = false;
+	bool m_weightProvided = false;
+	bool m_verdictProvided = false;
 };
 
 }
