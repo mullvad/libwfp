@@ -37,6 +37,8 @@ public:
 
 	std::wstring toString() const;
 
+	bool includes(const IpAddress &address) const;
+
 private:
 
 	Type m_type;
