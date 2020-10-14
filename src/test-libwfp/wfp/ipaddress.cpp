@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "libwfp/ipaddress.h"
+#include "libwfp/ipnetwork.h"
 
 using IpAddress = ::wfp::IpAddress;
+using IpNetwork = ::wfp::IpNetwork;
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -46,6 +48,64 @@ public:
 		Assert::AreEqual(ip_from_string.toString().c_str(), literalString);
 		Assert::AreEqual(ip_from_literal.toString().c_str(), literalString);
 		Assert::AreEqual(ip_from_raw.toString().c_str(), literalString);
+	}
+
+	TEST_METHOD(ConstructIpv4NetworkIncludes)
+	{
+		static const uint32_t prefix = 16;
+		IpAddress network_address(IpAddress::Literal{ 192, 168, 0, 0 });
+		IpNetwork network(network_address, prefix);
+
+		const IpAddress::Literal matchingAddresses[] = {
+			IpAddress::Literal { 192, 168, 0, 1 },
+			IpAddress::Literal { 192, 168, 254, 254 }
+		};
+
+		for (const auto &address : matchingAddresses)
+		{
+			Assert::IsTrue(network.includes(address));
+		}
+
+		const IpAddress::Literal nonMatchingAddresses[] = {
+			IpAddress::Literal { 192, 169, 0, 1 },
+			IpAddress::Literal { 193, 168, 254, 254 },
+			IpAddress::Literal { 127, 0, 0, 1 }
+		};
+
+		for (const auto &address : nonMatchingAddresses)
+		{
+			Assert::IsFalse(network.includes(address));
+		}
+	}
+
+	TEST_METHOD(ConstructIpv6NetworkIncludes)
+	{
+		static const uint32_t prefix = 10;
+		IpAddress network_address(IpAddress::Literal6{ 0xfe80, 0, 0, 0, 0, 0, 0, 0 });
+		IpNetwork network(network_address, prefix);
+
+		const IpAddress::Literal6 matchingAddresses[] = {
+			IpAddress::Literal6 { 0xfe80, 0, 0, 0, 0, 0, 0, 0 },
+			// Test trailing bits
+			IpAddress::Literal6 { 0xfebf, 0, 0, 0, 0, 0, 0, 0 },
+			IpAddress::Literal6 { 0xfe80, 0, 1, 0, 1, 0, 1, 0 }
+		};
+
+		for (const auto &address : matchingAddresses)
+		{
+			Assert::IsTrue(network.includes(address));
+		}
+
+		const IpAddress::Literal6 nonMatchingAddresses[] = {
+			IpAddress::Literal6 { 0, 1, 0, 1, 0, 1, 0, 1 },
+			// Test trailing bits
+			IpAddress::Literal6 { 0xfec0, 0, 0, 0, 0, 0, 0, 0 }
+		};
+
+		for (const auto &address : nonMatchingAddresses)
+		{
+			Assert::IsFalse(network.includes(address));
+		}
 	}
 
 	TEST_METHOD(ConstructIpv6)
