@@ -14,7 +14,7 @@ ConditionApplication::ConditionApplication(const std::wstring &application, cons
 {
 	FWP_BYTE_BLOB *blob;
 
-	auto status = FwpmGetAppIdFromFileName(m_application.c_str(), &blob);
+	auto status = FwpmGetAppIdFromFileName0(m_application.c_str(), &blob);
 
 	if (ERROR_SUCCESS != status)
 	{

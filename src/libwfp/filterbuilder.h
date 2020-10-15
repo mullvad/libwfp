@@ -66,6 +66,7 @@ public:
 		Class15,
 
 		Min = Class0,
+		Medium = Class7,
 		Max = Class15
 	};
 
