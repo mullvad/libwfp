@@ -69,6 +69,16 @@ public:
 
 	std::wstring toString() const;
 
+	bool operator==(const IpAddress &other) const
+	{
+		if (Type::Ipv4 == m_type)
+		{
+			return Type::Ipv4 == other.m_type && m_ipv4 == other.m_ipv4;
+		}
+		return Type::Ipv6 == other.m_type
+			&& 0 == memcmp(m_ipv6, other.m_ipv6, sizeof(m_ipv6));
+	}
+
 private:
 
 	uint32_t m_ipv4;
