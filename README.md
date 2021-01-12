@@ -94,7 +94,7 @@ int main()
 
 # License
 
-Copyright (C) 2020 Mullvad VPN AB
+Copyright (C) 2021 Mullvad VPN AB
 
 Permission to use the code, documentation and contents is granted under the conditions of the MIT
 license.
