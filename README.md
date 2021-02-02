@@ -22,7 +22,7 @@ git clone https://github.com/mullvad/libwfp.git
 
 ## Development environment
 
-libwfp requires Visual Studio 2017. Any edition will work, e.g. Visual Studio Community 2017 is a
+libwfp requires Visual Studio 2019. Any edition will work, e.g. Visual Studio Community 2019 is a
 perfectly fine choice.
 
 ## Dependencies
