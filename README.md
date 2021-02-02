@@ -36,21 +36,22 @@ libwfp is targeted at Windows 7, 8 and 10.
 ## Example usage
 ### Fine-grained blocking of outgoing connections
 ``` cpp
-#include "libwfp/filterengine.h"
-#include "libwfp/sublayerbuilder.h"
-#include "libwfp/objectinstaller.h"
-#include "libwfp/conditionbuilder.h"
-#include "libwfp/conditions/conditionapplication.h"
-#include "libwfp/conditions/conditionportrange.h"
-#include "libwfp/conditions/comparison.h"
-#include "libwfp/filterbuilder.h"
+#include <libwfp/filterengine.h>
+#include <libwfp/buildervalidation.h>
+#include <libwfp/sublayerbuilder.h>
+#include <libwfp/objectinstaller.h>
+#include <libwfp/conditionbuilder.h>
+#include <libwfp/conditions/conditionapplication.h>
+#include <libwfp/conditions/conditionportrange.h>
+#include <libwfp/conditions/comparison.h>
+#include <libwfp/filterbuilder.h>
 #include <memory>
 
 int main()
 {
     auto engine = wfp::FilterEngine::DynamicSession();
 
-    wfp::SublayerBuilder sublayer;
+    wfp::SublayerBuilder sublayer(wfp::BuilderValidation::OnlyCritical);
 
     sublayer
         .name(L"libwfp example layer")
@@ -72,7 +73,7 @@ int main()
     conditions.add_condition(wfp::conditions::ConditionPortRange::Remote( \
         0, 1023, wfp::conditions::CompareNeq()));
 
-    wfp::FilterBuilder filter;
+    wfp::FilterBuilder filter(wfp::BuilderValidation::OnlyCritical);
 
     filter
         .name(L"Svchost peer filter")
