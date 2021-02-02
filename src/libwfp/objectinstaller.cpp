@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "objectinstaller.h"
-#include "libcommon/error.h"
-#include "libcommon/guid.h"
+#include <libcommon/error.h>
+#include <libcommon/guid.h>
 #include <guiddef.h>
 #include <fwpmu.h>
 

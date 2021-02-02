@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "conditionapplication.h"
 #include "libwfp/internal/conditionassembler.h"
-#include "libcommon/error.h"
+#include <libcommon/error.h>
 #include <sstream>
 
 using ConditionAssembler = ::wfp::internal::ConditionAssembler;

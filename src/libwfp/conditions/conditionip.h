@@ -4,7 +4,7 @@
 #include "ifiltercondition.h"
 #include "libwfp/ipaddress.h"
 #include "libwfp/ipnetwork.h"
-#include "libcommon/buffer.h"
+#include <libcommon/buffer.h>
 #include <memory>
 
 namespace wfp::conditions {
