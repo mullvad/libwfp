@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "conditionip.h"
-#include "libwfp/internal/conditionassembler.h"
+#include <libwfp/internal/conditionassembler.h>
 #include <libcommon/network.h>
 #include <libcommon/string.h>
 #include <libcommon/error.h>

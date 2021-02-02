@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "conditionportrange.h"
-#include "libwfp/internal/conditionassembler.h"
+#include <libwfp/internal/conditionassembler.h>
 #include <sstream>
 
 using ConditionAssembler = ::wfp::internal::ConditionAssembler;
