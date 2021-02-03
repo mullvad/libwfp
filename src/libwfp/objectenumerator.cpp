@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "objectenumerator.h"
-#include "libcommon/error.h"
-#include "libcommon/memory.h"
+#include <libcommon/error.h>
+#include <libcommon/memory.h>
 #include <guiddef.h>
 #include <fwpmu.h>
 

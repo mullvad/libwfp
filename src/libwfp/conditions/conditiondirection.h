@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ifiltercondition.h"
-#include "libcommon/buffer.h"
+#include <libcommon/buffer.h>
 #include <memory>
 
 namespace wfp::conditions {

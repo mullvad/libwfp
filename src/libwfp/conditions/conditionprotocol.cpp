@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "conditionprotocol.h"
-#include "libwfp/internal/conditionassembler.h"
+#include <libwfp/internal/conditionassembler.h>
 #include <winsock2.h>
 #include <libcommon/error.h>
 

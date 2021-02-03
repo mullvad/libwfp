@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "conditionassembler.h"
-#include "libcommon/binarycomposer.h"
+#include <libcommon/binarycomposer.h>
 
 using Buffer = ::common::Buffer;
 using ConstBufferView = ::common::ConstBufferView;
