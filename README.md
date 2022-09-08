@@ -22,7 +22,7 @@ git clone https://github.com/mullvad/libwfp.git
 
 ## Development environment
 
-libwfp requires Visual Studio 2019. Any edition will work, e.g. Visual Studio Community 2019 is a
+libwfp requires Visual Studio 2022. Any edition will work, e.g. Visual Studio Community 2022 is a
 perfectly fine choice.
 
 ## Dependencies
@@ -95,7 +95,7 @@ int main()
 
 # License
 
-Copyright (C) 2021 Mullvad VPN AB
+Copyright (C) 2022 Mullvad VPN AB
 
 Permission to use the code, documentation and contents is granted under the conditions of the MIT
 license.
