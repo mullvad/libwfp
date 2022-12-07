@@ -6,6 +6,7 @@
 #include <fwpmu.h>
 #include <functional>
 #include <string>
+#include <memory>
 
 namespace wfp
 {
