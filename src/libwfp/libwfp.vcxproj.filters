@@ -54,6 +54,9 @@
     <ClCompile Include="conditions\conditionicmp.cpp">
       <Filter>conditions</Filter>
     </ClCompile>
+    <ClCompile Include="conditions\conditionl2flags.cpp">
+      <Filter>conditions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="objectdeleter.h" />
@@ -115,5 +118,8 @@
       <Filter>conditions</Filter>
     </ClInclude>
     <ClInclude Include="buildervalidation.h" />
+    <ClInclude Include="conditions\conditionl2flags.h">
+      <Filter>conditions</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

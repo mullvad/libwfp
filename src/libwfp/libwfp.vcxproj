@@ -33,6 +33,7 @@
     <ClCompile Include="conditions\conditionicmp.cpp" />
     <ClCompile Include="conditions\conditioninterface.cpp" />
     <ClCompile Include="conditions\conditionip.cpp" />
+    <ClCompile Include="conditions\conditionl2flags.cpp" />
     <ClCompile Include="conditions\conditionloopback.cpp" />
     <ClCompile Include="conditions\conditionport.cpp" />
     <ClCompile Include="conditions\conditionportrange.cpp" />
@@ -69,6 +70,7 @@
     <ClInclude Include="conditions\conditionicmp.h" />
     <ClInclude Include="conditions\conditioninterface.h" />
     <ClInclude Include="conditions\conditionip.h" />
+    <ClInclude Include="conditions\conditionl2flags.h" />
     <ClInclude Include="conditions\conditionloopback.h" />
     <ClInclude Include="conditions\conditionport.h" />
     <ClInclude Include="conditions\conditionportrange.h" />
