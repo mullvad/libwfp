@@ -14,6 +14,9 @@ public:
 	const GUID &identifier() const override;
 	const FWPM_FILTER_CONDITION0 &condition() const override;
 
+	
+  private:
+	  FWPM_FILTER_CONDITION0 cond;
 };
 
 }
