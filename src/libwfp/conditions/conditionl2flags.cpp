@@ -1,8 +1,6 @@
-#pragma once
-
+#include "stdafx.h"
 #include <sstream>
 #include "conditionl2flags.h"
-#include "stdafx.h"
 
 namespace wfp::conditions {
 

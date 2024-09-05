@@ -1,6 +1,5 @@
 #pragma once
 
-#include "comparison.h"
 #include "ifiltercondition.h"
 
 namespace wfp::conditions {
