@@ -10,7 +10,7 @@ namespace wfp::conditions {
 	  cond.fieldKey = FWPM_CONDITION_L2_FLAGS;
 	  cond.matchType = FWP_MATCH_EQUAL;
 	  cond.conditionValue.type = FWP_UINT32;
-	  cond.conditionValue.uint32 = FWP_CONDITION_L2_IS_VM2VM;
+	  cond.conditionValue.uint32 = FWP_CONDITION_L2_IS_NATIVE_ETHERNET;
   }
 
   std::wstring ConditionL2Flags::toString() const {
@@ -19,7 +19,7 @@ namespace wfp::conditions {
 	  return ss.str();
   }
   const GUID &ConditionL2Flags::identifier() const {
-    return FWPM_CONDITION_L2_FLAGS;
+    return cond.fieldKey;
   }
 
   const FWPM_FILTER_CONDITION0 &ConditionL2Flags::condition() const
