@@ -200,6 +200,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir)..\;$(VCInstallDir)UnitTest\include;$(ProjectDir)..\..\..\windows-libraries\src\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -222,6 +223,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir)..\;$(VCInstallDir)UnitTest\include;$(ProjectDir)..\..\..\windows-libraries\src\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -243,6 +245,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir)..\;$(VCInstallDir)UnitTest\include;$(ProjectDir)..\..\..\windows-libraries\src\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
