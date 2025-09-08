@@ -96,4 +96,9 @@ const GUID &ProviderBuilder::id() const
 	return m_provider.providerKey;
 }
 
+const GUID &ProviderBuilder::providerId() const
+{
+	return m_provider.providerKey;
+}
+
 }

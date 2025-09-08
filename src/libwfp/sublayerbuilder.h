@@ -35,6 +35,7 @@ public:
 	bool build(SublayerSink sink);
 
 	const GUID &IIdentifiable::id() const override;
+	const GUID &IIdentifiable::providerId() const override;
 
 private:
 

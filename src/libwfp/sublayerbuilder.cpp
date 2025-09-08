@@ -108,4 +108,13 @@ const GUID &SublayerBuilder::id() const
 	return m_sublayer.subLayerKey;
 }
 
+const GUID &SublayerBuilder::providerId() const
+{
+	if (nullptr == m_sublayer.providerKey)
+	{
+		THROW_ERROR("Sublayer is missing provider");
+	}
+	return *m_sublayer.providerKey;
+}
+
 }

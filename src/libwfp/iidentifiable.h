@@ -12,6 +12,7 @@ struct IIdentifiable
 	}
 
 	virtual const GUID &id() const = 0;
+	virtual const GUID &providerId() const = 0;
 };
 
 }

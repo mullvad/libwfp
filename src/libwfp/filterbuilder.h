@@ -78,6 +78,7 @@ public:
 	bool build(FilterSink sink);
 
 	const GUID &IIdentifiable::id() const override;
+	const GUID &IIdentifiable::providerId() const override;
 
 private:
 

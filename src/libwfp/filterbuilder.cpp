@@ -164,4 +164,13 @@ const GUID &FilterBuilder::id() const
 	return m_filter.filterKey;
 }
 
+const GUID &FilterBuilder::providerId() const
+{
+	if (nullptr == m_filter.providerKey)
+	{
+		THROW_ERROR("Filter is missing provider");
+	}
+	return *m_filter.providerKey;
+}
+
 }
