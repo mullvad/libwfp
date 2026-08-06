@@ -9,6 +9,7 @@ namespace wfp
 {
 
 FilterEngine::FilterEngine(bool dynamic, uint32_t *timeout)
+	: m_ownsSession(true)
 {
 	FWPM_SESSION0 sessionInfo = { 0 };
 
@@ -38,6 +39,16 @@ FilterEngine::FilterEngine(bool dynamic, uint32_t *timeout)
 	m_session = session;
 }
 
+FilterEngine::FilterEngine(HANDLE session)
+	: m_session(session)
+	, m_ownsSession(false)
+{
+	if (nullptr == session || INVALID_HANDLE_VALUE == session)
+	{
+		THROW_ERROR("Invalid argument: session");
+	}
+}
+
 //static
 std::unique_ptr<FilterEngine> FilterEngine::DynamicSession()
 {
@@ -62,9 +73,18 @@ std::unique_ptr<FilterEngine> FilterEngine::StandardSession(uint32_t timeout)
 	return std::unique_ptr<FilterEngine>(new FilterEngine(false, &timeout));
 }
 
+//static
+std::unique_ptr<FilterEngine> FilterEngine::BorrowedSession(HANDLE session)
+{
+	return std::unique_ptr<FilterEngine>(new FilterEngine(session));
+}
+
 FilterEngine::~FilterEngine()
 {
-	FwpmEngineClose0(m_session);
+	if (m_ownsSession)
+	{
+		FwpmEngineClose0(m_session);
+	}
 }
 
 HANDLE FilterEngine::session() const

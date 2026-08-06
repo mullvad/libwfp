@@ -17,6 +17,7 @@ namespace wfp
 class FilterEngine
 {
 	FilterEngine(bool dynamic, uint32_t *timeout);
+	explicit FilterEngine(HANDLE session);
 
 public:
 
@@ -32,6 +33,14 @@ public:
 	static std::unique_ptr<FilterEngine> DynamicSession(uint32_t timeout);
 	static std::unique_ptr<FilterEngine> StandardSession(uint32_t timeout);
 
+	// Wrap a session that is owned by someone else.
+	//
+	// The session is not closed when the returned instance is destroyed, so it has to
+	// remain open for at least as long as that instance is alive. Session properties,
+	// such as whether it is dynamic and how long it waits for the transaction lock, are
+	// decided by whoever opened it.
+	static std::unique_ptr<FilterEngine> BorrowedSession(HANDLE session);
+
 	~FilterEngine();
 
 	HANDLE session() const;
@@ -42,6 +51,9 @@ private:
 	FilterEngine &operator=(const FilterEngine &) = delete;
 
 	HANDLE m_session;
+
+	// Whether the destructor should close `m_session`.
+	bool m_ownsSession;
 };
 
 } // namespace wfp
